@@ -1,11 +1,16 @@
 package buildcraft.transport;
 
+import java.util.LinkedList;
+
+import buildcraft.api.gates.ITrigger;
+import buildcraft.core.utils.MathUtils;
 import cpw.mods.fml.common.Loader;
 import mods.immibis.redlogic.api.wiring.IBareRedstoneWire;
 import mods.immibis.redlogic.api.wiring.IBundledEmitter;
 import mods.immibis.redlogic.api.wiring.IBundledUpdatable;
 import mods.immibis.redlogic.api.wiring.IBundledWire;
 import mods.immibis.redlogic.api.wiring.IConnectable;
+import mods.immibis.redlogic.api.wiring.IRedstoneEmitter;
 import mods.immibis.redlogic.api.wiring.IWire;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -14,25 +19,67 @@ import cpw.mods.fml.common.Optional;
 @Optional.InterfaceList({
 	@Optional.Interface(iface = "mods.immibis.redlogic.api.wiring.IBundledEmitter", modid = "RedLogic"),
 	@Optional.Interface(iface = "mods.immibis.redlogic.api.wiring.IBundledUpdatable", modid = "RedLogic"),
-	@Optional.Interface(iface = "mods.immibis.redlogic.api.wiring.IConnectable", modid = "RedLogic")
+	@Optional.Interface(iface = "mods.immibis.redlogic.api.wiring.IConnectable", modid = "RedLogic"),
+	@Optional.Interface(iface = "mods.immibis.redlogic.api.wiring.IRedstoneEmitter", modid = "RedLogic")
 })
 public class TileGenericPipeCompat extends TileGenericPipe
-	implements IBundledEmitter, IBundledUpdatable, IConnectable {
+	implements IBundledEmitter, IBundledUpdatable, IConnectable, IRedstoneEmitter {
 	
 	/* BUNDLED CABLE API */
-	private byte[] bundledCableReceived = new byte[16];
-	private byte[] bundledCableSent = new byte[16];
+	private byte[][] bundledCableReceived = new byte[6][16];
+	private byte[][] bundledCableSent = new byte[6][16];
 	
-	public void setBundledCable(int position, boolean value) {
-		bundledCableSent[position & 15] = (byte) (value ? -1 : 0);
+	public void clearBundledCables() {
+		for (int i = 0; i < 6; i++) {
+			for (int j = 0; j < 16; j++) {
+				bundledCableSent[i][j] = 0;
+			}
+		}
 	}
 	
-	public boolean getBundledCable(int position) {
-		return (bundledCableReceived[position & 15] != 0);
+	public void setBundledCable(int side, int position, boolean value) {
+		if (side == -1) {
+			for (int i = 0; i < 6; i++) {
+				setBundledCable(i, position, value);
+			}
+		} else {
+			bundledCableSent[side][position & 15] = (byte) (value ? -1 : 0);
+		}
+	}
+	
+	public boolean getBundledCable(int side, int position) {
+		if (side == -1) {
+			for (int i = 0; i < 6; i++) {
+				if (getBundledCable(i, position)) {
+					return true;
+				}
+			}
+			return false;
+		} else {
+			return (bundledCableReceived[side][position & 15] != 0);
+		}
 	}
 
-	/* CONNECTION OVERRIDES */
+	/* OVERRIDES */
+	@Override
+	public void updateEntity() {
+		if (!worldObj.isRemote) {
+			clearBundledCables();
+		}
+		
+		super.updateEntity();
+	}
 	
+	@Override
+	public LinkedList<ITrigger> getTriggers() {
+		LinkedList<ITrigger> list = super.getTriggers();
+		
+		if (Loader.isModLoaded("RedLogic")) {
+			list.add(null); // TODO
+		}
+		
+		return list;
+	}
 	@Override
 	protected boolean canPipeConnect_internal(TileEntity with, ForgeDirection side) {
 		if (!ImmibisMicroblocks_isSideOpen(side.ordinal())) {
@@ -110,9 +157,7 @@ public class TileGenericPipeCompat extends TileGenericPipe
 	@Override
 	@Optional.Method(modid = "RedLogic")
 	public void onBundledInputChanged() {
-		for (int position = 0; position < 16; position++) {
-			bundledCableReceived[position] = 0;
-		}
+		clearBundledCables();
 		
 		for (int side = 0; side < 6; side++) {
 			TileEntity tile = this.getTile(ForgeDirection.getOrientation(side));
@@ -124,8 +169,8 @@ public class TileGenericPipeCompat extends TileGenericPipe
 				}
 				
 				for (int position = 0; position < 16; position++) {
-					if ((((int) data[position]) & 0xFF) > (((int) bundledCableReceived[position]) & 0xFF))
-						bundledCableReceived[position] = data[position];
+					if ((((int) data[position]) & 0xFF) > (((int) bundledCableReceived[side][position]) & 0xFF))
+						bundledCableReceived[side][position] = data[position];
 				}
 			}
 		}
@@ -138,6 +183,13 @@ public class TileGenericPipeCompat extends TileGenericPipe
 			return null;
 		}
 		
-		return bundledCableSent;
+		return bundledCableSent[toDirection];
+	}
+
+	@Override
+	@Optional.Method(modid = "RedLogic")
+	public short getEmittedSignalStrength(int blockFace, int toDirection) {
+		int signal = MathUtils.clamp(pipe.isPoweringTo(toDirection), 0, 15);
+		return (short) ((signal << 4) | signal);
 	}
 }
