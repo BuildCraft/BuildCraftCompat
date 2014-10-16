@@ -5,13 +5,11 @@ import java.util.List;
 import codechicken.nei.INEIGuiHandler;
 import codechicken.nei.TaggedInventoryArea;
 import codechicken.nei.VisiblityData;
+import cpw.mods.fml.common.Optional;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import buildcraft.core.gui.BuildCraftContainer;
-import buildcraft.core.gui.GuiBuildCraft;
-import cpw.mods.fml.common.Optional;
 
 @Optional.InterfaceList({
 	@Optional.Interface(iface = "codechicken.nei.INEIGuiHandler", modid = "NotEnoughItems")

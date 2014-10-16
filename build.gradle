@@ -20,7 +20,7 @@ buildscript {
 
 apply plugin: 'forge' // adds the forge dependency
 apply plugin: 'maven' // for uploading to a maven repo
-apply plugin: 'checkstyle'
+// apply plugin: 'checkstyle'
 
 version = "1.0.0"
 group= "com.mod-buildcraft-compat"
@@ -86,8 +86,9 @@ task deobfJar(type: Jar) {
     classifier = 'dev'
 }
 
-checkstyle {
-	configFile = file('guidelines/buildcraft.checkstyle')
-}
+// checkstyle {
+//	configFile = file('guidelines/buildcraft.checkstyle')
+// }
+
 // make sure all of these happen when we run build
 build.dependsOn sourceJar, deobfJar
