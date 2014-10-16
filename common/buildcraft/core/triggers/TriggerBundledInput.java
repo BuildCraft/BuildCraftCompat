@@ -8,6 +8,18 @@ import buildcraft.core.triggers.BCTrigger;
 import buildcraft.transport.TileGenericPipeCompat;
 
 public class TriggerBundledInput extends BCTrigger {
+	private boolean active;
+	
+	public TriggerBundledInput(boolean active) {
+		super("buildcraftcompat:bundled.input" + (active ? "active" : "inactive"), "buildcraftcompat.bundled.input." + (active ? "active" : "inactive"));
+	}
+	
+	@Override
+	public String getDescription() {
+		return "Bundled Signal " + (active ? "Active" : "Inactive");
+	}
+	
+	
 	@Override
 	public boolean isTriggerActive(IGate gate, ITriggerParameter[] parameter) {
 		if (parameter.length != 1) {

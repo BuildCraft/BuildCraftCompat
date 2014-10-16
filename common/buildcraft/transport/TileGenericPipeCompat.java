@@ -2,6 +2,7 @@ package buildcraft.transport;
 
 import java.util.LinkedList;
 
+import buildcraft.BuildCraftCompat;
 import buildcraft.api.gates.ITrigger;
 import buildcraft.core.utils.MathUtils;
 import cpw.mods.fml.common.Loader;
@@ -70,16 +71,6 @@ public class TileGenericPipeCompat extends TileGenericPipe
 		super.updateEntity();
 	}
 	
-	@Override
-	public LinkedList<ITrigger> getTriggers() {
-		LinkedList<ITrigger> list = super.getTriggers();
-		
-		if (Loader.isModLoaded("RedLogic")) {
-			list.add(null); // TODO
-		}
-		
-		return list;
-	}
 	@Override
 	protected boolean canPipeConnect_internal(TileEntity with, ForgeDirection side) {
 		if (!ImmibisMicroblocks_isSideOpen(side.ordinal())) {

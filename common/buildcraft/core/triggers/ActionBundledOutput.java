@@ -8,6 +8,16 @@ import buildcraft.core.triggers.BCActionActive;
 import buildcraft.transport.TileGenericPipeCompat;
 
 public class ActionBundledOutput extends BCActionActive {
+	
+	public ActionBundledOutput() {
+		super("buildcraftcompat:bundled.output", "buildcraftcompat.bundled.output");
+	}
+	
+	@Override
+	public String getDescription() {
+		return "Bundled Signal";
+	}
+	
 	@Override
 	public void actionActivate(IGate gate, IActionParameter[] parameter) {
 		if (parameter.length != 1) {
