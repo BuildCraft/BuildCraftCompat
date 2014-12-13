@@ -1,13 +1,17 @@
 package buildcraft.core.triggers;
 
-import buildcraft.api.gates.IActionParameter;
-import buildcraft.api.gates.IGate;
-import buildcraft.api.transport.IPipeTile;
-import buildcraft.compat.DyeUtil;
-import buildcraft.core.triggers.BCActionActive;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.util.ForgeDirection;
+import buildcraft.api.statements.IActionExternal;
+import buildcraft.api.statements.IStatementContainer;
+import buildcraft.api.statements.IStatementParameter;
+import buildcraft.api.statements.StatementParameterItemStack;
+import buildcraft.core.statements.BCStatement;
+import buildcraft.core.utils.ColorUtils;
 import buildcraft.transport.TileGenericPipeCompat;
 
-public class ActionBundledOutput extends BCActionActive {
+public class ActionBundledOutput extends BCStatement implements IActionExternal {
 	
 	public ActionBundledOutput() {
 		super("buildcraftcompat:bundled.output", "buildcraftcompat.bundled.output");
@@ -17,23 +21,43 @@ public class ActionBundledOutput extends BCActionActive {
 	public String getDescription() {
 		return "Bundled Signal";
 	}
-	
+
 	@Override
-	public void actionActivate(IGate gate, IActionParameter[] parameter) {
-		if (parameter.length != 1) {
+	public void actionActivate(TileEntity tileEntity, ForgeDirection side, IStatementContainer container, IStatementParameter[] parameter) {
+		if (parameter == null || parameter.length < 1 || parameter[0] == null || parameter[0].getItemStack() == null) {
 			return;
 		}
-		
-		int color = DyeUtil.getColor(parameter[0]);
+
+		int color = ColorUtils.getColorIDFromDye(parameter[0].getItemStack());
 		if (color < 0) {
 			return;
 		}
-		
-		IPipeTile pipeTile = gate.getPipe().getTile();
-		
-		if (pipeTile instanceof TileGenericPipeCompat) {
-			TileGenericPipeCompat tile = (TileGenericPipeCompat) pipeTile;
-			tile.setBundledCable(gate.getSide().ordinal(), color, true);
+
+		TileEntity cTile = container.getTile();
+
+		if (cTile instanceof TileGenericPipeCompat) {
+			TileGenericPipeCompat tile = (TileGenericPipeCompat) cTile;
+			tile.setBundledCable(side.ordinal(), color, true);
 		}
+	}
+
+	@Override
+	public void registerIcons(IIconRegister r) {
+		icon = r.registerIcon("buildcraftcompat:action_bundled");
+	}
+
+	@Override
+	public int minParameters() {
+		return 1;
+	}
+
+	@Override
+	public int maxParameters() {
+		return 1;
+	}
+
+	@Override
+	public IStatementParameter createParameter(int var1) {
+		return new StatementParameterItemStack();
 	}
 }

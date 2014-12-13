@@ -1,0 +1,18 @@
+[
+{
+  "modid": "BuildCraft|Compat",
+  "name": "BuildCraft Compat",
+  "version": "$version",
+  "mcversion": "$mcversion",
+  "description": "Compatibility add-on for BuildCraft",
+  "credits": "Created by asie",
+  "url": "http://www.mod-buildcraft.com/",
+  "updateUrl": "",
+  "authorList": [ "asie", "BuildCraft Team" ],
+  "parent":"",
+  "screenshots": [],
+  "dependencies": [
+     "mod_MinecraftForge"
+  ]
+}
+]

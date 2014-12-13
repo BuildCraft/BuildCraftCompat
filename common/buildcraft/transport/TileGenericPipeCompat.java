@@ -1,9 +1,5 @@
 package buildcraft.transport;
 
-import java.util.LinkedList;
-
-import buildcraft.BuildCraftCompat;
-import buildcraft.api.gates.ITrigger;
 import buildcraft.core.utils.MathUtils;
 import cpw.mods.fml.common.Loader;
 import mods.immibis.redlogic.api.wiring.IBareRedstoneWire;
@@ -13,9 +9,12 @@ import mods.immibis.redlogic.api.wiring.IBundledWire;
 import mods.immibis.redlogic.api.wiring.IConnectable;
 import mods.immibis.redlogic.api.wiring.IRedstoneEmitter;
 import mods.immibis.redlogic.api.wiring.IWire;
+
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.common.Optional;
+import cofh.api.transport.IItemDuct;
 
 @Optional.InterfaceList({
 	@Optional.Interface(iface = "mods.immibis.redlogic.api.wiring.IBundledEmitter", modid = "RedLogic"),
@@ -24,7 +23,8 @@ import cpw.mods.fml.common.Optional;
 	@Optional.Interface(iface = "mods.immibis.redlogic.api.wiring.IRedstoneEmitter", modid = "RedLogic")
 })
 public class TileGenericPipeCompat extends TileGenericPipe
-	implements IBundledEmitter, IBundledUpdatable, IConnectable, IRedstoneEmitter {
+	implements IItemDuct,
+		IBundledEmitter, IBundledUpdatable, IConnectable, IRedstoneEmitter {
 	
 	/* BUNDLED CABLE API */
 	private byte[][] bundledCableReceived = new byte[6][16];
@@ -98,7 +98,7 @@ public class TileGenericPipeCompat extends TileGenericPipe
 	
 	/* IMMIBIS' MICROBLOCKS */
 	
-	private boolean ImmibisMicroblocks_TransformableTileEntityMarker;
+	//private boolean ImmibisMicroblocks_TransformableTileEntityMarker;
 
 	private void ImmibisMicroblocks_onMicroblocksChanged() {
 		this.blockNeighborChange = true;
@@ -182,5 +182,17 @@ public class TileGenericPipeCompat extends TileGenericPipe
 	public short getEmittedSignalStrength(int blockFace, int toDirection) {
 		int signal = MathUtils.clamp(pipe.isPoweringTo(toDirection), 0, 15);
 		return (short) ((signal << 4) | signal);
+	}
+
+	@Override
+	public ItemStack insertItem(ForgeDirection from, ItemStack item) {
+		int itemsUsed = injectItem(item, true, from);
+		if (itemsUsed == item.stackSize) {
+			return null;
+		} else {
+			ItemStack out = item.copy();
+			out.stackSize -= itemsUsed;
+			return out;
+		}
 	}
 }

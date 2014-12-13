@@ -4,18 +4,20 @@ import java.util.Collection;
 import java.util.HashSet;
 
 import mods.immibis.redlogic.api.wiring.IBundledWire;
-import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.util.ForgeDirection;
 import buildcraft.BuildCraftCompat;
-import buildcraft.api.gates.IAction;
-import buildcraft.api.gates.IActionProvider;
-import buildcraft.api.gates.ITrigger;
-import buildcraft.api.gates.ITriggerProvider;
-import buildcraft.api.transport.IPipeTile;
+import buildcraft.api.statements.IActionExternal;
+import buildcraft.api.statements.IActionInternal;
+import buildcraft.api.statements.IActionProvider;
+import buildcraft.api.statements.IStatementContainer;
+import buildcraft.api.statements.ITriggerExternal;
+import buildcraft.api.statements.ITriggerInternal;
+import buildcraft.api.statements.ITriggerProvider;
 
-public class RedLogicProvider implements IActionProvider, ITriggerProvider {
-	private final HashSet<ITrigger> triggers = new HashSet<ITrigger>();
-	private final HashSet<IAction> actions = new HashSet<IAction>();
+public class RedLogicProvider implements ITriggerProvider, IActionProvider {
+	private final HashSet<ITriggerExternal> triggers = new HashSet<ITriggerExternal>();
+	private final HashSet<IActionExternal> actions = new HashSet<IActionExternal>();
 	
 	public RedLogicProvider() {
 		triggers.add(BuildCraftCompat.triggerBundledInputOff);
@@ -24,22 +26,22 @@ public class RedLogicProvider implements IActionProvider, ITriggerProvider {
 	}
 	
 	@Override
-	public Collection<ITrigger> getNeighborTriggers(Block arg0, TileEntity arg1) {
+	public Collection<ITriggerExternal> getExternalTriggers(ForgeDirection side, TileEntity arg1) {
 		return (arg1 instanceof IBundledWire) ? triggers : null;
 	}
 
 	@Override
-	public Collection<ITrigger> getPipeTriggers(IPipeTile arg0) {
+	public Collection<ITriggerInternal> getInternalTriggers(IStatementContainer c) {
 		return null;
 	}
 
 	@Override
-	public Collection<IAction> getNeighborActions(Block arg0, TileEntity arg1) {
+	public Collection<IActionExternal> getExternalActions(ForgeDirection side, TileEntity arg1) {
 		return (arg1 instanceof IBundledWire) ? actions : null;
 	}
 
 	@Override
-	public Collection<IAction> getPipeActions(IPipeTile arg0) {
+	public Collection<IActionInternal> getInternalActions(IStatementContainer c) {
 		return null;
 	}
 

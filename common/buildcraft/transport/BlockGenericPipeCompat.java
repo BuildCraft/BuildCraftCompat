@@ -5,7 +5,7 @@ import net.minecraft.world.World;
 
 public class BlockGenericPipeCompat extends BlockGenericPipe {
 	/* IMMIBIS' MICROBLOCKS */
-	private boolean ImmibisMicroblocks_TransformableBlockMarker;
+	//private boolean ImmibisMicroblocks_TransformableBlockMarker;
 	
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
