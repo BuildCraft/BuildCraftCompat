@@ -73,7 +73,7 @@ public class TileGenericPipeCompat extends TileGenericPipe
 	
 	@Override
 	protected boolean canPipeConnect_internal(TileEntity with, ForgeDirection side) {
-		if (!ImmibisMicroblocks_isSideOpen(side.ordinal())) {
+		/*if (!ImmibisMicroblocks_isSideOpen(side.ordinal())) {
 			return false;
 		}
 
@@ -81,7 +81,7 @@ public class TileGenericPipeCompat extends TileGenericPipe
 			if (!((TileGenericPipeCompat) with).ImmibisMicroblocks_isSideOpen(side.getOpposite().ordinal())) {
 				return false;
 			}
-		}
+		}*/
 		
 		if (Loader.isModLoaded("RedLogic")) {
 			if (canPipeConnect_RedLogic(with, side)) {
@@ -100,13 +100,13 @@ public class TileGenericPipeCompat extends TileGenericPipe
 	
 	//private boolean ImmibisMicroblocks_TransformableTileEntityMarker;
 
-	private void ImmibisMicroblocks_onMicroblocksChanged() {
-		this.blockNeighborChange = true;
-	}
+	//private void ImmibisMicroblocks_onMicroblocksChanged() {
+	//	this.blockNeighborChange = true;
+	//}
 
-	private boolean ImmibisMicroblocks_isSideOpen(int side) {
-		return true;
-	}
+	//private boolean ImmibisMicroblocks_isSideOpen(int side) {
+	//	return true;
+	//}
 	
 	/* IMMIBIS' REDLOGIC */
 	
