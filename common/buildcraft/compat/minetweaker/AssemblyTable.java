@@ -114,7 +114,7 @@ public class AssemblyTable {
 		public AddRecipeAction(IItemStack output, int energy, IIngredient[] ingredients) {
 			this.output = output;
 
-			String _name = "MineTweaker:" + this.output.getName();
+			String _name = "MineTweaker:" + this.output.getName() + ":" + this.output.getDamage();
 			
 			mcIngredients = new Object[ingredients.length];
 			for (int i = 0; i < ingredients.length; i++) {
