@@ -39,7 +39,8 @@ dependencies {
 
 	// http://chickenbones.net/maven
 	compile "codechicken:CodeChickenCore:1.7.10-1.0.3.26:dev"
-	compile "codechicken:NotEnoughItems:1.7.10-1.0.3.67:dev"
+    compile "codechicken:NotEnoughItems:1.7.10-1.0.3.67:dev"
+    compile "codechicken:ForgeMultipart:1.7.10-1.1.1.320:dev"
 }
 
 minecraft {
