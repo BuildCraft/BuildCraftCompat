@@ -1,10 +1,13 @@
 package buildcraft;
 
 import java.io.File;
+
+import buildcraft.api.blueprints.BuilderAPI;
 import buildcraft.api.statements.IActionExternal;
 import buildcraft.api.statements.ITriggerExternal;
 import buildcraft.api.statements.StatementManager;
 import buildcraft.compat.minetweaker.MineTweakerInit;
+import buildcraft.compat.multipart.MultipartSchematics;
 import buildcraft.compat.redlogic.RedLogicProvider;
 import buildcraft.compat.nei.NEIIntegrationBC;
 import buildcraft.core.triggers.ActionBundledOutput;
@@ -25,7 +28,8 @@ public class BuildCraftCompat extends BuildCraftMod {
 	public static IActionExternal actionBundledOutput;
 
 	public static boolean enableBundledRedstone;
-	public static boolean enableNEI;
+    public static boolean enableNEI;
+    public static boolean enableMultipart;
 
 	private static Configuration config;
 
@@ -45,7 +49,8 @@ public class BuildCraftCompat extends BuildCraftMod {
 		if (Loader.isModLoaded("RedLogic")) {
 			enableBundledRedstone = config.getBoolean("enableBundledRedstone", "compat", false, "RedLogic compatibility - bundled cables can be connected to pipes. WARNING: HIGHLY EXPERIMENTAL - MIGHT BE BROKEN");
 		}
-		enableNEI = getModBoolean("NotEnoughItems", "enableNEI", "compat", true, "NEI recipe and ledger integration.");
+        enableNEI = getModBoolean("NotEnoughItems", "enableNEI", "compat", true, "NEI recipe and ledger integration.");
+        enableMultipart = getModBoolean("ForgeMultipart", "enableMultipart", "compat", true, "ForgeMultipart schematic integration.");
 
 		config.save();
 	}
@@ -76,5 +81,9 @@ public class BuildCraftCompat extends BuildCraftMod {
 		if (Loader.isModLoaded("MineTweaker3")) {
 			MineTweakerInit.init();
 		}
+
+        if (enableMultipart) {
+            MultipartSchematics.postInit();
+        }
 	}
 }
