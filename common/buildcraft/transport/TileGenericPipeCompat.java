@@ -180,7 +180,10 @@ public class TileGenericPipeCompat extends TileGenericPipe
 	@Override
 	@Optional.Method(modid = "RedLogic")
 	public short getEmittedSignalStrength(int blockFace, int toDirection) {
-		int signal = MathUtils.clamp(pipe.isPoweringTo(toDirection), 0, 15);
+		int signal = 0;
+		if (pipe != null) {
+			signal = MathUtils.clamp(pipe.isPoweringTo(toDirection), 0, 15);
+		}
 		return (short) ((signal << 4) | signal);
 	}
 
