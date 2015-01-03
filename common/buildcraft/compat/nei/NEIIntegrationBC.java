@@ -18,6 +18,7 @@ public class NEIIntegrationBC {
         }
         if (Loader.isModLoaded("BuildCraft|Silicon")) {
             registerHandler(new RecipeHandlerAssemblyTable());
+            registerHandler(new RecipeHandlerIntegrationTable());
         }
 
         API.registerNEIGuiHandler(new NEIGuiHandlerBC());

@@ -13,13 +13,18 @@ import minetweaker.api.item.IIngredient;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import stanhebben.zenscript.annotations.Optional;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import buildcraft.api.recipes.BuildcraftRecipeRegistry;
 import buildcraft.api.recipes.CraftingResult;
+import buildcraft.api.recipes.IFlexibleRecipeViewable;
 import buildcraft.api.recipes.IIntegrationRecipe;
 import buildcraft.silicon.TileIntegrationTable;
 import buildcraft.transport.recipes.IntegrationTableRecipe;
@@ -78,25 +83,34 @@ public class IntegrationTable {
 		}
 	}
 
-	private static class MTIntegrationRecipe extends IntegrationTableRecipe {
+	private static class MTIntegrationRecipe extends IntegrationTableRecipe implements IFlexibleRecipeViewable {
 		private final IIngredient inputA;
 		private final IIngredient inputB;
+		private final Collection<Object> inputs = new ArrayList<Object>();
 		private final IIntegrationRecipeFunction function;
 
 		private MTIntegrationRecipe(String id, IItemStack output, int energy, int craftingTime, IIngredient inputA, IIngredient inputB, IIntegrationRecipeFunction function) {
 			this.inputA = inputA;
 			this.inputB = inputB;
+			inputs.add(MineTweakerMC.getExamples(inputA));
+			inputs.add(MineTweakerMC.getExamples(inputB));
 			this.function = function;
 			setContents(id, MineTweakerMC.getItemStack(output), energy, craftingTime);
 		}
 
 		@Override
 		public boolean isValidInputA(ItemStack is) {
+			if (is == null || inputA == null) {
+				return false;
+			}
 			return inputA.matches(MineTweakerMC.getIItemStack(is));
 		}
 
 		@Override
 		public boolean isValidInputB(ItemStack is) {
+			if (is == null || inputB == null) {
+				return false;
+			}
 			return inputB.matches(MineTweakerMC.getIItemStack(is));
 		}
 
@@ -112,11 +126,20 @@ public class IntegrationTable {
 				return null;
 			}
 
-			IItemStack out = function.recipe(MineTweakerMC.getIItemStack(output),
-					MineTweakerMC.getIItemStack(inputA), MineTweakerMC.getIItemStack(inputB));
+			if (function != null) {
+				IItemStack out = function.recipe(MineTweakerMC.getIItemStack(output),
+						MineTweakerMC.getIItemStack(inputA), MineTweakerMC.getIItemStack(inputB));
+				result.crafted = MineTweakerMC.getItemStack(out);
+			} else {
+				result.crafted = output;
+			}
 
-			result.crafted = MineTweakerMC.getItemStack(out);
 			return result;
+		}
+
+		@Override
+		public Collection<Object> getInputs() {
+			return inputs;
 		}
 	}
 }
