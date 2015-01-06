@@ -40,7 +40,7 @@ public class MultipartSchematics
         return schematicMap.get(type);
     }
 
-    public static void postInit() {
+    public static void init() {
         BuilderAPI.schematicRegistry.registerSchematicBlock(MultipartProxy.block(), SchematicMultipartBlock.class);
         registerSchematic("mcr_face", new SchematicMicroblock("mcr_face"));
         registerSchematic("mcr_cnr", new SchematicMicroblock("mcr_cnr"));

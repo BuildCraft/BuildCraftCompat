@@ -69,6 +69,10 @@ public class BuildCraftCompat extends BuildCraftMod {
 			}
 		}
 
+		if (enableMultipart) {
+			MultipartSchematics.init();
+		}
+
 		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
 			if (enableNEI) {
 				new NEIIntegrationBC().load();
@@ -81,9 +85,5 @@ public class BuildCraftCompat extends BuildCraftMod {
 		if (Loader.isModLoaded("MineTweaker3")) {
 			MineTweakerInit.init();
 		}
-
-        if (enableMultipart) {
-            MultipartSchematics.postInit();
-        }
 	}
 }
