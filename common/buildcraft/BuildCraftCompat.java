@@ -21,7 +21,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraftforge.common.config.Configuration;
 
-@Mod(name = "BuildCraft Compat", version = "6.2.6", useMetadata = false, modid = "BuildCraft|Compat", acceptedMinecraftVersions = "[1.7.10,1.8)", dependencies = "required-after:Forge@[10.13.0.1179,);required-after:BuildCraft|Core@[6.2.6,6.4.0)")
+@Mod(name = "BuildCraft Compat", version = "6.3.0", useMetadata = false, modid = "BuildCraft|Compat", acceptedMinecraftVersions = "[1.7.10,1.8)", dependencies = "required-after:Forge@[10.13.0.1179,);required-after:BuildCraft|Core@[6.3.0,6.4.0)")
 public class BuildCraftCompat extends BuildCraftMod {
 	public static ITriggerExternal triggerBundledInputOff;
 	public static ITriggerExternal triggerBundledInputOn;

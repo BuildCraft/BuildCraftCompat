@@ -40,7 +40,7 @@ public class TriggerBundledInput extends BCStatement implements ITriggerExternal
 
 		if (cTile instanceof TileGenericPipeCompat) {
 			TileGenericPipeCompat tile = (TileGenericPipeCompat) cTile;
-			return !tile.getBundledCable(side.ordinal(), color);
+			return tile.getBundledCable(side.ordinal(), color) ^ !active;
 		} else {
 			return false;
 		}
