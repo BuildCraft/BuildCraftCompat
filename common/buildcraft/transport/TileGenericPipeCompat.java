@@ -10,6 +10,8 @@ import mods.immibis.redlogic.api.wiring.IBundledWire;
 import mods.immibis.redlogic.api.wiring.IConnectable;
 import mods.immibis.redlogic.api.wiring.IRedstoneEmitter;
 import mods.immibis.redlogic.api.wiring.IWire;
+import mrtjp.projectred.api.IBundledTile;
+import mrtjp.projectred.api.ProjectRedAPI;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -22,11 +24,13 @@ import cofh.api.transport.IItemDuct;
 	@Optional.Interface(iface = "mods.immibis.redlogic.api.wiring.IBundledEmitter", modid = "RedLogic"),
 	@Optional.Interface(iface = "mods.immibis.redlogic.api.wiring.IBundledUpdatable", modid = "RedLogic"),
 	@Optional.Interface(iface = "mods.immibis.redlogic.api.wiring.IConnectable", modid = "RedLogic"),
-	@Optional.Interface(iface = "mods.immibis.redlogic.api.wiring.IRedstoneEmitter", modid = "RedLogic")
+	@Optional.Interface(iface = "mods.immibis.redlogic.api.wiring.IRedstoneEmitter", modid = "RedLogic"),
+	@Optional.Interface(iface = "mrtjp.projectred.api.IBundledTile", modid = "ProjRed|Core")
 })
 public class TileGenericPipeCompat extends TileGenericPipe
 	implements IItemDuct,
-		IBundledEmitter, IBundledUpdatable, IConnectable, IRedstoneEmitter {
+		IBundledEmitter, IBundledUpdatable, IConnectable, IRedstoneEmitter,
+		IBundledTile {
 	
 	/* BUNDLED CABLE API */
 	private byte[][] bundledCableReceived = new byte[6][16];
@@ -70,8 +74,12 @@ public class TileGenericPipeCompat extends TileGenericPipe
 	/* OVERRIDES */
 	@Override
 	public void updateEntity() {
-		if (!worldObj.isRemote) {
+		if (!worldObj.isRemote && BuildCraftCompat.enableBundledRedstone) {
 			clearBundledCables();
+
+			if (blockNeighborChange && Loader.isModLoaded("ProjRed|Core")) {
+				updateProjectRedBundled();
+			}
 		}
 		
 		super.updateEntity();
@@ -220,6 +228,28 @@ public class TileGenericPipeCompat extends TileGenericPipe
 			ItemStack out = item.copy();
 			out.stackSize -= itemsUsed;
 			return out;
+		}
+	}
+
+	@Override
+	@Optional.Method(modid = "ProjRed|Core")
+	public boolean canConnectBundled(int side) {
+		return BuildCraftCompat.enableBundledRedstone;
+	}
+
+	@Override
+	@Optional.Method(modid = "ProjRed|Core")
+	public byte[] getBundledSignal(int dir) {
+		return bundledCableSent[dir];
+	}
+
+	@Optional.Method(modid = "ProjRed|Core")
+	private void updateProjectRedBundled() {
+		for (int i = 0; i < 6; i++) {
+			byte[] data = ProjectRedAPI.transmissionAPI.getBundledInput(worldObj, xCoord, yCoord, zCoord, i);
+			if (data != null && data.length == 16) {
+				bundledCableSent[i] = data;
+			}
 		}
 	}
 }
