@@ -7,7 +7,7 @@ import buildcraft.api.core.EnumColor;
 import buildcraft.api.transport.IInjectable;
 
 public class ItemDuctInjectable implements IInjectable {
-	private IItemDuct duct;
+	public IItemDuct duct;
 
 	public ItemDuctInjectable(IItemDuct duct) {
 		this.duct = duct;
