@@ -2,10 +2,17 @@ package buildcraft;
 
 import java.io.File;
 
-import buildcraft.api.blueprints.BuilderAPI;
+import buildcraft.api.blueprints.SchematicTile;
 import buildcraft.api.statements.IActionExternal;
 import buildcraft.api.statements.ITriggerExternal;
 import buildcraft.api.statements.StatementManager;
+import buildcraft.builders.schematics.SchematicRotateMeta;
+import buildcraft.compat.CompatUtils;
+import buildcraft.compat.SchematicTileDrops;
+import buildcraft.compat.carpentersblocks.SchematicCBBlock;
+import buildcraft.compat.carpentersblocks.SchematicCBGate;
+import buildcraft.compat.carpentersblocks.SchematicCBRotated;
+import buildcraft.compat.carpentersblocks.SchematicCBRotatedTwo;
 import buildcraft.compat.minetweaker.MineTweakerInit;
 import buildcraft.compat.multipart.MultipartSchematics;
 import buildcraft.compat.redlogic.RedLogicProvider;
@@ -78,6 +85,15 @@ public class BuildCraftCompat extends BuildCraftMod {
 				new NEIIntegrationBC().load();
 			}
 		}
+
+		// Register schematic compatibility
+		CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersBlock", SchematicCBBlock.class);
+		CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersDaylightSensor", SchematicTileDrops.class);
+		CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersGate", SchematicCBGate.class);
+		CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersLadder", SchematicCBRotatedTwo.class);
+		CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersPressurePlate", SchematicTileDrops.class);
+		CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersSlope", SchematicCBRotated.class);
+		CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersStairs", SchematicCBRotated.class);
 	}
 	
 	@Mod.EventHandler
