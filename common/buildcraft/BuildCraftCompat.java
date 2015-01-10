@@ -13,6 +13,8 @@ import buildcraft.compat.carpentersblocks.SchematicCBBlock;
 import buildcraft.compat.carpentersblocks.SchematicCBGate;
 import buildcraft.compat.carpentersblocks.SchematicCBRotated;
 import buildcraft.compat.carpentersblocks.SchematicCBRotatedTwo;
+import buildcraft.compat.carpentersblocks.SchematicCBSafe;
+import buildcraft.compat.ironchests.SchematicIronChest;
 import buildcraft.compat.minetweaker.MineTweakerInit;
 import buildcraft.compat.multipart.MultipartSchematics;
 import buildcraft.compat.redlogic.RedLogicProvider;
@@ -87,11 +89,13 @@ public class BuildCraftCompat extends BuildCraftMod {
 		}
 
 		// Register schematic compatibility
+		CompatUtils.registerSchematic("IronChest:BlockIronChest", SchematicIronChest.class);
 		CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersBlock", SchematicCBBlock.class);
 		CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersDaylightSensor", SchematicTileDrops.class);
 		CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersGate", SchematicCBGate.class);
 		CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersLadder", SchematicCBRotatedTwo.class);
 		CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersPressurePlate", SchematicTileDrops.class);
+		CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersSafe", SchematicCBSafe.class);
 		CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersSlope", SchematicCBRotated.class);
 		CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersStairs", SchematicCBRotated.class);
 	}
