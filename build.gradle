@@ -29,7 +29,7 @@ apply plugin: 'forge' // adds the forge dependency
 apply plugin: 'maven' // for uploading to a maven repo
 // apply plugin: 'checkstyle'
 
-version = "6.3.0"
+version = "6.3.1"
 group= "com.mod-buildcraft-compat"
 archivesBaseName = "buildcraft-compat" // the name that all artifacts will use as a base. artifacts names follow this pattern: [baseName]-[appendix]-[version]-[classifier].[extension]
 

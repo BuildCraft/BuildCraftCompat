@@ -105,11 +105,9 @@ public class TileGenericPipeCompat extends TileGenericPipe
 			}
 		}
 
-		if (BuildCraftCompat.enableBundledRedstone) {
-			if (Loader.isModLoaded("RedLogic")) {
-				if (canPipeConnect_RedLogic(with, side)) {
-					return true;
-				}
+		if (BuildCraftCompat.enableRedLogic) {
+			if (canPipeConnect_RedLogic(with, side)) {
+				return true;
 			}
 		}
 
@@ -153,7 +151,7 @@ public class TileGenericPipeCompat extends TileGenericPipe
 			return false;
 		}
 		
-		if (BuildCraftCompat.enableBundledRedstone && wire instanceof IBundledWire) {
+		if (BuildCraftCompat.enableRedLogic && wire instanceof IBundledWire) {
 			return (blockFace == -1);
 		} else if (wire instanceof IBareRedstoneWire) {
 			return true;
@@ -234,7 +232,7 @@ public class TileGenericPipeCompat extends TileGenericPipe
 	@Override
 	@Optional.Method(modid = "ProjRed|Core")
 	public boolean canConnectBundled(int side) {
-		return BuildCraftCompat.enableBundledRedstone;
+		return BuildCraftCompat.enableProjectRed;
 	}
 
 	@Override

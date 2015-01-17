@@ -1,0 +1,128 @@
+# Master language file
+
+item.Gear.BismuthBronze.name=Gear: Bismuth Bronze
+item.Gear.BlackBronze.name=Gear: Black Bronze
+item.Gear.BlackSteel.name=Gear: Black Steel
+item.Gear.BlueSteel.name=Gear: Blue Steel
+item.Gear.Bronze.name=Gear: Bronze
+item.Gear.WroughtIron.name=Gear: Wrought Iron
+item.Gear.RedSteel.name=Gear: Red Steel
+item.Gear.Copper.name=Gear: Copper
+item.Gear.Steel.name=Gear: Steel
+
+item.Bucket.Latex.name=Wooden Bucket (Latex)
+item.Bucket.Zinc.name=Zink Bucket (Empty)
+item.Bucket.ZincSaltWater.name=Zink Bucket (Salt Water)
+item.Bucket.ZincFreshWater.name=Zink Bucket (Fresh Water)
+item.Bucket.ZincHotWater.name=Zink Bucket (Hot Water)
+item.Bucket.Steel.name=Steel Bucket (Empty)
+item.Bucket.SteelOil.name=Steel Bucket (Oil)
+item.Bucket.SteelFuel.name=Steel Bucket (Fuel)
+
+tile.Latex.name=Latex Rubber
+item.LatexBowl.name=Bowl (Latex)
+
+item.Rubber.Red.name=Red Rubber
+item.Rubber.Yellow.name=Yellow Rubber
+item.Rubber.Blue.name=Blue Rubber
+item.Rubber.Green.name=Green Rubber
+item.Rubber.Black.name=Black Rubber
+item.Rubber.White.name=White Rubber
+item.Rubber.Brown.name=Brown Rubber
+item.Rubber.Orange.name=Orange Rubber
+item.Rubber.Cyan.name=Cyan Rubber
+item.Rubber.Purple.name=Purple Rubber
+item.Rubber.Gray.name=Gray Rubber
+item.Rubber.LightBlue.name=Light Blue Rubber
+item.Rubber.Pink.name=Pink Rubber
+item.Rubber.LimeGreen.name=Lime Green Rubber
+item.Rubber.Magenta.name=Magenta Rubber
+item.Rubber.LightGray.name=Light Gray Rubber
+
+item.PipeFrame.Tin.name=Frame: Tin
+item.PipeFrame.Lead.name=Frame: Lead
+item.PipeFrame.Bronze.name=Frame: Bronze
+item.PipeFrame.WroughtIron.name=Frame: Wrought Iron
+item.PipeFrame.Steel.name=Frame: Steel
+item.PipeFrame.BlueSteel.name=Frame: Blue Steel
+item.PipeFrame.RedSteel.name=Frame: Red Steel
+item.PipeFrame.BlackBronze.name=Frame: Black Bronze
+item.PipeFrame.RoseGold.name=Frame: Rose Gold
+item.PipeFrame.BlackSteel.name=Frame: Black Steel
+item.PipeFrame.Zinc.name=Frame: Zinc
+item.PipeFrame.Copper.name=Frame: Copper
+item.PipeFrame.Silver.name=Frame: Silver
+item.PipeFrame.Platinum.name=Frame: Platinum
+item.PipeFrame.SterlingSilver.name=Frame: Sterling Silver
+item.PipeFrame.Brass.name=Frame: Brass
+
+item.TinPipeItem.name=Tin Transport Pipe
+tip.TinPipeItem=Extraction Pipe
+item.LeadPipeItem.name=Lead Transport Pipe
+tip.LeadPipeItem=Basic pipe, high drag\nWon't connect to Bronze or Quartz
+item.BronzePipeItem.name=Bronze Transport Pipe
+tip.BronzePipeItem=Basic pipe, medium drag\nWon't connect to Lead or Quartz
+item.WroughtIronPipeItem.name=Wrought Iron Transport Pipe
+tip.WroughtIronPipeItem=Routes items
+item.SteelPipeItem.name=Steel Transport Pipe
+tip.SteelPipeItem=Speeds up items
+item.BlueSteelPipeItem.name=Blue Steel Transport Pipe
+tip.BlueSteelPipeItem=Sorts items
+item.RedSteelPipeItem.name=Red Steel Transport Pipe
+tip.RedSteelPipeItem=Round-robin extraction pipe
+item.BlackBronzePipeItem.name=Black Bronze Transport Pipe
+tip.BlackBronzePipeItem=Destroys items
+item.RoseGoldPipeItem.name=Rose Gold Transport Pipe
+tip.RoseGoldPipeItem=Only connects to other pipes
+item.BlackSteelPipeItem.name=Black Steel Transport Pipe
+tip.BlackSteelPipeItem=Sucks up items
+item.SterlingSilverPipeItem.name=Sterling Silver Transport Pipe
+tip.SterlingSilverPipeItem=Routes painted items
+item.BrassPipeItem.name=Brass Transport Pipe
+tip.BrassPipeItem=Paints items
+
+item.TinPipeFluidsItem.name=Tin Fluid Pipe
+tip.TinPipeFluidsItem=Extraction pipe, 10 mB/t
+item.LeadPipeFluidsItem.name=Lead Fluid Pipe
+tip.LeadPipeFluidsItem=Basic pipe, 10 mB/t\nWon't connect to Bronze
+item.BronzePipeFluidsItem.name=Bronze Fluid Pipe
+tip.BronzePipeFluidsItem=Basic pipe, 10 mB/t\nWon't connect to Lead
+item.WroughtIronPipeFluidsItem.name=Wrought Iron Fluid Pipe
+tip.WroughtIronPipeFluidsItem=Valve pipe, 10 mB/t
+item.SteelPipeFluidsItem.name=Steel Fluid Pipe
+tip.SteelPipeFluidsItem=Basic pipe, 40 mB/t
+item.RedSteelPipeFluidsItem.name=Red Steel Fluid Pipe
+tip.RedSteelPipeFluidsItem=Extraction pipe, 40 mB/t
+item.BlackBronzePipeFluidsItem.name=Black Bronze Fluid Pipe
+tip.BlackBronzePipeFluidsItem=Destroys fluids, 10 mB/t
+item.RoseGoldPipeFluidsItem.name=Rose Gold Fluid Pipe
+tip.RoseGoldPipeFluidsItem=Only connects to other pipes, 10 mB/t
+
+item.CopperPipePowerItem.name=Copper Kinesis Pipe
+item.RoseGoldPipePowerItem.name=Rose Gold Kinesis Pipe
+item.BlackBronzePipePowerItem.name=Black Bronze Kinesis Pipe
+tip.BlackBronzePipePowerItem=Power Input Pipe
+item.WroughtIronPipePowerItem.name=Wrought Iron Kinesis Pipe
+item.SteelPipePowerItem.name=Steel Kinesis Pipe
+tip.SteelPipePowerItem=Selectable Limiter Pipe
+item.PlatinumPipePowerItem.name=Platinum Kinesis Pipe
+item.SilverPipePowerItem.name=Silver Kinesis Pipe
+
+item.LeadPipeStructureItem.name=Lead Structure Pipe
+tip.LeadPipeStructureItem=Support pipe
+
+item.BismuthWrenchItem.name=Wrench: Bismuth
+item.TinWrenchItem.name=Wrench: Tin
+item.ZincWrenchItem.name=Wrench: Zinc
+item.CopperWrenchItem.name=Wrench: Copper
+item.BismuthBronzeWrenchItem.name=Wrench: Bismuth Bronze
+item.BlackBronzeWrenchItem.name=Wrench: Black Bronze
+item.BronzeWrenchItem.name=Wrench: Bronze
+item.RoseGoldWrenchItem.name=Wrench: Rose Gold
+item.WroughtIronWrenchItem.name=Wrench: Wrought Iron
+item.SteelWrenchItem.name=Wrench: Steel
+item.BlackSteelWrenchItem.name=Wrench: Black Steel
+item.BlueSteelWrenchItem.name=Wrench: Blue Steel
+item.RedSteelWrenchItem.name=Wrench: Red Steel
+
+fluid.Latex=Latex

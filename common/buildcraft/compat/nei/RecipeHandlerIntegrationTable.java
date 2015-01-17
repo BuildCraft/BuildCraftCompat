@@ -137,7 +137,7 @@ public class RecipeHandlerIntegrationTable extends RecipeHandlerBase {
         for (IFlexibleRecipe<ItemStack> recipe : BuildcraftRecipeRegistry.integrationTable.getRecipes()) {
             if (recipe instanceof IFlexibleRecipeViewable) {
                 IFlexibleRecipeViewable recipeViewable = (IFlexibleRecipeViewable) recipe;
-                if (recipeViewable.getOutput() instanceof ItemStack) {
+                if (recipeViewable.getInputs() != null && recipeViewable.getInputs().size() > 0 && recipeViewable.getOutput() instanceof ItemStack) {
                     ItemStack output = (ItemStack) recipeViewable.getOutput();
                     if (output.stackTagCompound != null && NEIServerUtils.areStacksSameType(output, result) || output.stackTagCompound == null && NEIServerUtils.areStacksSameTypeCrafting(output, result)) {
                         this.arecipes.add(new CachedIntegrationTableRecipe((IFlexibleRecipeViewable) recipe, true));
