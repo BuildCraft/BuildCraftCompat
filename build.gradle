@@ -23,6 +23,9 @@ repositories {
 		name = "chickenbones"
 		url = "http://chickenbones.net/maven/"
 	}
+    maven {
+        url = "http://maven.tterrag.com"
+    }
 }
 
 apply plugin: 'forge' // adds the forge dependency
@@ -34,13 +37,18 @@ group= "com.mod-buildcraft-compat"
 archivesBaseName = "buildcraft-compat" // the name that all artifacts will use as a base. artifacts names follow this pattern: [baseName]-[appendix]-[version]-[classifier].[extension]
 
 dependencies {
-	// http://files.minecraftforge.net/CodeChickenLib/
-	compile "codechicken:CodeChickenLib:1.7.10-1.1.1.104:dev"
+    compile 'com.mod-buildcraft:buildcraft:6.3.4:dev'
 
-	// http://chickenbones.net/maven
+    compile "codechicken:CodeChickenLib:1.7.10-1.1.3.127:dev"
+
 	compile "codechicken:CodeChickenCore:1.7.10-1.0.3.26:dev"
     compile "codechicken:NotEnoughItems:1.7.10-1.0.3.67:dev"
     compile "codechicken:ForgeMultipart:1.7.10-1.1.1.320:dev"
+
+    compile "com.enderio:EnderIO:1.7.10-2.2.6.319:api"
+    runtime "com.enderio:EnderIO:1.7.10-2.2.6.319:dev"
+
+    compile "appeng:appliedenergistics2:rv2-beta-7:dev"
 }
 
 minecraft {
@@ -86,6 +94,24 @@ processResources
         exclude 'mcmod.info'
     }
 }
+
+project.ext.addDownloadDependency = { String name, String dest, String url ->
+    def destFile = new File('libs/' + dest)
+
+    def downloadTask = task('download' + name, type:Task) {
+        outputs.file destFile
+        inputs.property 'url', url
+        doFirst {
+            if (!destFile.exists()) {
+                new URL(url).withInputStream{ i -> destFile.withOutputStream{ it << i }}
+            }
+        }
+    }
+
+    setupDecompWorkspace.dependsOn(downloadTask)
+}
+
+addDownloadDependency("MineTweaker3", "MineTweaker3-Dev-1.7.10-3.0.9C.jar", "http://minetweaker3.powerofbytes.com/download/MineTweaker3-Dev-1.7.10-3.0.9C.jar")
 
 // --------------------
 // extra jar section
