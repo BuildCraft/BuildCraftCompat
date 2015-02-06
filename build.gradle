@@ -109,10 +109,13 @@ project.ext.addDownloadDependency = { String name, String url ->
     }
 
     setupDecompWorkspace.dependsOn(downloadTask)
+    eclipseClasspath.dependsOn(downloadTask)
 }
 
 addDownloadDependency("MineTweaker3", "http://minetweaker3.powerofbytes.com/download/MineTweaker3-Dev-1.7.10-3.0.9C.jar")
 addDownloadDependency("AppliedEnergistics2", "http://ae-mod.info/builds/appliedenergistics2-rv2-beta-8-dev.jar")
+//addDownloadDependency("MineFactoryReloaded", "http://addons.cursecdn.com/files/2221/833/MineFactoryReloaded-[1.7.10]2.8.0RC6-5-dev.jar")
+//addDownloadDependency("CoFHCore", "http://addons.cursecdn.com/files/2226/436/CoFHCore-[1.7.10]3.0.0B9-129-dev.jar")
 
 // --------------------
 // extra jar section

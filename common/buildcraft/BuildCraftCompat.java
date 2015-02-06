@@ -2,11 +2,9 @@ package buildcraft;
 
 import java.io.File;
 
-import buildcraft.api.blueprints.SchematicTile;
 import buildcraft.api.statements.IActionExternal;
 import buildcraft.api.statements.ITriggerExternal;
 import buildcraft.api.statements.StatementManager;
-import buildcraft.builders.schematics.SchematicRotateMeta;
 import buildcraft.compat.CompatUtils;
 import buildcraft.compat.SchematicTileDrops;
 import buildcraft.compat.carpentersblocks.SchematicCBBlock;
@@ -15,6 +13,7 @@ import buildcraft.compat.carpentersblocks.SchematicCBRotated;
 import buildcraft.compat.carpentersblocks.SchematicCBRotatedTwo;
 import buildcraft.compat.carpentersblocks.SchematicCBSafe;
 import buildcraft.compat.ironchests.SchematicIronChest;
+import buildcraft.compat.mfr.MFRIntegrationBC;
 import buildcraft.compat.minetweaker.MineTweakerInit;
 import buildcraft.compat.multipart.MultipartSchematics;
 import buildcraft.compat.redlogic.RedLogicProvider;
@@ -39,6 +38,7 @@ public class BuildCraftCompat extends BuildCraftMod {
 	public static boolean enableBundledRedstone;
     public static boolean enableNEI;
     public static boolean enableMultipart;
+    public static boolean enableMFR;
 
 	private static Configuration config;
 
@@ -60,6 +60,7 @@ public class BuildCraftCompat extends BuildCraftMod {
 		}
         enableNEI = getModBoolean("NotEnoughItems", "enableNEI", "compat", true, "NEI recipe and ledger integration.");
         enableMultipart = getModBoolean("ForgeMultipart", "enableMultipart", "compat", true, "ForgeMultipart schematic integration.");
+        enableMFR = getModBoolean("MineFactoryReloaded", "enableMFR", "compat", true, "Minefactory Reloaded integration.");
 
 		config.save();
 	}
@@ -86,6 +87,10 @@ public class BuildCraftCompat extends BuildCraftMod {
 			if (enableNEI) {
 				new NEIIntegrationBC().load();
 			}
+		}
+
+		if (enableMFR) {
+		    MFRIntegrationBC.init();
 		}
 
 		// Register schematic compatibility
