@@ -3,6 +3,7 @@ package buildcraft.compat.nei;
 import codechicken.nei.api.API;
 
 import cpw.mods.fml.common.Loader;
+import buildcraft.api.recipes.IFlexibleRecipeViewable;
 
 public class NEIIntegrationBC {
 
@@ -23,5 +24,14 @@ public class NEIIntegrationBC {
 
         API.registerNEIGuiHandler(new NEIGuiHandlerBC());
     }
-    
+
+    protected static boolean isValid(IFlexibleRecipeViewable recipe) {
+        // detect invalid recipes
+        for (Object o : (recipe).getInputs()) {
+            if (o == null) {
+                return false;
+            }
+        }
+        return recipe.getOutput() != null;
+    }
 }

@@ -122,6 +122,9 @@ public class RecipeHandlerIntegrationTable extends RecipeHandlerBase {
     public void loadAllRecipes() {
         for (IFlexibleRecipe<ItemStack> recipe : BuildcraftRecipeRegistry.integrationTable.getRecipes()) {
             if (recipe instanceof IFlexibleRecipeViewable) {
+                if (!NEIIntegrationBC.isValid((IFlexibleRecipeViewable) recipe)) {
+                    return;
+                }
                 if (((IFlexibleRecipeViewable) recipe).getOutput() instanceof ItemStack) {
                     ItemStack output = (ItemStack) ((IFlexibleRecipeViewable) recipe).getOutput();
                     if (!(output.getItem() instanceof IFacadeItem)) {
@@ -136,6 +139,9 @@ public class RecipeHandlerIntegrationTable extends RecipeHandlerBase {
     public void loadCraftingRecipes(ItemStack result) {
         for (IFlexibleRecipe<ItemStack> recipe : BuildcraftRecipeRegistry.integrationTable.getRecipes()) {
             if (recipe instanceof IFlexibleRecipeViewable) {
+                if (!NEIIntegrationBC.isValid((IFlexibleRecipeViewable) recipe)) {
+                    return;
+                }
                 IFlexibleRecipeViewable recipeViewable = (IFlexibleRecipeViewable) recipe;
                 if (recipeViewable.getOutput() instanceof ItemStack) {
                     ItemStack output = (ItemStack) recipeViewable.getOutput();
@@ -151,6 +157,9 @@ public class RecipeHandlerIntegrationTable extends RecipeHandlerBase {
     public void loadUsageRecipes(ItemStack ingredient) {
         for (IFlexibleRecipe<ItemStack> recipe : BuildcraftRecipeRegistry.integrationTable.getRecipes()) {
             if (recipe instanceof IFlexibleRecipeViewable) {
+                if (!NEIIntegrationBC.isValid((IFlexibleRecipeViewable) recipe)) {
+                    return;
+                }
                 CachedIntegrationTableRecipe crecipe = new CachedIntegrationTableRecipe((IFlexibleRecipeViewable) recipe);
                 if (crecipe.contains(crecipe.inputs, ingredient)) {
                     crecipe.generatePermutations();
