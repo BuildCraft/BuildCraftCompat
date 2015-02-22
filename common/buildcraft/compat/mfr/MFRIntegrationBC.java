@@ -3,10 +3,10 @@ package buildcraft.compat.mfr;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
-import buildcraft.core.robots.EntityRobot;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
+import buildcraft.robots.EntityRobot;
 
 public class MFRIntegrationBC {
 
