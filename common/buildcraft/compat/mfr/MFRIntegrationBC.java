@@ -6,7 +6,7 @@ import java.lang.reflect.Method;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
-import buildcraft.robots.EntityRobot;
+import buildcraft.robotics.EntityRobot;
 
 public class MFRIntegrationBC {
 

@@ -7,8 +7,8 @@ import codechicken.nei.api.TaggedInventoryArea;
 import java.util.List;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
-import buildcraft.core.gui.GuiBuildCraft;
-import buildcraft.core.gui.CompatGuiUtils;
+import buildcraft.core.lib.gui.CompatGuiUtils;
+import buildcraft.core.lib.gui.GuiBuildCraft;
 
 public class NEIGuiHandlerBC implements INEIGuiHandler {
 	@Override

@@ -7,8 +7,8 @@ import buildcraft.api.statements.IActionExternal;
 import buildcraft.api.statements.IStatementContainer;
 import buildcraft.api.statements.IStatementParameter;
 import buildcraft.api.statements.StatementParameterItemStack;
+import buildcraft.core.lib.utils.ColorUtils;
 import buildcraft.core.statements.BCStatement;
-import buildcraft.core.utils.ColorUtils;
 import buildcraft.transport.TileGenericPipeCompat;
 
 public class ActionBundledOutput extends BCStatement implements IActionExternal {

@@ -51,12 +51,14 @@ dependencies {
     compile("net.sengir.forestry:forestry_1.7.10:3.4.0.7:dev") {
        exclude module: "buildcraft"
     }
-    compile "com.enderio:EnderIO:1.7.10-2.2.6.324:dev"
+    compile("com.enderio:EnderIO:1.7.10-2.2.6.324:dev"){
+       exclude module: "buildcraft"
+    }
 //    runtime "appeng:appliedenergistics2:rv2-beta-8:dev"
 }
 
 minecraft {
-    version = "1.7.10-10.13.2.1277" // McVersion-ForgeVersion     this variable is later changed to contain only the MC version, while the apiVersion variable is used for the forge version.  Yeah its stupid, and will be changed eentually.
+    version = "1.7.10-10.13.2.1291" // McVersion-ForgeVersion     this variable is later changed to contain only the MC version, while the apiVersion variable is used for the forge version.  Yeah its stupid, and will be changed eentually.
 
     runDir = "run" // the directory for ForgeGradle to run Minecraft in
 
