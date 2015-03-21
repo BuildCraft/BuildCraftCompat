@@ -1,7 +1,7 @@
 package buildcraft.transport;
 
 import buildcraft.BuildCraftCompat;
-import buildcraft.core.utils.MathUtils;
+import buildcraft.core.lib.utils.MathUtils;
 import cpw.mods.fml.common.Loader;
 import mods.immibis.redlogic.api.wiring.IBareRedstoneWire;
 import mods.immibis.redlogic.api.wiring.IBundledEmitter;

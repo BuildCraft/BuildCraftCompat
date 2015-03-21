@@ -72,6 +72,7 @@ public class RecipeHandlerIntegrationTable extends RecipeHandlerBase {
             for (PositionedStack p : this.inputs) {
                 p.generatePermutations();
             }
+            output.generatePermutations();
         }
         
     }
@@ -88,7 +89,7 @@ public class RecipeHandlerIntegrationTable extends RecipeHandlerBase {
     
     @Override
     public String getGuiTexture() {
-        return "buildcraft:textures/gui/integration_table.png";
+        return "buildcraftsilicon:textures/gui/integration_table.png";
     }
     
     @Override
@@ -147,6 +148,14 @@ public class RecipeHandlerIntegrationTable extends RecipeHandlerBase {
                     ItemStack output = (ItemStack) recipeViewable.getOutput();
                     if (output.stackTagCompound != null && NEIServerUtils.areStacksSameType(output, result) || output.stackTagCompound == null && NEIServerUtils.areStacksSameTypeCrafting(output, result)) {
                         this.arecipes.add(new CachedIntegrationTableRecipe((IFlexibleRecipeViewable) recipe, true));
+                    }
+                } else if (recipeViewable.getOutput() instanceof List) {
+                    for (Object o : ((List) recipeViewable.getOutput())) {
+                        ItemStack output = (ItemStack) o;
+                        if (output.stackTagCompound != null && NEIServerUtils.areStacksSameType(output, result) || output.stackTagCompound == null && NEIServerUtils.areStacksSameTypeCrafting(output, result)) {
+                            this.arecipes.add(new CachedIntegrationTableRecipe((IFlexibleRecipeViewable) recipe, true));
+                            break;
+                        }
                     }
                 }
             }

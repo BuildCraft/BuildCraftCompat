@@ -27,7 +27,7 @@ import buildcraft.api.recipes.CraftingResult;
 import buildcraft.api.recipes.IFlexibleRecipeViewable;
 import buildcraft.api.recipes.IIntegrationRecipe;
 import buildcraft.silicon.TileIntegrationTable;
-import buildcraft.transport.recipes.IntegrationTableRecipe;
+import buildcraft.silicon.recipes.IntegrationTableRecipe;
 
 /**
  *

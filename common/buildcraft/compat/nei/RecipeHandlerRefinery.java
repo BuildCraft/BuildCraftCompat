@@ -73,7 +73,7 @@ public class RecipeHandlerRefinery extends RecipeHandlerBase {
     
     @Override
     public String getGuiTexture() {
-        return "buildcraft:textures/gui/refinery_filter.png";
+        return "buildcraftfactory:textures/gui/refinery_filter.png";
     }
     
     @Override
