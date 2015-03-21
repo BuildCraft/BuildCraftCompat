@@ -11,7 +11,7 @@ import buildcraft.robots.EntityRobot;
 public class MFRIntegrationBC {
 
     public static void init() {
-//        FMLInterModComms.sendMessage("MineFactoryReloaded", "registerSafariNetBlacklist", EntityRobotBase.class.getCanonicalName());
+        //FMLInterModComms.sendMessage("MineFactoryReloaded", "registerSafariNetBlacklist", EntityRobotBase.class.getCanonicalName());
         try {
             Method m = FMLInterModComms.class.getDeclaredMethod("enqueueMessage", Object.class, String.class, IMCMessage.class);
             m.setAccessible(true);
