@@ -16,12 +16,16 @@ public class CompatHooksImpl extends CompatHooks {
 	@Override
 	public IInjectable getInjectableWrapper(TileEntity tile, ForgeDirection from) {
 		IInjectable wrapper = null;
+		boolean isConduit = false;
 
 		if (wrapper == null && Loader.isModLoaded("EnderIO")) {
-			wrapper = getInjectableEnderIO(tile);
+			isConduit = isConduit(tile);
+			if (isConduit) {
+				wrapper = getInjectableEnderIO(tile);
+			}
 		}
 
-		if (wrapper == null && tile instanceof IItemDuct) {
+		if (!isConduit && wrapper == null && tile instanceof IItemDuct) {
 			wrapper = new ItemDuctInjectable((IItemDuct) tile);
 		}
 
@@ -29,12 +33,19 @@ public class CompatHooksImpl extends CompatHooks {
 	}
 
 	@Optional.Method(modid = "EnderIO")
+	public boolean isConduit(TileEntity tile) {
+		return (tile instanceof IConduitBundle);
+	}
+
+	@Optional.Method(modid = "EnderIO")
 	public IInjectable getInjectableEnderIO(TileEntity tile) {
 		if (tile instanceof IConduitBundle) {
 			IConduitBundle bundle = ((IConduitBundle) tile);
-			IItemConduit conduit = bundle.getConduit(IItemConduit.class);
-			if (conduit != null) {
-				return new ItemConduitInjectable(conduit);
+			if (bundle.hasType(IItemConduit.class)) {
+				IItemConduit conduit = bundle.getConduit(IItemConduit.class);
+				if (conduit != null) {
+					return new ItemConduitInjectable(conduit);
+				}
 			}
 		}
 
