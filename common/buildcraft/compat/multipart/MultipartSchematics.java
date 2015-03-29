@@ -39,17 +39,4 @@ public class MultipartSchematics
     public static SchematicPart getSchematic(String type) {
         return schematicMap.get(type);
     }
-
-    public static void init() {
-        BuilderAPI.schematicRegistry.registerSchematicBlock(MultipartProxy.block(), SchematicMultipartBlock.class);
-        registerSchematic("mcr_face", new SchematicMicroblock("mcr_face"));
-        registerSchematic("mcr_cnr", new SchematicMicroblock("mcr_cnr"));
-        registerSchematic("mcr_edge", new SchematicMicroblock("mcr_edge"));
-        registerSchematic("mcr_post", new SchematicMicroblock("mcr_post"));
-        registerSchematic("mcr_hllw", new SchematicMicroblock("mcr_hllw"));
-        registerSchematic("mc_torch", new SchematicMcMetaPart("mc_torch"));
-        registerSchematic("mc_lever", new SchematicMcMetaPart("mc_lever"));
-        registerSchematic("mc_button", new SchematicMcMetaPart("mc_button"));
-        registerSchematic("mc_redtorch", new SchematicMcMetaPart("mc_redtorch"));
-    }
 }

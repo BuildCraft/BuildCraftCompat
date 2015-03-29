@@ -11,6 +11,7 @@ import cofh.api.transport.IItemDuct;
 import buildcraft.api.transport.IInjectable;
 import buildcraft.compat.cofh.ItemDuctInjectable;
 import buildcraft.compat.enderio.ItemConduitInjectable;
+import buildcraft.core.CompatHooks;
 
 public class CompatHooksImpl extends CompatHooks {
 	@Override

@@ -1,28 +1,42 @@
 package buildcraft;
 
 import java.io.File;
+import java.util.HashSet;
 
+import buildcraft.api.core.BCLog;
+import buildcraft.api.core.BuildCraftAPI;
+import buildcraft.api.robots.RobotManager;
 import buildcraft.api.statements.IActionExternal;
 import buildcraft.api.statements.ITriggerExternal;
 import buildcraft.api.statements.StatementManager;
+import buildcraft.compat.CompatModuleAMT;
+import buildcraft.compat.CompatModuleBase;
+import buildcraft.compat.CompatModuleCarpentersBlocks;
+import buildcraft.compat.CompatModuleFMP;
+import buildcraft.compat.CompatModuleIronChest;
+import buildcraft.compat.CompatModuleNEI;
 import buildcraft.compat.CompatUtils;
-import buildcraft.compat.SchematicTileDrops;
+import buildcraft.compat.lib.SchematicTileDrops;
 import buildcraft.compat.carpentersblocks.SchematicCBBlock;
 import buildcraft.compat.carpentersblocks.SchematicCBGate;
 import buildcraft.compat.carpentersblocks.SchematicCBRotated;
 import buildcraft.compat.carpentersblocks.SchematicCBRotatedTwo;
 import buildcraft.compat.carpentersblocks.SchematicCBSafe;
 import buildcraft.compat.ironchests.SchematicIronChest;
-import buildcraft.compat.mfr.MFRIntegrationBC;
-import buildcraft.compat.minetweaker.MineTweakerInit;
+import buildcraft.compat.CompatModuleMFR;
+import buildcraft.compat.CompatModuleMineTweaker3;
 import buildcraft.compat.multipart.MultipartSchematics;
+import buildcraft.compat.properties.WorldPropertyIsHarvestableCompat;
 import buildcraft.compat.redlogic.RedLogicProvider;
 import buildcraft.compat.nei.NEIIntegrationBC;
+import buildcraft.compat.robots.BoardRobotHarvesterCompat;
 import buildcraft.core.triggers.ActionBundledOutput;
 import buildcraft.core.triggers.TriggerBundledInput;
+import buildcraft.robotics.boards.BoardRobotHarvester;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -36,11 +50,10 @@ public class BuildCraftCompat extends BuildCraftMod {
 	public static IActionExternal actionBundledOutput;
 
 	public static boolean enableBundledRedstone;
-    public static boolean enableNEI;
-    public static boolean enableMultipart;
-    public static boolean enableMFR;
 
 	private static Configuration config;
+	private static final HashSet<CompatModuleBase> modules = new HashSet<CompatModuleBase>();
+	private static final HashSet<String> moduleNames = new HashSet<String>();
 
 	private boolean getModBoolean(String modID, String name, String cat, boolean def, String comm) {
 		if (Loader.isModLoaded(modID)) {
@@ -50,17 +63,33 @@ public class BuildCraftCompat extends BuildCraftMod {
 		}
 	}
 
+	private void offerModule(CompatModuleBase module) {
+		if (module.canLoad()) {
+			if (config.getBoolean(module.name(), "modules", true, module.comment())) {
+				modules.add(module);
+				moduleNames.add(module.name());
+			}
+		}
+	}
+
 	@Mod.EventHandler
-	public void loadConfig(FMLPreInitializationEvent evt) {
+	public void preInit(FMLPreInitializationEvent evt) {
 		config = new Configuration(new File(new File(evt.getSuggestedConfigurationFile().getParentFile(), "buildcraft"), "compat.cfg"));
 		config.load();
+
+		offerModule(new CompatModuleAMT());
+		offerModule(new CompatModuleFMP());
+		offerModule(new CompatModuleMFR());
+		offerModule(new CompatModuleMineTweaker3());
+		offerModule(new CompatModuleNEI());
+
+		// Builder
+		offerModule(new CompatModuleCarpentersBlocks());
+		offerModule(new CompatModuleIronChest());
 
 		if (Loader.isModLoaded("RedLogic")) {
 			enableBundledRedstone = config.getBoolean("enableBundledRedstone", "compat", false, "RedLogic compatibility - bundled cables can be connected to pipes. WARNING: HIGHLY EXPERIMENTAL - MIGHT BE BROKEN");
 		}
-        enableNEI = getModBoolean("NotEnoughItems", "enableNEI", "compat", true, "NEI recipe and ledger integration.");
-        enableMultipart = getModBoolean("ForgeMultipart", "enableMultipart", "compat", true, "ForgeMultipart schematic integration.");
-        enableMFR = getModBoolean("MineFactoryReloaded", "enableMFR", "compat", true, "Minefactory Reloaded integration.");
 
 		config.save();
 	}
@@ -79,36 +108,31 @@ public class BuildCraftCompat extends BuildCraftMod {
 			}
 		}
 
-		if (enableMultipart) {
-			MultipartSchematics.init();
+		for (CompatModuleBase m : modules) {
+			BCLog.logger.info("Loading compat module " + m.name());
+			m.init();
 		}
-
-		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
-			if (enableNEI) {
-				new NEIIntegrationBC().load();
-			}
-		}
-
-		if (enableMFR) {
-		    MFRIntegrationBC.init();
-		}
-
-		// Register schematic compatibility
-		CompatUtils.registerSchematic("IronChest:BlockIronChest", SchematicIronChest.class);
-		CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersBlock", SchematicCBBlock.class);
-		CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersDaylightSensor", SchematicTileDrops.class);
-		CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersGate", SchematicCBGate.class);
-		CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersLadder", SchematicCBRotatedTwo.class);
-		CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersPressurePlate", SchematicTileDrops.class);
-		CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersSafe", SchematicCBSafe.class);
-		CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersSlope", SchematicCBRotated.class);
-		CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersStairs", SchematicCBRotated.class);
 	}
 	
 	@Mod.EventHandler
 	public void postInitalize(FMLPostInitializationEvent evt) {
-		if (Loader.isModLoaded("MineTweaker3")) {
-			MineTweakerInit.init();
+		for (CompatModuleBase m : modules) {
+			m.postInit();
 		}
+
+		BuildCraftAPI.registerWorldProperty("harvestable", new WorldPropertyIsHarvestableCompat());
+
+		if (Loader.isModLoaded("BuildCraft|Robotics")) {
+			postInitRobotics();
+		}
+	}
+
+	@Optional.Method(modid = "BuildCraft|Robotics")
+	public void postInitRobotics() {
+		RobotManager.registerAIRobot(BoardRobotHarvesterCompat.class, "boardRobotHarvester");
+	}
+
+	public static boolean hasModule(String module) {
+		return moduleNames.contains(module);
 	}
 }

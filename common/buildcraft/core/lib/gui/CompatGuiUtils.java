@@ -1,4 +1,4 @@
-package buildcraft.core.gui;
+package buildcraft.core.lib.gui;
 
 public class CompatGuiUtils {
 	public static boolean ledgerOverlaps(GuiBuildCraft gui, int x, int y, int width, int height) {

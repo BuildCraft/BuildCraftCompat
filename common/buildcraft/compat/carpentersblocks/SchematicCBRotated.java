@@ -2,7 +2,7 @@ package buildcraft.compat.carpentersblocks;
 
 import net.minecraft.nbt.NBTTagList;
 import buildcraft.api.blueprints.IBuilderContext;
-import buildcraft.compat.SchematicTileDrops;
+import buildcraft.compat.lib.SchematicTileDrops;
 
 public class SchematicCBRotated extends SchematicTileDrops {
 	private static final int[] shiftMatrix = {0, 1, 5, 4, 2, 3, 6};

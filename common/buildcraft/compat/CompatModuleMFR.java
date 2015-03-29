@@ -1,4 +1,4 @@
-package buildcraft.compat.mfr;
+package buildcraft.compat;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -6,11 +6,16 @@ import java.lang.reflect.Method;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
-import buildcraft.robots.EntityRobot;
+import buildcraft.robotics.EntityRobot;
 
-public class MFRIntegrationBC {
+public class CompatModuleMFR extends CompatModuleBase {
+    @Override
+    public String name() {
+        return "MineFactoryReloaded";
+    }
 
-    public static void init() {
+    @Override
+    public void init() {
         //FMLInterModComms.sendMessage("MineFactoryReloaded", "registerSafariNetBlacklist", EntityRobotBase.class.getCanonicalName());
         try {
             Method m = FMLInterModComms.class.getDeclaredMethod("enqueueMessage", Object.class, String.class, IMCMessage.class);
@@ -21,7 +26,6 @@ public class MFRIntegrationBC {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
 }
