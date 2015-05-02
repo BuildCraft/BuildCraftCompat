@@ -8,7 +8,6 @@ import buildcraft.api.core.IWorldProperty;
 import buildcraft.api.core.BuildCraftAPI;
 import buildcraft.compat.properties.WorldPropertyIsHarvestableCompat;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import java.util.Iterator;
 import buildcraft.api.core.BCLog;
 import buildcraft.api.statements.ITriggerProvider;
 import buildcraft.api.statements.IActionProvider;
@@ -34,7 +33,7 @@ import buildcraft.api.statements.IActionExternal;
 import buildcraft.api.statements.ITriggerExternal;
 import cpw.mods.fml.common.Mod;
 
-@Mod(name = "BuildCraft Compat", version = "6.4.0", useMetadata = false, modid = "BuildCraft|Compat", acceptedMinecraftVersions = "[1.7.10,1.8)", dependencies = "required-after:Forge@[10.13.0.1179,);required-after:BuildCraft|Core")
+@Mod(name = "BuildCraft Compat", version = "7.0.0", useMetadata = false, modid = "BuildCraft|Compat", acceptedMinecraftVersions = "[1.7.10,1.8)", dependencies = "required-after:Forge@[10.13.0.1179,);required-after:BuildCraft|Core")
 public class BuildCraftCompat extends BuildCraftMod
 {
     public static ITriggerExternal triggerBundledInputOff;
