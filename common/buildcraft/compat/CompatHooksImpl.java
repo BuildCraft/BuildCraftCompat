@@ -41,4 +41,9 @@ public class CompatHooksImpl extends CompatHooks {
 
 		return null;
 	}
+
+	@Override
+	public Object getEnergyProvider(TileEntity tile) {
+		return tile;
+	}
 }
