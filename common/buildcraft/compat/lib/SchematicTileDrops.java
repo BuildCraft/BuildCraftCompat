@@ -1,4 +1,4 @@
-package buildcraft.compat;
+package buildcraft.compat.lib;
 
 import java.util.ArrayList;
 import net.minecraft.item.ItemStack;

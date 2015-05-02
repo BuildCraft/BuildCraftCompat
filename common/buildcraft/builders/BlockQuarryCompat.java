@@ -1,4 +1,4 @@
-package buildcraft.factory;
+package buildcraft.builders;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;

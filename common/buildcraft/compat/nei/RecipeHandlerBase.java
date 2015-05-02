@@ -22,7 +22,7 @@ import codechicken.nei.recipe.ICraftingHandler;
 import codechicken.nei.recipe.IUsageHandler;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 
-import buildcraft.core.utils.FluidUtils;
+import buildcraft.core.lib.utils.FluidUtils;
 
 public abstract class RecipeHandlerBase extends TemplateRecipeHandler implements ICraftingHandler, IUsageHandler {
 
