@@ -93,7 +93,7 @@ public class RecipeHandlerAssemblyTable extends RecipeHandlerBase {
     
     @Override
     public String getGuiTexture() {
-        return "buildcraft:textures/gui/assembly_table.png";
+        return "buildcraftsilicon:textures/gui/assembly_table.png";
     }
     
     @Override
