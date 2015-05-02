@@ -43,10 +43,9 @@ group= "com.mod-buildcraft-compat"
 archivesBaseName = "buildcraft-compat" // the name that all artifacts will use as a base. artifacts names follow this pattern: [baseName]-[appendix]-[version]-[classifier].[extension]
 
 dependencies {
-    compile "codechicken:CodeChickenLib:1.7.10-1.1.3.127:dev"
-
-	compile "codechicken:CodeChickenCore:1.7.10-1.0.3.26:dev"
-    compile "codechicken:NotEnoughItems:1.7.10-1.0.3.67:dev"
+    compile "codechicken:CodeChickenLib:1.7.10-1.1.3.136:dev"
+    compile "codechicken:CodeChickenCore:1.7.10-1.0.6.43:dev"
+    compile "codechicken:NotEnoughItems:1.7.10-1.0.4.106:dev"
     compile "codechicken:ForgeMultipart:1.7.10-1.1.1.320:dev"
     compile("net.sengir.forestry:forestry_1.7.10:3.4.0.7:dev") {
        exclude module: "buildcraft"
@@ -58,7 +57,7 @@ dependencies {
 }
 
 minecraft {
-    version = "1.7.10-10.13.2.1291" // McVersion-ForgeVersion     this variable is later changed to contain only the MC version, while the apiVersion variable is used for the forge version.  Yeah its stupid, and will be changed eentually.
+    version = "1.7.10-10.13.3.1388-1.7.10" // McVersion-ForgeVersion     this variable is later changed to contain only the MC version, while the apiVersion variable is used for the forge version.  Yeah its stupid, and will be changed eentually.
 
     runDir = "run" // the directory for ForgeGradle to run Minecraft in
 

@@ -14,6 +14,13 @@ public class CompatModuleMFR extends CompatModuleBase
     
     @Override
     public void init() {
+        if (Loader.isModLoaded("BuildCraft|Robotics")) {
+            initRobotics();
+        }
+    }
+
+    @Optional.Method(modid = "BuildCraft|Robotics")
+    private void initRobotics() {
         try {
             final Method m = FMLInterModComms.class.getDeclaredMethod("enqueueMessage", Object.class, String.class, FMLInterModComms.IMCMessage.class);
             m.setAccessible(true);

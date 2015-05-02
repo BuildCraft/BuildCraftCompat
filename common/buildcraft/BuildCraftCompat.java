@@ -2,6 +2,7 @@ package buildcraft;
 
 import cpw.mods.fml.common.Optional;
 import buildcraft.api.robots.RobotManager;
+import buildcraft.compat.CompatModuleWAILA;
 import buildcraft.compat.robots.BoardRobotHarvesterCompat;
 import buildcraft.api.core.IWorldProperty;
 import buildcraft.api.core.BuildCraftAPI;
@@ -65,6 +66,7 @@ public class BuildCraftCompat extends BuildCraftMod
         this.offerModule(new CompatModuleNEI());
         this.offerModule(new CompatModuleCarpentersBlocks());
         this.offerModule(new CompatModuleIronChest());
+        this.offerModule(new CompatModuleWAILA());
         if (Loader.isModLoaded("RedLogic")) {
             BuildCraftCompat.enableBundledRedstone = BuildCraftCompat.config.getBoolean("enableBundledRedstone", "compat", false, "RedLogic compatibility - bundled cables can be connected to pipes. WARNING: HIGHLY EXPERIMENTAL - MIGHT BE BROKEN");
         }
@@ -94,7 +96,7 @@ public class BuildCraftCompat extends BuildCraftMod
         for (final CompatModuleBase m : BuildCraftCompat.modules) {
             m.postInit();
         }
-        BuildCraftAPI.registerWorldProperty("harvestable", (IWorldProperty)new WorldPropertyIsHarvestableCompat());
+        BuildCraftAPI.registerWorldProperty("harvestable", (IWorldProperty) new WorldPropertyIsHarvestableCompat());
         if (Loader.isModLoaded("BuildCraft|Robotics")) {
             this.postInitRobotics();
         }

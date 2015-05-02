@@ -18,6 +18,8 @@ public class CompatModuleAMT extends CompatModuleBase
     
     @Override
     public void init() {
-        RobotManager.registerAIRobot((Class)AIRobotHarvestAMT.class, "buildcraft.compat.aiRobotHarvestAMT");
+        if (Loader.isModLoaded("BuildCraft|Robotics")) {
+            RobotManager.registerAIRobot((Class) AIRobotHarvestAMT.class, "buildcraft.compat.aiRobotHarvestAMT");
+        }
     }
 }
