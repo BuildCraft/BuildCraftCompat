@@ -6,26 +6,8 @@
 
 package buildcraft.compat.minetweaker;
 
-import minetweaker.IUndoableAction;
-import minetweaker.MineTweakerAPI;
 import minetweaker.annotations.ModOnly;
-import minetweaker.api.item.IIngredient;
-import minetweaker.api.item.IItemStack;
-import minetweaker.api.minecraft.MineTweakerMC;
-
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import stanhebben.zenscript.annotations.Optional;
 import stanhebben.zenscript.annotations.ZenClass;
-import stanhebben.zenscript.annotations.ZenMethod;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import buildcraft.api.recipes.BuildcraftRecipeRegistry;
-import buildcraft.api.recipes.CraftingResult;
-import buildcraft.api.recipes.IFlexibleRecipeViewable;
-import buildcraft.silicon.TileIntegrationTable;
-import buildcraft.silicon.recipes.IntegrationTableRecipe;
 
 /**
  *
@@ -34,7 +16,7 @@ import buildcraft.silicon.recipes.IntegrationTableRecipe;
 @ZenClass("mods.buildcraft.IntegrationTable")
 @ModOnly("BuildCraft|Silicon")
 public class IntegrationTable {
-	@ZenMethod
+/*	@ZenMethod
 	public static void addRecipe(String name, IItemStack output, int energy, int craftingTime, IIngredient inputA, IIngredient inputB, @Optional IIntegrationRecipeFunction function) {
 		MineTweakerAPI.apply(new AddRecipeAction(name, output, energy, craftingTime, inputA, inputB, function));
 	}
@@ -139,5 +121,5 @@ public class IntegrationTable {
 		public Collection<Object> getInputs() {
 			return inputs;
 		}
-	}
+	} */
 }

@@ -1,28 +1,30 @@
 package buildcraft.compat.nei;
 
 import java.util.ArrayList;
-import codechicken.nei.PositionedStack;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
-import codechicken.nei.NEIServerUtils;
-import buildcraft.api.facades.IFacadeItem;
-import net.minecraft.item.ItemStack;
-import buildcraft.api.recipes.IFlexibleRecipeViewable;
-import buildcraft.api.recipes.IFlexibleRecipe;
-import buildcraft.api.recipes.BuildcraftRecipeRegistry;
-import codechicken.lib.gui.GuiDraw;
-import net.minecraft.util.StatCollector;
-import codechicken.nei.api.API;
-import buildcraft.silicon.gui.GuiIntegrationTable;
+
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.StatCollector;
+
+import buildcraft.api.recipes.BuildcraftRecipeRegistry;
+import buildcraft.api.recipes.IIntegrationRecipe;
+import buildcraft.silicon.gui.ContainerIntegrationTable;
+import buildcraft.silicon.gui.GuiIntegrationTable;
+import codechicken.lib.gui.GuiDraw;
+import codechicken.nei.PositionedStack;
+import codechicken.nei.api.API;
 
 public class RecipeHandlerIntegrationTable extends RecipeHandlerBase
 {
+    private static final HashMap<IIntegrationRecipe, CachedIntegrationTableRecipe> recipeCache = new HashMap<IIntegrationRecipe, CachedIntegrationTableRecipe>();
     private static Class<? extends GuiContainer> guiClass;
     
     @Override
     public void prepare() {
-        API.setGuiOffset((Class)(RecipeHandlerIntegrationTable.guiClass = (Class<? extends GuiContainer>)GuiIntegrationTable.class), 5, 25);
+        API.setGuiOffset((Class)(RecipeHandlerIntegrationTable.guiClass = (Class<? extends GuiContainer>)GuiIntegrationTable.class), 5, 18);
     }
     
     public String getRecipeName() {
@@ -39,7 +41,7 @@ public class RecipeHandlerIntegrationTable extends RecipeHandlerBase
     }
     
     public void loadTransferRects() {
-        this.addTransferRect(89, 7, 6, 72);
+        //this.addTransferRect(89, 7, 6, 72);
     }
     
     public Class<? extends GuiContainer> getGuiClass() {
@@ -52,126 +54,103 @@ public class RecipeHandlerIntegrationTable extends RecipeHandlerBase
     
     public void drawBackground(final int recipe) {
         this.changeToGuiTexture();
-        GuiDraw.drawTexturedModalRect(0, 5, 5, 25, 166, 43);
+        GuiDraw.drawTexturedModalRect(0, 5, 5, 18, 166, 80);
     }
     
     public void drawExtras(final int recipe) {
-        GuiDraw.drawStringC(((CachedIntegrationTableRecipe) this.arecipes.get(recipe)).energy + " RF", 104, 8, 8421504, false);
+        GuiDraw.drawStringC(((CachedIntegrationTableRecipe) this.arecipes.get(recipe)).energy + " RF", 108, 10, 8421504, false);
     }
     
     @Override
     public void loadAllRecipes() {
-        for (final IFlexibleRecipe<ItemStack> recipe : BuildcraftRecipeRegistry.integrationTable.getRecipes()) {
-            if (recipe instanceof IFlexibleRecipeViewable) {
-                if (!NEIIntegrationBC.isValid((IFlexibleRecipeViewable)recipe)) {
-                    return;
-                }
-                if (!(((IFlexibleRecipeViewable)recipe).getOutput() instanceof ItemStack)) {
-                    continue;
-                }
-                final ItemStack output = (ItemStack)((IFlexibleRecipeViewable)recipe).getOutput();
-                if (output.getItem() instanceof IFacadeItem) {
-                    continue;
-                }
-                this.arecipes.add(new CachedIntegrationTableRecipe((IFlexibleRecipeViewable)recipe, true));
-            }
+        for (final IIntegrationRecipe recipe : BuildcraftRecipeRegistry.integrationTable.getRecipes()) {
+            this.arecipes.add(createRecipe(recipe));
         }
     }
-    
+
+    private CachedIntegrationTableRecipe createRecipe(IIntegrationRecipe recipe) {
+        //if (!recipeCache.containsKey(recipe)) {
+        //    recipeCache.put(recipe, new CachedIntegrationTableRecipe(recipe));
+        //}
+        //CachedIntegrationTableRecipe r = recipeCache.get(recipe);
+        //r.expectedOutput = null;
+        //return r;
+        return new CachedIntegrationTableRecipe(recipe);
+    }
+
     @Override
     public void loadCraftingRecipes(final ItemStack result) {
-        for (final IFlexibleRecipe<ItemStack> recipe : BuildcraftRecipeRegistry.integrationTable.getRecipes()) {
-            if (recipe instanceof IFlexibleRecipeViewable) {
-                if (!NEIIntegrationBC.isValid((IFlexibleRecipeViewable)recipe)) {
-                    return;
-                }
-                final IFlexibleRecipeViewable recipeViewable = (IFlexibleRecipeViewable)recipe;
-                if (recipeViewable.getOutput() instanceof ItemStack) {
-                    final ItemStack output = (ItemStack)recipeViewable.getOutput();
-                    if ((output.stackTagCompound == null || !NEIServerUtils.areStacksSameType(output, result)) && (output.stackTagCompound != null || !NEIServerUtils.areStacksSameTypeCrafting(output, result))) {
-                        continue;
-                    }
-                    this.arecipes.add(new CachedIntegrationTableRecipe((IFlexibleRecipeViewable)recipe, true));
-                }
-                else {
-                    if (!(recipeViewable.getOutput() instanceof List)) {
-                        continue;
-                    }
-                    for (final Object o : (List)recipeViewable.getOutput()) {
-                        final ItemStack output2 = (ItemStack)o;
-                        if ((output2.stackTagCompound != null && NEIServerUtils.areStacksSameType(output2, result)) || (output2.stackTagCompound == null && NEIServerUtils.areStacksSameTypeCrafting(output2, result))) {
-                            this.arecipes.add(new CachedIntegrationTableRecipe((IFlexibleRecipeViewable)recipe, true));
-                            break;
-                        }
-                    }
-                }
+        for (final IIntegrationRecipe recipe : BuildcraftRecipeRegistry.integrationTable.getRecipes()) {
+            final CachedIntegrationTableRecipe crecipe = createRecipe(recipe);
+            if (!crecipe.outputs.contains(result)) {
+                continue;
             }
+            //crecipe.expectedOutput = result;
+            this.arecipes.add(crecipe);
         }
     }
     
     @Override
     public void loadUsageRecipes(final ItemStack ingredient) {
-        for (final IFlexibleRecipe<ItemStack> recipe : BuildcraftRecipeRegistry.integrationTable.getRecipes()) {
-            if (recipe instanceof IFlexibleRecipeViewable) {
-                if (!NEIIntegrationBC.isValid((IFlexibleRecipeViewable)recipe)) {
-                    return;
+        for (final IIntegrationRecipe recipe : BuildcraftRecipeRegistry.integrationTable.getRecipes()) {
+            final CachedIntegrationTableRecipe crecipe = createRecipe(recipe);
+            boolean found = false;
+            for (PositionedStack s : crecipe.inputs) {
+                if (s.contains(ingredient)) {
+                    found = true;
+                    break;
                 }
-                final CachedIntegrationTableRecipe crecipe = new CachedIntegrationTableRecipe((IFlexibleRecipeViewable) recipe);
-                if (!crecipe.contains((Collection)crecipe.inputs, ingredient)) {
-                    continue;
-                }
-                crecipe.generatePermutations();
-                crecipe.setIngredientPermutation((Collection)crecipe.inputs, ingredient);
-                this.arecipes.add(crecipe);
             }
+            if (!found) {
+                continue;
+            }
+            crecipe.setIngredientPermutation((Collection)crecipe.inputs, ingredient);
+            this.arecipes.add(crecipe);
         }
     }
     
-    public class CachedIntegrationTableRecipe extends CachedBaseRecipe
-    {
-        public List<PositionedStack> inputs;
-        public PositionedStack output;
-        public int energy;
-        
-        public CachedIntegrationTableRecipe(IFlexibleRecipeViewable recipe, boolean generatePermutations) {
-            this.inputs = new ArrayList<PositionedStack>();
-            if (recipe.getInputs() instanceof List) {
-                this.setIngredients((List<Object>)recipe.getInputs());
-            }
-            if (recipe.getOutput() != null) {
-                this.output = new PositionedStack(recipe.getOutput(), 138, 24);
-            }
+    public class CachedIntegrationTableRecipe extends CachedBaseRecipe {
+        public final List<PositionedStack> inputs;
+        public final PositionedStack outputs;
+        public final int energy;
+        public final IIntegrationRecipe recipe;
+
+        public CachedIntegrationTableRecipe(IIntegrationRecipe recipe) {
+            this.recipe = recipe;
             this.energy = recipe.getEnergyCost();
-            if (generatePermutations) {
-                this.generatePermutations();
+            this.inputs = new ArrayList<PositionedStack>(9);
+            this.inputs.add(new PositionedStack(recipe.getExampleInput(), ContainerIntegrationTable.SLOT_X[0] - 5, ContainerIntegrationTable.SLOT_Y[0] - 13, true));
+            int iMax = recipe.getMaximumExpansionCount();
+            if (iMax <= 0) {
+                iMax = 1;
             }
+            List<List<ItemStack>> expansionExamples = recipe.getExampleExpansions();
+
+            for (int i = 0; i < iMax; i++) {
+                List<ItemStack> exp = expansionExamples.get(i % expansionExamples.size());
+                //List<ItemStack> target = new ArrayList<ItemStack>();
+                //target.add(new ItemStack(Blocks.air));
+                //target.addAll(exp);
+                this.inputs.add(new PositionedStack(exp,
+                        ContainerIntegrationTable.SLOT_X[i + 1] - 5, ContainerIntegrationTable.SLOT_Y[i + 1] - 13, true));
+            }
+
+            this.outputs = new PositionedStack(recipe.getExampleOutput(), 138 - 5, 49 - 13, true);
         }
 
-        public CachedIntegrationTableRecipe(IFlexibleRecipeViewable recipe) {
-            this(recipe, false);
-        }
-        
-        public void setIngredients(final List<Object> inputs) {
-            int i = 0;
-            for (final Object o : inputs) {
-                this.inputs.add(new PositionedStack(o, 12 + i * 36, 8, false));
-                ++i;
-            }
-        }
-        
-        public List<PositionedStack> getIngredients() {
-            return (List<PositionedStack>)this.getCycledIngredients(RecipeHandlerIntegrationTable.this.cycleticks / 20, (List)this.inputs);
-        }
-        
+        @Override
         public PositionedStack getResult() {
-            return this.output;
-        }
-        
-        public void generatePermutations() {
-            for (final PositionedStack p : this.inputs) {
-                p.generatePermutations();
+            List<PositionedStack> ingr = this.getCycledIngredients(cycleticks / 20, (List)this.inputs);
+            ItemStack input = ingr.get(0).item;
+            List<ItemStack> exps = new ArrayList<ItemStack>();
+            for (int i = 1; i < ingr.size(); i++) {
+                exps.add(ingr.get(i).item);
             }
-            this.output.generatePermutations();
+            return new PositionedStack(recipe.craft(input, exps, true), 138 - 5, 49 - 13, true);
+        }
+
+        public List<PositionedStack> getIngredients() {
+            return (List<PositionedStack>)this.getCycledIngredients(cycleticks / 20, (List)this.inputs);
         }
     }
 }

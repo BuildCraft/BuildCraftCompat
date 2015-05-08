@@ -10,7 +10,7 @@ public class MineTweakerInit {
 	public static void init() {
 		MineTweakerAPI.registerClass(AssemblyTable.class);
 		MineTweakerAPI.registerClass(Fuels.class);
-		MineTweakerAPI.registerClass(IntegrationTable.class);
+		// MineTweakerAPI.registerClass(IntegrationTable.class);
 		MineTweakerAPI.registerClass(Refinery.class);
 	}
 }
