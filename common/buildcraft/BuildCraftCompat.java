@@ -28,7 +28,7 @@ import buildcraft.compat.CompatModuleWAILA;
 import buildcraft.compat.properties.WorldPropertyIsHarvestableCompat;
 import buildcraft.compat.robots.BoardRobotHarvesterCompat;
 
-@Mod(name = "BuildCraft Compat", version = "7.0.1", useMetadata = false, modid = "BuildCraft|Compat", acceptedMinecraftVersions = "[1.7.10,1.8)", dependencies = "required-after:Forge@[10.13.0.1179,);required-after:BuildCraft|Core")
+@Mod(name = "BuildCraft Compat", version = "7.0.2", useMetadata = false, modid = "BuildCraft|Compat", acceptedMinecraftVersions = "[1.7.10,1.8)", dependencies = "required-after:Forge@[10.13.0.1179,);required-after:BuildCraft|Core")
 public class BuildCraftCompat extends BuildCraftMod {
     private static Configuration config;
     private static final HashSet<CompatModuleBase> modules;

@@ -1,4 +1,4 @@
-package buildcraft.compat.bundledredstone;
+package buildcraft.compat.bluepower;
 
 import java.util.Collection;
 import java.util.HashSet;

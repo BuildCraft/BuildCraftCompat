@@ -9,7 +9,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import cofh.api.inventory.IInventoryConnection;
 import cofh.api.transport.IItemDuct;
 import buildcraft.BuildCraftCompat;
-import buildcraft.compat.bundledredstone.BRProviderBluePower;
+import buildcraft.compat.bluepower.BRProviderBluePower;
 import buildcraft.core.lib.utils.MathUtils;
 import mods.immibis.redlogic.api.wiring.IBareRedstoneWire;
 import mods.immibis.redlogic.api.wiring.IBundledEmitter;

@@ -1,4 +1,4 @@
-package buildcraft.compat.bundledredstone;
+package buildcraft.compat.bluepower;
 
 import com.bluepowermod.api.BPApi;
 import com.bluepowermod.api.connect.ConnectionType;

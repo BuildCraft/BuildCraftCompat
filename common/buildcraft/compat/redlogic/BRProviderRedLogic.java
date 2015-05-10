@@ -1,4 +1,4 @@
-package buildcraft.compat.bundledredstone;
+package buildcraft.compat.redlogic;
 
 import java.util.Collection;
 import java.util.HashSet;

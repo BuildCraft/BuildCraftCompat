@@ -8,10 +8,8 @@ import cpw.mods.fml.common.Optional;
 import buildcraft.api.statements.IActionExternal;
 import buildcraft.api.statements.ITriggerExternal;
 import buildcraft.api.statements.StatementManager;
-import buildcraft.compat.bundledredstone.ActionBundledOutput;
-import buildcraft.compat.bundledredstone.BRProviderBluePower;
-import buildcraft.compat.bundledredstone.BRProviderRedLogic;
-import buildcraft.compat.bundledredstone.TriggerBundledInput;
+import buildcraft.compat.bluepower.BRProviderBluePower;
+import buildcraft.compat.redlogic.BRProviderRedLogic;
 
 public class CompatModuleBundledRedstone extends CompatModuleBase {
 	public static ITriggerExternal triggerBundledInputOff;
