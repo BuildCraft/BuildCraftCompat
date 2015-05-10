@@ -32,6 +32,10 @@ repositories {
     maven {
         url = "http://mobiusstrip.eu/maven"
     }
+    maven {
+        name = "Qmunity"
+        url = "http://maven.bluepowermod.com/"
+    }
 }
 
 apply plugin: 'forge' // adds the forge dependency
@@ -50,10 +54,10 @@ dependencies {
     compile("net.sengir.forestry:forestry_1.7.10:3.4.0.7:dev") {
        exclude module: "buildcraft"
     }
+    compile "qmunity:QmunityLib:0.1.109:deobf"
     compile("com.enderio:EnderIO:1.7.10-2.2.6.324:dev"){
        exclude module: "buildcraft"
     }
-//    runtime "appeng:appliedenergistics2:rv2-beta-8:dev"
 }
 
 minecraft {

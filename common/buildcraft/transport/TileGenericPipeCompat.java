@@ -1,8 +1,16 @@
 package buildcraft.transport;
 
-import buildcraft.BuildCraftCompat;
-import buildcraft.core.lib.utils.MathUtils;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.Optional;
+import net.minecraftforge.common.util.ForgeDirection;
+
+import cofh.api.inventory.IInventoryConnection;
+import cofh.api.transport.IItemDuct;
+import buildcraft.BuildCraftCompat;
+import buildcraft.compat.bundledredstone.BRProviderBluePower;
+import buildcraft.core.lib.utils.MathUtils;
 import mods.immibis.redlogic.api.wiring.IBareRedstoneWire;
 import mods.immibis.redlogic.api.wiring.IBundledEmitter;
 import mods.immibis.redlogic.api.wiring.IBundledUpdatable;
@@ -12,13 +20,6 @@ import mods.immibis.redlogic.api.wiring.IRedstoneEmitter;
 import mods.immibis.redlogic.api.wiring.IWire;
 import mrtjp.projectred.api.IBundledTile;
 import mrtjp.projectred.api.ProjectRedAPI;
-
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.ForgeDirection;
-import cpw.mods.fml.common.Optional;
-import cofh.api.inventory.IInventoryConnection;
-import cofh.api.transport.IItemDuct;
 
 @Optional.InterfaceList({
 	@Optional.Interface(iface = "mods.immibis.redlogic.api.wiring.IBundledEmitter", modid = "RedLogic"),
@@ -33,12 +34,15 @@ public class TileGenericPipeCompat extends TileGenericPipe
 		IBundledTile {
 	
 	/* BUNDLED CABLE API */
-	private byte[][] bundledCableReceived = new byte[6][16];
-	private byte[][] bundledCableSent = new byte[6][16];
+	public byte[][] bundledCableReceived = new byte[6][16];
+	public byte[][] bundledCableSent = new byte[6][16];
+	public byte[][] bundledCableSentLast = new byte[6][16];
+	public Object bluepowerWrapper;
 	
 	public void clearBundledCables() {
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 16; j++) {
+				bundledCableSentLast[i][j] = bundledCableSent[i][j];
 				bundledCableSent[i][j] = 0;
 			}
 		}
@@ -50,14 +54,10 @@ public class TileGenericPipeCompat extends TileGenericPipe
 				setBundledCable(i, position, value);
 			}
 		} else {
-			byte ov = bundledCableSent[side][position & 15];
 			bundledCableSent[side][position & 15] = (byte) (value ? -1 : 0);
-			if (bundledCableSent[side][position & 15] != ov) {
-				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-			}
 		}
 	}
-	
+
 	public boolean getBundledCable(int side, int position) {
 		if (side == -1) {
 			for (int i = 0; i < 6; i++) {
@@ -74,7 +74,7 @@ public class TileGenericPipeCompat extends TileGenericPipe
 	/* OVERRIDES */
 	@Override
 	public void updateEntity() {
-		if (!worldObj.isRemote && BuildCraftCompat.enableBundledRedstone) {
+		if (!worldObj.isRemote && BuildCraftCompat.isLoaded("BundledRedstone")) {
 			clearBundledCables();
 
 			if (blockNeighborChange && Loader.isModLoaded("ProjRed|Core")) {
@@ -83,6 +83,19 @@ public class TileGenericPipeCompat extends TileGenericPipe
 		}
 		
 		super.updateEntity();
+
+		if (!worldObj.isRemote && BuildCraftCompat.isLoaded("BundledRedstone")) {
+			for (int side = 0; side < 6; side++) {
+				for (int position = 0; position < 16; position++) {
+					if (bundledCableSent[side][position] != bundledCableSentLast[side][position]) {
+						worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+						ForgeDirection orientation = ForgeDirection.getOrientation(side);
+						worldObj.notifyBlockOfNeighborChange(xCoord + orientation.offsetX, yCoord + orientation.offsetY, zCoord + orientation.offsetZ, this.blockType);
+						break;
+					}
+				}
+			}
+		}
 	}
 	
 	@Override
@@ -105,9 +118,14 @@ public class TileGenericPipeCompat extends TileGenericPipe
 			}
 		}
 
-		if (BuildCraftCompat.enableBundledRedstone) {
+		if (BuildCraftCompat.isLoaded("BundledRedstone")) {
 			if (Loader.isModLoaded("RedLogic")) {
 				if (canPipeConnect_RedLogic(with, side)) {
+					return true;
+				}
+			}
+			if (Loader.isModLoaded("bluepower")) {
+				if (canPipeConnect_BluePower(with, side)) {
 					return true;
 				}
 			}
@@ -153,7 +171,7 @@ public class TileGenericPipeCompat extends TileGenericPipe
 			return false;
 		}
 		
-		if (BuildCraftCompat.enableBundledRedstone && wire instanceof IBundledWire) {
+		if (BuildCraftCompat.isLoaded("BundledRedstone") && wire instanceof IBundledWire) {
 			return (blockFace == -1);
 		} else if (wire instanceof IBareRedstoneWire) {
 			return true;
@@ -233,8 +251,13 @@ public class TileGenericPipeCompat extends TileGenericPipe
 
 	@Override
 	@Optional.Method(modid = "ProjRed|Core")
-	public boolean canConnectBundled(int side) {
-		return BuildCraftCompat.enableBundledRedstone;
+	public boolean canConnectBundled(int fromDirection) {
+		ForgeDirection side = ForgeDirection.getOrientation(fromDirection);
+		if (hasBlockingPluggable(side)) {
+			return false;
+		}
+
+		return BuildCraftCompat.isLoaded("BundledRedstone");
 	}
 
 	@Override
@@ -248,8 +271,14 @@ public class TileGenericPipeCompat extends TileGenericPipe
 		for (int i = 0; i < 6; i++) {
 			byte[] data = ProjectRedAPI.transmissionAPI.getBundledInput(worldObj, xCoord, yCoord, zCoord, i);
 			if (data != null && data.length == 16) {
-				bundledCableSent[i] = data;
+				bundledCableReceived[i] = data;
 			}
 		}
+	}
+
+	/* BLUEPOWER */
+	@Optional.Method(modid = "bluepower")
+	protected boolean canPipeConnect_BluePower(TileEntity with, ForgeDirection side) {
+		return BRProviderBluePower.hasFreestandingBundledWire(with);
 	}
 }
