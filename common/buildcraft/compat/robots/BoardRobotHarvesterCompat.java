@@ -31,7 +31,7 @@ public class BoardRobotHarvesterCompat extends BoardRobotHarvester
             }
             System.out.println(" NOT AMT BLOCK ");
         }
-        return (AIRobot)new AIRobotBreak(this.robot, this.blockFound);
+        return new AIRobotBreak(this.robot, this.blockFound);
     }
     
     @Optional.Method(modid = "DCsAppleMilk")

@@ -73,7 +73,7 @@ public class BuildCraftCompat extends BuildCraftMod {
         for (final CompatModuleBase m : BuildCraftCompat.modules) {
             m.postInit();
         }
-        BuildCraftAPI.registerWorldProperty("harvestable", (IWorldProperty) new WorldPropertyIsHarvestableCompat());
+        BuildCraftAPI.registerWorldProperty("harvestable", new WorldPropertyIsHarvestableCompat());
         if (Loader.isModLoaded("BuildCraft|Robotics")) {
             this.postInitRobotics();
         }
