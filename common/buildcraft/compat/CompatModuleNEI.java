@@ -1,12 +1,17 @@
 package buildcraft.compat;
 
-import cpw.mods.fml.relauncher.*;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.Optional;
+import cpw.mods.fml.relauncher.Side;
 
+import buildcraft.compat.nei.NEIGuiHandlerBC;
+import buildcraft.compat.nei.RecipeHandlerAssemblyTable;
+import buildcraft.compat.nei.RecipeHandlerBase;
+import buildcraft.compat.nei.RecipeHandlerIntegrationTable;
+import buildcraft.compat.nei.RecipeHandlerRefinery;
 import codechicken.nei.api.API;
-import codechicken.nei.recipe.*;
-import cpw.mods.fml.common.*;
-import buildcraft.compat.nei.*;
-import codechicken.nei.api.*;
+import codechicken.nei.api.INEIGuiHandler;
 
 public class CompatModuleNEI extends CompatModuleBase
 {
@@ -19,7 +24,8 @@ public class CompatModuleNEI extends CompatModuleBase
     public boolean canLoad() {
         return super.canLoad() && FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT;
     }
-    
+
+    @Optional.Method(modid = "NotEnoughItems")
     private void registerHandler(final RecipeHandlerBase handler) {
         handler.prepare();
         API.registerRecipeHandler(handler);
@@ -27,6 +33,7 @@ public class CompatModuleNEI extends CompatModuleBase
     }
     
     @Override
+    @Optional.Method(modid = "NotEnoughItems")
     public void init() {
         if (Loader.isModLoaded("BuildCraft|Factory")) {
             this.registerHandler(new RecipeHandlerRefinery());
