@@ -19,10 +19,10 @@ buildscript {
 }
 
 repositories {
-	maven {
-		name = "chickenbones"
-		url = "http://chickenbones.net/maven/"
-	}
+    maven {
+        name = "chickenbones"
+        url = "http://chickenbones.net/maven/"
+    }
     maven {
         url = "http://maven.tterrag.com"
     }
@@ -36,6 +36,14 @@ repositories {
         name = "Qmunity"
         url = "http://maven.bluepowermod.com/"
     }
+    ivy {
+        name "MineTweaker3"
+        artifactPattern "http://minetweaker3.powerofbytes.com/download/[module]-[classifier]-[revision].[ext]"
+    }
+    ivy {
+        name "BuildCraft"
+        artifactPattern "http://www.mod-buildcraft.com/releases/BuildCraft/[revision]/[module]-[revision]-[classifier].[ext]"
+    }
 }
 
 apply plugin: 'forge' // adds the forge dependency
@@ -43,7 +51,7 @@ apply plugin: 'maven' // for uploading to a maven repo
 // apply plugin: 'checkstyle'
 
 version = "7.0.1"
-group= "com.mod-buildcraft-compat"
+group = "com.mod-buildcraft-compat"
 archivesBaseName = "buildcraft-compat" // the name that all artifacts will use as a base. artifacts names follow this pattern: [baseName]-[appendix]-[version]-[classifier].[extension]
 
 dependencies {
@@ -52,12 +60,17 @@ dependencies {
     compile "codechicken:NotEnoughItems:1.7.10-1.0.4.106:dev"
     compile "codechicken:ForgeMultipart:1.7.10-1.1.1.320:dev"
     compile("net.sengir.forestry:forestry_1.7.10:3.4.0.7:dev") {
-       exclude module: "buildcraft"
+        exclude module: "buildcraft"
     }
     compile "qmunity:QmunityLib:0.1.109:deobf"
-    compile("com.enderio:EnderIO:1.7.10-2.2.6.324:dev"){
-       exclude module: "buildcraft"
+    compile("com.enderio:EnderIO:1.7.10-2.2.6.324:dev") {
+        exclude module: "buildcraft"
     }
+    compile name: "MineTweaker3", version: "1.7.10-3.0.9C", classifier: "Dev"
+    compile ("appeng:appliedenergistics2:rv2-beta-8:dev") {
+        transitive = false
+    }
+    compile name: "buildcraft", version: "7.0.4", classifier: "dev"
 }
 
 minecraft {
@@ -81,48 +94,27 @@ sourceSets {
         }
     }
     api {
-		java {
-			srcDir 'api'
-		}
+        java {
+            srcDir 'api'
+        }
     }
 }
 
-processResources
-{
+processResources {
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-                
+
         // replace version and mcversion
         // ${version}   and    ${mcversion}    are the exact strings being replaced
-        expand 'version':project.version, 'mcversion':project.minecraft.version
+        expand 'version': project.version, 'mcversion': project.minecraft.version
     }
-        
+
     // copy everything else, that's not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
 }
-
-project.ext.addDownloadDependency = { String name, String url ->
-    def destFile = new File('libs/' + new File(new URL(url).getFile()).getName())
-
-    def downloadTask = task('download' + name, type:Task) {
-        outputs.file destFile
-        inputs.property 'url', url
-        doFirst {
-            new URL(url).withInputStream{ i -> destFile.withOutputStream{ it << i }}
-        }
-    }
-
-    setupDecompWorkspace.dependsOn(downloadTask)
-    eclipseClasspath.dependsOn(downloadTask)
-}
-
-addDownloadDependency("MineTweaker3", "http://minetweaker3.powerofbytes.com/download/MineTweaker3-Dev-1.7.10-3.0.9C.jar")
-addDownloadDependency("AppliedEnergistics2", "http://ae-mod.info/builds/appliedenergistics2-rv2-beta-8-dev.jar")
-//addDownloadDependency("MineFactoryReloaded", "http://addons.cursecdn.com/files/2221/833/MineFactoryReloaded-[1.7.10]2.8.0RC6-5-dev.jar")
-//addDownloadDependency("CoFHCore", "http://addons.cursecdn.com/files/2226/436/CoFHCore-[1.7.10]3.0.0B9-129-dev.jar")
 
 // --------------------
 // extra jar section
@@ -145,5 +137,8 @@ task deobfJar(type: Jar) {
 //     configFile = file('guidelines/buildcraft.checkstyle')
 // }
 
-// make sure all of these happen when we run build
-build.dependsOn sourceJar, deobfJar
+
+artifacts {
+    archives sourceJar
+    archives deobfJar
+}
