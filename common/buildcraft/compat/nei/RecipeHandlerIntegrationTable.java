@@ -116,15 +116,26 @@ public class RecipeHandlerIntegrationTable extends RecipeHandlerBase
         public final IIntegrationRecipe recipe;
 
         public CachedIntegrationTableRecipe(IIntegrationRecipe recipe) {
+            List<ItemStack> exampleInputs = recipe.getExampleInput();
+            List<List<ItemStack>> expansionExamples = recipe.getExampleExpansions();
+
             this.recipe = recipe;
             this.energy = recipe.getEnergyCost();
             this.inputs = new ArrayList<PositionedStack>(9);
-            this.inputs.add(new PositionedStack(recipe.getExampleInput(), ContainerIntegrationTable.SLOT_X[0] - 5, ContainerIntegrationTable.SLOT_Y[0] - 13, true));
-            int iMax = recipe.getMaximumExpansionCount();
+            this.inputs.add(new PositionedStack(exampleInputs, ContainerIntegrationTable.SLOT_X[0] - 5, ContainerIntegrationTable.SLOT_Y[0] - 13, true));
+            int iMax = 0;
+            for (ItemStack input : exampleInputs) {
+                int v = recipe.getMaximumExpansionCount(input);
+                if (v > iMax) {
+                    iMax = v;
+                }
+                if (iMax == 8) {
+                    break;
+                }
+            }
             if (iMax <= 0) {
                 iMax = 1;
             }
-            List<List<ItemStack>> expansionExamples = recipe.getExampleExpansions();
 
             for (int i = 0; i < iMax; i++) {
                 List<ItemStack> exp = expansionExamples.get(i % expansionExamples.size());

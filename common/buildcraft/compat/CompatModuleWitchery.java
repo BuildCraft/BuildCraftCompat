@@ -3,22 +3,22 @@ package buildcraft.compat;
 import cpw.mods.fml.common.Loader;
 
 import buildcraft.api.crops.CropManager;
-import buildcraft.compat.amt.CropHandlerAMT;
+import buildcraft.compat.witchery.CropHandlerWitchery;
 
-public class CompatModuleAMT extends CompatModuleBase
+public class CompatModuleWitchery extends CompatModuleBase
 {
     @Override
     public String name() {
-        return "AppleMilkTea2";
+        return "Witchery";
     }
     
     @Override
     public boolean canLoad() {
-        return Loader.isModLoaded("DCsAppleMilk");
+        return Loader.isModLoaded("witchery");
     }
     
     @Override
     public void init() {
-        CropManager.registerHandler(new CropHandlerAMT());
+        CropManager.registerHandler(new CropHandlerWitchery());
     }
 }
