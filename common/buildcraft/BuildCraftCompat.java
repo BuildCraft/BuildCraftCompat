@@ -7,10 +7,12 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+
 import net.minecraftforge.common.config.Configuration;
 
 import buildcraft.api.core.BCLog;
 import buildcraft.compat.CompatModuleAMT;
+import buildcraft.compat.CompatModuleAgriCraft;
 import buildcraft.compat.CompatModuleBase;
 import buildcraft.compat.CompatModuleBundledRedstone;
 import buildcraft.compat.CompatModuleCarpentersBlocks;
@@ -52,6 +54,7 @@ public class BuildCraftCompat extends BuildCraftMod {
         this.offerModule(new CompatModuleIronChest());
         this.offerModule(new CompatModuleWAILA());
         this.offerModule(new CompatModuleBundledRedstone());
+        this.offerModule(new CompatModuleAgriCraft());
         BuildCraftCompat.config.save();
     }
     
