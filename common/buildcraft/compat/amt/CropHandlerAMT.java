@@ -2,7 +2,10 @@ package buildcraft.compat.amt;
 
 import java.util.List;
 
+import mods.defeatedcrow.api.plants.IRightClickHarvestable;
+
 import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.IBlockAccess;
@@ -10,7 +13,6 @@ import net.minecraft.world.World;
 
 import buildcraft.api.crops.ICropHandler;
 import buildcraft.core.lib.inventory.SimpleInventory;
-import mods.defeatedcrow.api.plants.IRightClickHarvestable;
 
 public class CropHandlerAMT implements ICropHandler {
 	private static final IInventory fakeInventory = new SimpleInventory(9, "RightClickCapture", 64);
@@ -26,11 +28,17 @@ public class CropHandlerAMT implements ICropHandler {
 	}
 
 	@Override
+	public boolean plantCrop(World world, EntityPlayer player, ItemStack seed, int x, int y, int z) {
+		return false;
+	}
+
+	@Override
 	public boolean isMature(IBlockAccess blockAccess, Block block, int meta, int x, int y, int z) {
 		if (!(blockAccess instanceof World)) {
 			return false;
 		}
-		return block instanceof IRightClickHarvestable && ((IRightClickHarvestable) block).isHarvestable((World) blockAccess, x, y, z);
+		return block instanceof IRightClickHarvestable
+				&& ((IRightClickHarvestable) block).isHarvestable((World) blockAccess, x, y, z);
 	}
 
 	@Override
