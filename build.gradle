@@ -59,7 +59,7 @@ dependencies {
     compile "codechicken:CodeChickenCore:1.7.10-1.0.6.43:dev"
     compile "codechicken:NotEnoughItems:1.7.10-1.0.4.106:dev"
     compile "codechicken:ForgeMultipart:1.7.10-1.1.1.320:dev"
-    compile("net.sengir.forestry:forestry_1.7.10:3.4.0.7:dev") {
+    compile("net.sengir.forestry:forestry_1.7.10:3.6.0.576-unstable:api") {
         exclude module: "buildcraft"
     }
     compile "qmunity:QmunityLib:0.1.109:deobf"
