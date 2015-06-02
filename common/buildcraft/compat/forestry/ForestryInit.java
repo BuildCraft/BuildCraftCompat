@@ -2,16 +2,16 @@ package buildcraft.compat.forestry;
 
 import forestry.api.storage.BackpackManager;
 import forestry.api.storage.EnumBackpackType;
-import forestry.storage.BackpackDefinition;
+import forestry.api.storage.IBackpackDefinition;
 
 /**
  * Created by asie on 2/22/15.
  */
 public class ForestryInit {
-	private static BackpackDefinition backpackPlumber;
-	private static BackpackDefinition backpackArchitect;
-	private static BackpackDefinition backpackPipeEngineer;
-	private static BackpackDefinition backpackRobotEngineer;
+	private static IBackpackDefinition backpackPlumber;
+	private static IBackpackDefinition backpackArchitect;
+	private static IBackpackDefinition backpackPipeEngineer;
+	private static IBackpackDefinition backpackRobotEngineer;
 
 	private ForestryInit() {
 
