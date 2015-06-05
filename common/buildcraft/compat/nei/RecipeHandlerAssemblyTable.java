@@ -119,7 +119,7 @@ public class RecipeHandlerAssemblyTable extends RecipeHandlerBase {
     
     @Override
     public void drawExtras(int recipe) {
-        this.drawProgressBar(90, 7, 176, 17, 4, 71, 100, 3);
+        this.drawProgressBar(81, 7, 176, 17, 4, 71, 100, 3);
         GuiDraw.drawStringC(((CachedAssemblyTableRecipe) this.arecipes.get(recipe)).energy + " RF", 93, 84, 0x808080, false);
     }
     
