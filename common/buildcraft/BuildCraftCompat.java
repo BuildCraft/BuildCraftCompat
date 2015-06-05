@@ -29,6 +29,7 @@ import buildcraft.compat.CompatModuleIronChest;
 import buildcraft.compat.CompatModuleMFR;
 import buildcraft.compat.CompatModuleMineTweaker3;
 import buildcraft.compat.CompatModuleNEI;
+import buildcraft.compat.CompatModuleRailcraft;
 import buildcraft.compat.CompatModuleWAILA;
 import buildcraft.compat.CompatModuleWitchery;
 import buildcraft.compat.forestry.pipes.network.PacketGenomeFilterChange;
@@ -69,6 +70,7 @@ public class BuildCraftCompat extends BuildCraftMod {
         this.offerModule(new CompatModuleAMT());
         this.offerModule(new CompatModuleFMP());
         this.offerModule(new CompatModuleForestry());
+        this.offerModule(new CompatModuleRailcraft());
         this.offerModule(new CompatModuleMFR());
         this.offerModule(new CompatModuleMineTweaker3());
         this.offerModule(new CompatModuleNEI());
