@@ -24,6 +24,7 @@ public class SchematicRLWire extends SchematicTile {
 
 	@Override
 	public void rotateLeft(IBuilderContext context) {
+		super.rotateLeft(context);
 		if (tileNBT != null) {
 			tileNBT.setByte("mask", (byte) rotateMask(tileNBT.getByte("mask")));
 			if (tileNBT.hasKey("jcmc")) {
