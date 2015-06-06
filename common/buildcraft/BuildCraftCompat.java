@@ -3,10 +3,6 @@ package buildcraft;
 import java.io.File;
 import java.util.HashSet;
 
-import net.minecraftforge.client.event.TextureStitchEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.config.Configuration;
-
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLMissingMappingsEvent;
@@ -16,6 +12,9 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.Configuration;
 
 import buildcraft.api.core.BCLog;
 import buildcraft.compat.CompatModuleAMT;
@@ -30,6 +29,7 @@ import buildcraft.compat.CompatModuleMFR;
 import buildcraft.compat.CompatModuleMineTweaker3;
 import buildcraft.compat.CompatModuleNEI;
 import buildcraft.compat.CompatModuleRailcraft;
+import buildcraft.compat.CompatModuleRedLogic;
 import buildcraft.compat.CompatModuleWAILA;
 import buildcraft.compat.CompatModuleWitchery;
 import buildcraft.compat.forestry.pipes.network.PacketGenomeFilterChange;
@@ -71,6 +71,7 @@ public class BuildCraftCompat extends BuildCraftMod {
         this.offerModule(new CompatModuleFMP());
         this.offerModule(new CompatModuleForestry());
         this.offerModule(new CompatModuleRailcraft());
+        this.offerModule(new CompatModuleRedLogic());
         this.offerModule(new CompatModuleMFR());
         this.offerModule(new CompatModuleMineTweaker3());
         this.offerModule(new CompatModuleNEI());

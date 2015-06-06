@@ -23,6 +23,14 @@ public class SchematicRCTrack extends SchematicTile {
 	}
 
 	@Override
+	public void initializeFromObjectAt(IBuilderContext context, int x, int y, int z) {
+		super.initializeFromObjectAt(context, x, y, z);
+		if (tileNBT != null && tileNBT.hasKey("powered")) {
+			tileNBT.removeTag("powered");
+		}
+	}
+
+	@Override
 	public void placeInWorld(IBuilderContext context, int x, int y, int z, LinkedList<ItemStack> stacks) {
 		context.world().setBlock(x, y, z, this.block, 0, 3);
 

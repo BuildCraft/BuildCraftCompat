@@ -6,6 +6,7 @@ import cpw.mods.fml.common.Optional;
 import buildcraft.compat.lib.SchematicTileDrops;
 import buildcraft.compat.lib.SchematicTileStairs;
 import buildcraft.compat.railcraft.SchematicRCDetector;
+import buildcraft.compat.railcraft.SchematicRCEngine;
 import buildcraft.compat.railcraft.SchematicRCTrack;
 import buildcraft.core.builders.schematics.SchematicRotateMeta;
 
@@ -35,5 +36,6 @@ public class CompatModuleRailcraft extends CompatModuleBase
         CompatUtils.registerSchematic("Railcraft:track.elevator", SchematicRotateMeta.class, new int[]{2, 5, 3, 4}, true);
         CompatUtils.registerSchematic("Railcraft:track", SchematicRCTrack.class);
         CompatUtils.registerSchematic("Railcraft:detector", SchematicRCDetector.class);
+        CompatUtils.registerSchematic("Railcraft:machine.beta", 7, 9, SchematicRCEngine.class);
     }
 }
