@@ -18,7 +18,6 @@ import buildcraft.compat.forestry.schematics.SchematicTileStairsForestry;
 import buildcraft.core.BCCreativeTab;
 import buildcraft.transport.BlockGenericPipe;
 import buildcraft.transport.TransportProxyClient;
-import forestry.api.core.ForestryAPI;
 
 public class CompatModuleForestry extends CompatModuleBase
 {
@@ -37,14 +36,15 @@ public class CompatModuleForestry extends CompatModuleBase
 
     @Override
     public void init() {
-        if (ForestryAPI.enabledPlugins.contains("APICULTURE")) {
+        ItemStack propolis = GameRegistry.findItemStack(name(), "propolis", 1);
+
+        if (propolis != null && propolis.getItem() != null) {
             pipeItemsPropolis = BlockGenericPipe.registerPipe(PipeItemsPropolis.class, BCCreativeTab.get("pipes"));
 
             if (FMLCommonHandler.instance().getSide().isClient()) {
                 MinecraftForgeClient.registerItemRenderer(CompatModuleForestry.pipeItemsPropolis, TransportProxyClient.pipeItemRenderer);
             }
 
-            ItemStack propolis = GameRegistry.findItemStack(name(), "propolis", 1);
             GameRegistry.addRecipe(new ItemStack(pipeItemsPropolis), "#X#", '#', propolis, 'X', BuildCraftTransport.pipeItemsDiamond);
         }
 
