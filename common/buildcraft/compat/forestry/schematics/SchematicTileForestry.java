@@ -16,8 +16,16 @@ public class SchematicTileForestry extends SchematicTile {
 		}
 	}
 
+	public boolean keepInventory() {
+		return false;
+	}
+
 	@Override
 	public void storeRequirements(IBuilderContext context, int x, int y, int z) {
+		if (keepInventory()) {
+			super.storeRequirements(context, x, y, z);
+			return;
+		}
 		storedRequirements = new ItemStack[1];
 		storedRequirements[0] = new ItemStack(this.block, 1, this.meta);
 	}

@@ -9,7 +9,12 @@ public class SchematicForestryWorktable extends SchematicTileForestry {
 	}
 
 	@Override
+	public boolean keepInventory() {
+		return true;
+	}
+
+	@Override
 	public void processNBT(NBTTagCompound tileNBT, NBTTagCompound target) {
-		tileNBT.removeTag("Items");
+
 	}
 }
