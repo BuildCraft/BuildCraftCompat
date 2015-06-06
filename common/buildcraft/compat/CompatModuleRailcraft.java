@@ -8,7 +8,7 @@ import buildcraft.compat.lib.SchematicTileStairs;
 import buildcraft.compat.railcraft.SchematicRCDetector;
 import buildcraft.compat.railcraft.SchematicRCEngine;
 import buildcraft.compat.railcraft.SchematicRCTrack;
-import buildcraft.core.builders.schematics.SchematicRotateMeta;
+import buildcraft.compat.railcraft.SchematicRCTrackElevator;
 
 public class CompatModuleRailcraft extends CompatModuleBase
 {
@@ -33,7 +33,7 @@ public class CompatModuleRailcraft extends CompatModuleBase
     private void initBuilders() {
         CompatUtils.registerSchematic("Railcraft:slab", SchematicTileDrops.class);
         CompatUtils.registerSchematic("Railcraft:stair", SchematicTileStairs.class);
-        CompatUtils.registerSchematic("Railcraft:track.elevator", SchematicRotateMeta.class, new int[]{2, 5, 3, 4}, true);
+        CompatUtils.registerSchematic("Railcraft:track.elevator", SchematicRCTrackElevator.class);
         CompatUtils.registerSchematic("Railcraft:track", SchematicRCTrack.class);
         CompatUtils.registerSchematic("Railcraft:detector", SchematicRCDetector.class);
         CompatUtils.registerSchematic("Railcraft:machine.beta", 7, 9, SchematicRCEngine.class);

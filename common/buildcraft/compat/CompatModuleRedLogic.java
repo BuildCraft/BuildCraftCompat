@@ -4,6 +4,7 @@ import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
 
 import buildcraft.compat.redlogic.SchematicRLGate;
+import buildcraft.compat.redlogic.SchematicRLWire;
 
 public class CompatModuleRedLogic extends CompatModuleBase
 {
@@ -26,6 +27,7 @@ public class CompatModuleRedLogic extends CompatModuleBase
 
     @Optional.Method(modid = "BuildCraft|Builders")
     private void initBuilders() {
+        CompatUtils.registerSchematic("RedLogic:redlogic.wire", SchematicRLWire.class);
         CompatUtils.registerSchematic("RedLogic:redlogic.gates", SchematicRLGate.class);
         CompatUtils.registerSchematic("RedLogic:redlogic.arrayCells", SchematicRLGate.class);
     }
