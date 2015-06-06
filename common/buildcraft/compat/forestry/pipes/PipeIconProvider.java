@@ -21,7 +21,7 @@ public class PipeIconProvider implements IIconProvider {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister iconRegister) {
-		icons = new IIcon[7];
+		icons = new IIcon[8];
 		icons[0] = iconRegister.registerIcon("buildcraftcompat:pipes/pipe_prop.empty");
 		icons[1] = iconRegister.registerIcon("buildcraftcompat:pipes/pipe_prop.black");
 		icons[2] = iconRegister.registerIcon("buildcraftcompat:pipes/pipe_prop.white");
@@ -29,5 +29,6 @@ public class PipeIconProvider implements IIconProvider {
 		icons[4] = iconRegister.registerIcon("buildcraftcompat:pipes/pipe_prop.blue");
 		icons[5] = iconRegister.registerIcon("buildcraftcompat:pipes/pipe_prop.green");
 		icons[6] = iconRegister.registerIcon("buildcraftcompat:pipes/pipe_prop.yellow");
+		icons[7] = iconRegister.registerIcon("buildcraftcompat:pipes/pipe_prop.item");
 	}
 }

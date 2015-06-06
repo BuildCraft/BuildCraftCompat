@@ -11,17 +11,18 @@ package buildcraft.compat.forestry.pipes;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
+import buildcraft.api.transport.IPipe;
+import buildcraft.api.transport.IPipeTile;
 import buildcraft.transport.Pipe;
-import buildcraft.transport.TileGenericPipe;
 
 public class PipeHelper {
 	public static <T extends Pipe> T getPipe(World world, int x, int y, int z, Class<T> pipeClass) {
 		TileEntity tile = world.getTileEntity(x, y, z);
-		if (!(tile instanceof TileGenericPipe)) {
+		if (!(tile instanceof IPipeTile)) {
 			return null;
 		}
 
-		Pipe pipe = ((TileGenericPipe) tile).pipe;
+		IPipe pipe = ((IPipeTile) tile).getPipe();
 		if (!pipeClass.isInstance(pipe)) {
 			return null;
 		}

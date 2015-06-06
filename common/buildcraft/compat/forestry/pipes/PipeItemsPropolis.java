@@ -7,15 +7,9 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
-
-import net.minecraftforge.common.util.ForgeDirection;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-
-import forestry.api.apiculture.BeeManager;
-import forestry.api.apiculture.IBee;
-import forestry.api.genetics.IAllele;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import buildcraft.BuildCraftCompat;
 import buildcraft.api.core.IIconProvider;
@@ -25,6 +19,9 @@ import buildcraft.transport.Pipe;
 import buildcraft.transport.PipeTransportItems;
 import buildcraft.transport.TransportConstants;
 import buildcraft.transport.pipes.events.PipeEventItem;
+import forestry.api.apiculture.BeeManager;
+import forestry.api.apiculture.IBee;
+import forestry.api.genetics.IAllele;
 
 public class PipeItemsPropolis extends Pipe<PipeTransportItems> {
 
@@ -67,6 +64,11 @@ public class PipeItemsPropolis extends Pipe<PipeTransportItems> {
 		}
 
 		return direction.ordinal() + 1;
+	}
+
+	@Override
+	public int getIconIndexForItem() {
+		return 7;
 	}
 
 	@Override
