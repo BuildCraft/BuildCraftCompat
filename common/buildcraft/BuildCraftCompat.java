@@ -20,6 +20,7 @@ import buildcraft.api.core.BCLog;
 import buildcraft.compat.CompatModuleAMT;
 import buildcraft.compat.CompatModuleAgriCraft;
 import buildcraft.compat.CompatModuleBase;
+import buildcraft.compat.CompatModuleBinnie;
 import buildcraft.compat.CompatModuleBundledRedstone;
 import buildcraft.compat.CompatModuleCarpentersBlocks;
 import buildcraft.compat.CompatModuleFMP;
@@ -82,6 +83,7 @@ public class BuildCraftCompat extends BuildCraftMod {
         this.offerModule(new CompatModuleWAILA());
         this.offerModule(new CompatModuleBundledRedstone());
         this.offerModule(new CompatModuleAgriCraft());
+        this.offerModule(new CompatModuleBinnie());
         BuildCraftCompat.config.save();
     }
     
