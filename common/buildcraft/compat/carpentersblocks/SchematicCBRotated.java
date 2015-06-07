@@ -57,7 +57,5 @@ public class SchematicCBRotated extends SchematicTileDrops {
 				tileNBT.setString("cbChiselDesign_" + shiftMatrix[a], designs[a]);
 			}
 		}
-
-
 	}
 }

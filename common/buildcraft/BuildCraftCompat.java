@@ -23,6 +23,7 @@ import buildcraft.compat.CompatModuleBase;
 import buildcraft.compat.CompatModuleBinnie;
 import buildcraft.compat.CompatModuleBundledRedstone;
 import buildcraft.compat.CompatModuleCarpentersBlocks;
+import buildcraft.compat.CompatModuleEnderIO;
 import buildcraft.compat.CompatModuleFMP;
 import buildcraft.compat.CompatModuleForestry;
 import buildcraft.compat.CompatModuleImmibisMicroblocks;
@@ -43,7 +44,7 @@ import buildcraft.gui.CompatGuiHandler;
 import buildcraft.network.PacketHandlerCompat;
 import buildcraft.texture.TextureManager;
 
-@Mod(name = "BuildCraft Compat", version = "7.0.3", useMetadata = false, modid = "BuildCraft|Compat", acceptedMinecraftVersions = "[1.7.10,1.8)", dependencies = "required-after:Forge@[10.13.0.1179,);required-after:BuildCraft|Core;after:Forestry")
+@Mod(name = "BuildCraft Compat", version = "@VERSION@", useMetadata = false, modid = "BuildCraft|Compat", acceptedMinecraftVersions = "[1.7.10,1.8)", dependencies = "required-after:Forge@[10.13.0.1179,);required-after:BuildCraft|Core;after:Forestry")
 public class BuildCraftCompat extends BuildCraftMod {
 
     @Mod.Instance("BuildCraft|Compat")
@@ -84,6 +85,7 @@ public class BuildCraftCompat extends BuildCraftMod {
         this.offerModule(new CompatModuleBundledRedstone());
         this.offerModule(new CompatModuleAgriCraft());
         this.offerModule(new CompatModuleBinnie());
+        this.offerModule(new CompatModuleEnderIO());
         BuildCraftCompat.config.save();
     }
     
