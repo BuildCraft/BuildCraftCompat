@@ -9,6 +9,10 @@ import cpw.mods.fml.common.event.FMLMissingMappingsEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraftforge.client.MinecraftForgeClient;
 
+import forestry.api.apiculture.IBeeRoot;
+import forestry.api.genetics.AlleleManager;
+import forestry.api.genetics.IAlleleRegistry;
+
 import buildcraft.BuildCraftTransport;
 import buildcraft.compat.forestry.pipes.PipeItemsPropolis;
 import buildcraft.compat.forestry.schematics.SchematicForestryFarmBlock;
@@ -21,6 +25,8 @@ import buildcraft.transport.TransportProxyClient;
 
 public class CompatModuleForestry extends CompatModuleBase
 {
+    public static IBeeRoot beeRoot;
+
     /** Pipe used to sort bees from Forestry. */
     private static Item pipeItemsPropolis;
     
@@ -36,6 +42,16 @@ public class CompatModuleForestry extends CompatModuleBase
 
     @Override
     public void init() {
+        IAlleleRegistry alleleRegistry = AlleleManager.alleleRegistry;
+        if (alleleRegistry == null) {
+            return;
+        }
+
+        beeRoot = (IBeeRoot) alleleRegistry.getSpeciesRoot("rootBees");
+        if (beeRoot == null) {
+            return;
+        }
+
         ItemStack propolis = GameRegistry.findItemStack(name(), "propolis", 1);
 
         if (propolis != null && propolis.getItem() != null) {

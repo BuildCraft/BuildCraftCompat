@@ -8,6 +8,7 @@ import cpw.mods.fml.common.network.IGuiHandler;
 import forestry.api.apiculture.BeeManager;
 import forestry.api.apiculture.IApiaristTracker;
 
+import buildcraft.compat.CompatModuleForestry;
 import buildcraft.compat.forestry.pipes.PipeHelper;
 import buildcraft.compat.forestry.pipes.PipeItemsPropolis;
 import buildcraft.compat.forestry.pipes.gui.ContainerPropolisPipe;
@@ -31,7 +32,7 @@ public class CompatGuiHandler implements IGuiHandler {
 
 		switch (id) {
 			case GuiIds.PIPE_APIARIST: {
-				IApiaristTracker tracker = BeeManager.beeRoot.getBreedingTracker(world, player.getGameProfile());
+				IApiaristTracker tracker = CompatModuleForestry.beeRoot.getBreedingTracker(world, player.getGameProfile());
 				tracker.synchToPlayer(player);
 				return new ContainerPropolisPipe(player.inventory, PipeHelper.getPipe(world, x, y, z, PipeItemsPropolis.class));
 			}
