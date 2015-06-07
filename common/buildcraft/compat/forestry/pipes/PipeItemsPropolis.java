@@ -13,13 +13,13 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import buildcraft.BuildCraftCompat;
 import buildcraft.api.core.IIconProvider;
+import buildcraft.compat.CompatModuleForestry;
 import buildcraft.gui.GuiIds;
 import buildcraft.transport.BlockGenericPipe;
 import buildcraft.transport.Pipe;
 import buildcraft.transport.PipeTransportItems;
 import buildcraft.transport.TransportConstants;
 import buildcraft.transport.pipes.events.PipeEventItem;
-import forestry.api.apiculture.BeeManager;
 import forestry.api.apiculture.IBee;
 import forestry.api.genetics.IAllele;
 
@@ -98,7 +98,7 @@ public class PipeItemsPropolis extends Pipe<PipeTransportItems> {
 		IBee bee = null;
 
 		if (type != EnumFilterType.ITEM) {
-			bee = BeeManager.beeRoot.getMember(event.item.getItemStack());
+			bee = CompatModuleForestry.beeRoot.getMember(event.item.getItemStack());
 		}
 
 		// Filtered outputs

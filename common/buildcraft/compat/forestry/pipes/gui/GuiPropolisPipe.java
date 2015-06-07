@@ -15,6 +15,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import buildcraft.compat.CompatModuleForestry;
 import buildcraft.compat.forestry.pipes.EnumFilterType;
 import buildcraft.compat.forestry.pipes.PipeItemsPropolis;
 import buildcraft.compat.forestry.pipes.PipeLogicPropolis;
@@ -22,7 +23,6 @@ import buildcraft.core.lib.gui.GuiBuildCraft;
 import buildcraft.core.lib.gui.tooltips.ToolTip;
 import buildcraft.core.lib.gui.tooltips.ToolTipLine;
 import buildcraft.core.lib.gui.widgets.Widget;
-import forestry.api.apiculture.BeeManager;
 import forestry.api.apiculture.EnumBeeType;
 import forestry.api.apiculture.IAlleleBeeSpecies;
 import forestry.api.apiculture.IApiaristTracker;
@@ -56,7 +56,7 @@ public class GuiPropolisPipe extends GuiBuildCraft {
 			container.addWidget(new TypeFilterSlot(8, 18 + i * 18, ForgeDirection.values()[i], pipeLogic));
 		}
 
-		IApiaristTracker tracker = BeeManager.beeRoot.getBreedingTracker(player.worldObj, player.getGameProfile());
+		IApiaristTracker tracker = CompatModuleForestry.beeRoot.getBreedingTracker(player.worldObj, player.getGameProfile());
 		for (int i = 0; i < 6; i++) {
 			for (int pattern = 0; pattern < 3; pattern++) {
 				for (int allele = 0; allele < 2; allele++) {

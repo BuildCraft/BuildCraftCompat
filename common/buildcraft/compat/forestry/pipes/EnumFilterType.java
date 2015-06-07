@@ -8,8 +8,7 @@ import net.minecraft.util.IIcon;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-import forestry.api.apiculture.BeeManager;
-
+import buildcraft.compat.CompatModuleForestry;
 import buildcraft.texture.TextureManager;
 
 public enum EnumFilterType {
@@ -18,10 +17,10 @@ public enum EnumFilterType {
 
 	public static EnumFilterType getType(ItemStack stack) {
 
-		if (BeeManager.beeRoot.isMember(stack)) {
-			if (BeeManager.beeRoot.isDrone(stack)) {
+		if (CompatModuleForestry.beeRoot.isMember(stack)) {
+			if (CompatModuleForestry.beeRoot.isDrone(stack)) {
 				return DRONE;
-			} else if (BeeManager.beeRoot.isMated(stack)) {
+			} else if (CompatModuleForestry.beeRoot.isMated(stack)) {
 				return QUEEN;
 			} else {
 				return PRINCESS;
