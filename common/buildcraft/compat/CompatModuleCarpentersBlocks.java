@@ -1,9 +1,15 @@
 package buildcraft.compat;
 
-import cpw.mods.fml.common.*;
-import buildcraft.api.blueprints.*;
-import buildcraft.compat.lib.*;
-import buildcraft.compat.carpentersblocks.*;
+import cpw.mods.fml.common.Loader;
+
+import buildcraft.compat.carpentersblocks.SchematicCBBlock;
+import buildcraft.compat.carpentersblocks.SchematicCBCollapsible;
+import buildcraft.compat.carpentersblocks.SchematicCBGate;
+import buildcraft.compat.carpentersblocks.SchematicCBRotated;
+import buildcraft.compat.carpentersblocks.SchematicCBRotatedTwo;
+import buildcraft.compat.carpentersblocks.SchematicCBSafe;
+import buildcraft.compat.carpentersblocks.SchematicCBTorch;
+import buildcraft.compat.lib.SchematicTileDrops;
 
 public class CompatModuleCarpentersBlocks extends CompatModuleBase
 {
@@ -19,13 +25,16 @@ public class CompatModuleCarpentersBlocks extends CompatModuleBase
     
     @Override
     public void init() {
-        CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersBlock", (Class<? extends Schematic>)SchematicCBBlock.class, new Object[0]);
-        CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersDaylightSensor", (Class<? extends Schematic>)SchematicTileDrops.class, new Object[0]);
-        CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersGate", (Class<? extends Schematic>)SchematicCBGate.class, new Object[0]);
-        CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersLadder", (Class<? extends Schematic>)SchematicCBRotatedTwo.class, new Object[0]);
-        CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersPressurePlate", (Class<? extends Schematic>)SchematicTileDrops.class, new Object[0]);
-        CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersSafe", (Class<? extends Schematic>)SchematicCBSafe.class, new Object[0]);
-        CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersSlope", (Class<? extends Schematic>)SchematicCBRotated.class, new Object[0]);
-        CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersStairs", (Class<? extends Schematic>)SchematicCBRotated.class, new Object[0]);
+        CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersBarrier", SchematicTileDrops.class);
+        CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersBlock", SchematicCBBlock.class);
+        CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersCollapsibleBlock", SchematicCBCollapsible.class);
+        CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersDaylightSensor", SchematicTileDrops.class);
+        CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersGate", SchematicCBGate.class);
+        CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersLadder", SchematicCBRotatedTwo.class);
+        CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersPressurePlate", SchematicTileDrops.class);
+        CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersSafe", SchematicCBSafe.class);
+        CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersSlope", SchematicCBRotated.class);
+        CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersStairs", SchematicCBRotated.class);
+        CompatUtils.registerSchematic("CarpentersBlocks:blockCarpentersTorch", SchematicCBTorch.class);
     }
 }

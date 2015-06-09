@@ -7,6 +7,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.MinecraftException;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldProvider;
+import net.minecraft.world.WorldSettings;
+import net.minecraft.world.WorldType;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.chunk.storage.IChunkLoader;
 import net.minecraft.world.storage.IPlayerFileData;
@@ -15,7 +17,7 @@ import net.minecraft.world.storage.WorldInfo;
 
 public class FakeWorldIMTesting extends World {
 	public FakeWorldIMTesting() {
-		super(new FakeWorldIMSaveHandler(), "IMTestingFakeWorld", null, new WorldProvider() {
+		super(new FakeWorldIMSaveHandler(), "IMTestingFakeWorld", new WorldSettings(0, WorldSettings.GameType.CREATIVE, true, false, WorldType.FLAT), new WorldProvider() {
 			@Override
 			public String getDimensionName() {
 				return "IMTestingFakeWorld";

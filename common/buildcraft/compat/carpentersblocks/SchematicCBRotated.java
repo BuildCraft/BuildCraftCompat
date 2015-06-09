@@ -1,11 +1,13 @@
 package buildcraft.compat.carpentersblocks;
 
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import buildcraft.api.blueprints.IBuilderContext;
+import buildcraft.compat.CompatUtils;
 import buildcraft.compat.lib.SchematicTileDrops;
 
 public class SchematicCBRotated extends SchematicTileDrops {
-	private static final int[] shiftMatrix = {0, 1, 5, 4, 2, 3, 6};
+	protected static final int[] shiftMatrix = {0, 1, 5, 4, 2, 3, 6};
 
 	protected short fixMetadata(short _m) {
 		short m = _m;
@@ -56,6 +58,16 @@ public class SchematicCBRotated extends SchematicTileDrops {
 			for (int a = 0; a < 7; a++) {
 				tileNBT.setString("cbChiselDesign_" + shiftMatrix[a], designs[a]);
 			}
+		}
+	}
+
+	@Override
+	public boolean isAlreadyBuilt(IBuilderContext context, int x, int y, int z) {
+		if (super.isAlreadyBuilt(context, x, y, z)) {
+			NBTTagCompound targetNBT = CompatUtils.getTileNBT(context.world(), x, y, z);
+			return targetNBT.getShort("cbMetadata") == tileNBT.getShort("cbMetadata");
+		} else {
+			return false;
 		}
 	}
 }
