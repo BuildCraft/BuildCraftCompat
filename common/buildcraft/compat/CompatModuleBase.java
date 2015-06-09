@@ -13,7 +13,10 @@ public abstract class CompatModuleBase
     public String comment() {
         return null;
     }
-    
+
+    public void preInit() {
+    }
+
     public void init() {
     }
     

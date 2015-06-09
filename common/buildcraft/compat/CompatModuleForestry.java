@@ -9,10 +9,6 @@ import cpw.mods.fml.common.event.FMLMissingMappingsEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraftforge.client.MinecraftForgeClient;
 
-import forestry.api.apiculture.IBeeRoot;
-import forestry.api.genetics.AlleleManager;
-import forestry.api.genetics.IAlleleRegistry;
-
 import buildcraft.BuildCraftTransport;
 import buildcraft.compat.forestry.pipes.PipeItemsPropolis;
 import buildcraft.compat.forestry.schematics.SchematicForestryFarmBlock;
@@ -22,6 +18,9 @@ import buildcraft.compat.forestry.schematics.SchematicTileStairsForestry;
 import buildcraft.core.BCCreativeTab;
 import buildcraft.transport.BlockGenericPipe;
 import buildcraft.transport.TransportProxyClient;
+import forestry.api.apiculture.IBeeRoot;
+import forestry.api.genetics.AlleleManager;
+import forestry.api.genetics.IAlleleRegistry;
 
 public class CompatModuleForestry extends CompatModuleBase
 {
@@ -41,7 +40,21 @@ public class CompatModuleForestry extends CompatModuleBase
     }
 
     @Override
+    public void preInit() {
+        if (Loader.isModLoaded("BuildCraft|Transport")) {
+            preInitTransport();
+        }
+    }
+
+    @Override
     public void init() {
+        if (Loader.isModLoaded("BuildCraft|Builders")) {
+            initBuilders();
+        }
+    }
+
+    @Optional.Method(modid = "BuildCraft|Transport")
+    private void preInitTransport() {
         IAlleleRegistry alleleRegistry = AlleleManager.alleleRegistry;
         if (alleleRegistry == null) {
             return;
@@ -62,10 +75,6 @@ public class CompatModuleForestry extends CompatModuleBase
             }
 
             GameRegistry.addRecipe(new ItemStack(pipeItemsPropolis), "#X#", '#', propolis, 'X', BuildCraftTransport.pipeItemsDiamond);
-        }
-
-        if (Loader.isModLoaded("BuildCraft|Builders")) {
-            initBuilders();
         }
     }
 

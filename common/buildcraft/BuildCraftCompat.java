@@ -44,7 +44,7 @@ import buildcraft.gui.CompatGuiHandler;
 import buildcraft.network.PacketHandlerCompat;
 import buildcraft.texture.TextureManager;
 
-@Mod(name = "BuildCraft Compat", version = "@VERSION@", useMetadata = false, modid = "BuildCraft|Compat", acceptedMinecraftVersions = "[1.7.10,1.8)", dependencies = "required-after:Forge@[10.13.0.1179,);required-after:BuildCraft|Core;after:Forestry")
+@Mod(name = "BuildCraft Compat", version = "@VERSION@", useMetadata = false, modid = "BuildCraft|Compat", acceptedMinecraftVersions = "[1.7.10,1.8)", dependencies = "required-after:Forge@[10.13.0.1179,);required-after:BuildCraft|Core;after:Forestry;after:BuildCraft|Transport;after:BuildCraft|Builders")
 public class BuildCraftCompat extends BuildCraftMod {
 
     @Mod.Instance("BuildCraft|Compat")
@@ -87,6 +87,10 @@ public class BuildCraftCompat extends BuildCraftMod {
         this.offerModule(new CompatModuleBinnie());
         this.offerModule(new CompatModuleEnderIO());
         BuildCraftCompat.config.save();
+
+        for (final CompatModuleBase m : BuildCraftCompat.modules) {
+            m.preInit();
+        }
     }
     
     @Mod.EventHandler

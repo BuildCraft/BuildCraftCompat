@@ -3,10 +3,12 @@ package buildcraft.compat;
 import java.util.Set;
 
 import net.minecraft.block.Block;
+import net.minecraft.world.World;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
 
 import buildcraft.api.core.BCLog;
+import buildcraft.compat.immibis.FakeWorldIMTesting;
 import buildcraft.compat.immibis.SchematicTileMicroblocks;
 import buildcraft.compat.immibis.SchematicTileMicroblocksBase;
 import buildcraft.core.blueprints.SchematicRegistry;
@@ -25,16 +27,22 @@ public class CompatModuleImmibisMicroblocks extends CompatModuleBase
     }
 
     @Override
+    public void init() {
+        if (Loader.isModLoaded("BuildCraft|Builders")) {
+            CompatUtils.registerSchematic("ImmibisMicroblocks:MicroblockContainer", SchematicTileMicroblocksBase.class);
+        }
+    }
+
+    @Override
     public void postInit() {
         if (Loader.isModLoaded("BuildCraft|Builders")) {
-            initBuilders();
+            patchBuilders();
         }
     }
 
     @Optional.Method(modid = "BuildCraft|Builders")
-    private void initBuilders() {
-        CompatUtils.registerSchematic("ImmibisMicroblocks:MicroblockContainer", SchematicTileMicroblocksBase.class);
-
+    private void patchBuilders() {
+        World test = new FakeWorldIMTesting();
         Set<String> ss = SchematicRegistry.INSTANCE.schematicBlocks.keySet();
 
         for (String s : ss.toArray(new String[ss.size()])) {
@@ -49,7 +57,7 @@ public class CompatModuleImmibisMicroblocks extends CompatModuleBase
 
             if (b.hasTileEntity(meta)) {
                 try {
-                    isImmibis = b.createTileEntity(null, meta) instanceof ICoverableTile;
+                    isImmibis = b.createTileEntity(test, meta) instanceof ICoverableTile;
                 } catch (Exception e) {
 
                 }
