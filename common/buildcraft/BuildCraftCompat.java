@@ -25,6 +25,7 @@ import buildcraft.compat.CompatModuleBundledRedstone;
 import buildcraft.compat.CompatModuleCarpentersBlocks;
 import buildcraft.compat.CompatModuleEnderIO;
 import buildcraft.compat.CompatModuleFMP;
+import buildcraft.compat.CompatModuleFactorization;
 import buildcraft.compat.CompatModuleForestry;
 import buildcraft.compat.CompatModuleImmibisMicroblocks;
 import buildcraft.compat.CompatModuleIronChest;
@@ -54,6 +55,10 @@ public class BuildCraftCompat extends BuildCraftMod {
     private static final HashSet<CompatModuleBase> modules;
     private static final HashSet<String> moduleNames;
     private static ChannelHandler compatChannelHandler;
+
+    public Configuration getConfig() {
+        return config;
+    }
 
     private void offerModule(final CompatModuleBase module) {
         if (module.canLoad() && BuildCraftCompat.config.getBoolean(module.name(), "modules", true, module.comment())) {
@@ -86,6 +91,8 @@ public class BuildCraftCompat extends BuildCraftMod {
         this.offerModule(new CompatModuleAgriCraft());
         this.offerModule(new CompatModuleBinnie());
         this.offerModule(new CompatModuleEnderIO());
+        this.offerModule(new CompatModuleFactorization());
+
         BuildCraftCompat.config.save();
 
         for (final CompatModuleBase m : BuildCraftCompat.modules) {
@@ -95,7 +102,6 @@ public class BuildCraftCompat extends BuildCraftMod {
     
     @Mod.EventHandler
     public void init(final FMLInitializationEvent evt) {
-
         NetworkRegistry.INSTANCE.registerGuiHandler(instance, new CompatGuiHandler());
 
         compatChannelHandler = new ChannelHandler();
@@ -112,6 +118,8 @@ public class BuildCraftCompat extends BuildCraftMod {
             BCLog.logger.info("Loading compat module " + m.name());
             m.init();
         }
+
+        BuildCraftCompat.config.save();
     }
     
     @Mod.EventHandler

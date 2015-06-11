@@ -8,6 +8,7 @@ import cpw.mods.fml.common.Optional;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import cofh.api.transport.IItemDuct;
+import buildcraft.BuildCraftCompat;
 import buildcraft.api.transport.IInjectable;
 import buildcraft.compat.bluepower.BPPneumaticTubeInjectable;
 import buildcraft.compat.cofh.ItemDuctInjectable;
@@ -71,6 +72,13 @@ public class CompatHooksImpl extends CompatHooks {
 
 	@Override
 	public Object getEnergyProvider(TileEntity tile) {
+		if (BuildCraftCompat.hasModule("factorization")) {
+			Object output = CompatModuleFactorization.getEnergyProvider(tile);
+			if (output != null) {
+				return output;
+			}
+		}
+
 		return tile;
 	}
 }
