@@ -18,11 +18,13 @@ public class TileQuarryCompat extends TileQuarry implements IInventoryConnection
 	}
 
 	@Override
+	@Optional.Method(modid = "bluepower")
 	public boolean isConnectedTo(ForgeDirection from) {
 		return true;
 	}
 
 	@Override
+	@Optional.Method(modid = "bluepower")
 	public TubeStack acceptItemFromTube(TubeStack tubeStack, ForgeDirection side, boolean simulate) {
 		return tubeStack;
 	}
