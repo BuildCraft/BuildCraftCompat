@@ -29,7 +29,7 @@ public abstract class SchematicSimplePart<T extends TMultiPart> extends Schemati
      * @return A new part instance created from tag with rotation applied.
      */
     public T create(NBTTagCompound tag, int rotation) {
-        T part = (T) MultiPartRegistry.createPart(type, false);
+        T part = (T) MultiPartRegistry.loadPart(type, tag);
         part.load(tag);
         rotate(part, rotation);
         return part;
