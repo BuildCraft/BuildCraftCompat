@@ -25,7 +25,6 @@ import buildcraft.compat.CompatModuleBundledRedstone;
 import buildcraft.compat.CompatModuleCarpentersBlocks;
 import buildcraft.compat.CompatModuleEnderIO;
 import buildcraft.compat.CompatModuleFMP;
-import buildcraft.compat.CompatModuleFactorization;
 import buildcraft.compat.CompatModuleForestry;
 import buildcraft.compat.CompatModuleImmibisMicroblocks;
 import buildcraft.compat.CompatModuleIronChest;
@@ -91,7 +90,7 @@ public class BuildCraftCompat extends BuildCraftMod {
         this.offerModule(new CompatModuleAgriCraft());
         this.offerModule(new CompatModuleBinnie());
         this.offerModule(new CompatModuleEnderIO());
-        this.offerModule(new CompatModuleFactorization());
+        // this.offerModule(new CompatModuleFactorization());
 
         BuildCraftCompat.config.save();
 
