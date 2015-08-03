@@ -3,6 +3,7 @@ package buildcraft;
 import java.io.File;
 import java.util.HashSet;
 
+import buildcraft.compat.CompatModuleAquaTweaks;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLMissingMappingsEvent;
@@ -46,7 +47,6 @@ import buildcraft.texture.TextureManager;
 
 @Mod(name = "BuildCraft Compat", version = "@VERSION@", useMetadata = false, modid = "BuildCraft|Compat", acceptedMinecraftVersions = "[1.7.10,1.8)", dependencies = "required-after:Forge@[10.13.0.1179,);required-after:BuildCraft|Core;after:Forestry;after:BuildCraft|Transport;after:BuildCraft|Builders")
 public class BuildCraftCompat extends BuildCraftMod {
-
     @Mod.Instance("BuildCraft|Compat")
     public static BuildCraftCompat instance;
 
@@ -75,6 +75,7 @@ public class BuildCraftCompat extends BuildCraftMod {
         (BuildCraftCompat.config = new Configuration(new File(new File(evt.getSuggestedConfigurationFile().getParentFile(), "buildcraft"), "compat.cfg"))).load();
         this.offerModule(new CompatModuleWitchery());
         this.offerModule(new CompatModuleAMT());
+        this.offerModule(new CompatModuleAquaTweaks());
         this.offerModule(new CompatModuleFMP());
         this.offerModule(new CompatModuleForestry());
         this.offerModule(new CompatModuleRailcraft());

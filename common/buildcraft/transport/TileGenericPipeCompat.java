@@ -110,7 +110,7 @@ public class TileGenericPipeCompat extends TileGenericPipe
 			}
 		}*/
 
-		if (with instanceof IInventoryConnection) {
+		if (with instanceof IInventoryConnection && this.getPipeType() == PipeType.ITEM) {
 			if (((IInventoryConnection) with).canConnectInventory(side.getOpposite()) == IInventoryConnection.ConnectionType.FORCE) {
 				return true;
 			} else if (((IInventoryConnection) with).canConnectInventory(side.getOpposite()) == IInventoryConnection.ConnectionType.DENY) {
