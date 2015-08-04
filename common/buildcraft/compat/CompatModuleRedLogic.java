@@ -3,7 +3,9 @@ package buildcraft.compat;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
 
+import buildcraft.compat.redlogic.SchematicRLButton;
 import buildcraft.compat.redlogic.SchematicRLGate;
+import buildcraft.compat.redlogic.SchematicRLLampNonCube;
 import buildcraft.compat.redlogic.SchematicRLWire;
 
 public class CompatModuleRedLogic extends CompatModuleBase
@@ -30,5 +32,7 @@ public class CompatModuleRedLogic extends CompatModuleBase
         CompatUtils.registerSchematic("RedLogic:redlogic.wire", SchematicRLWire.class);
         CompatUtils.registerSchematic("RedLogic:redlogic.gates", SchematicRLGate.class);
         CompatUtils.registerSchematic("RedLogic:redlogic.arrayCells", SchematicRLGate.class);
+        CompatUtils.registerSchematic("RedLogic:redlogic.lampNonCube", SchematicRLLampNonCube.class);
+        CompatUtils.registerSchematic("RedLogic:redlogic.button", SchematicRLButton.class);
     }
 }
