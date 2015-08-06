@@ -4,9 +4,9 @@ import net.minecraft.nbt.NBTTagCompound;
 
 import buildcraft.api.blueprints.IBuilderContext;
 import buildcraft.compat.CompatUtils;
-import buildcraft.compat.lib.SchematicTileDrops;
+import buildcraft.compat.lib.SchematicTileDropsOnly;
 
-public class SchematicTileCarpentry extends SchematicTileDrops {
+public class SchematicTileCarpentry extends SchematicTileDropsOnly {
 	private static final int[] shiftMatrix = {0, 1, 5, 4, 2, 3};
 
 	@Override

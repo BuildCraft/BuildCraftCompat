@@ -2,7 +2,7 @@ package buildcraft.compat.lib;
 
 import buildcraft.api.blueprints.IBuilderContext;
 
-public class SchematicTileStairs extends SchematicTileDrops {
+public class SchematicTileStairs extends SchematicTileDropsOnly {
 	private static final int[] shiftMatrix = {2, 3, 1, 0};
 
 	public SchematicTileStairs() {

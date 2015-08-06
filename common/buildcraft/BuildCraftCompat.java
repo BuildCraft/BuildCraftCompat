@@ -3,7 +3,6 @@ package buildcraft;
 import java.io.File;
 import java.util.HashSet;
 
-import buildcraft.compat.CompatModuleAquaTweaks;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLMissingMappingsEvent;
@@ -20,13 +19,17 @@ import net.minecraftforge.common.config.Configuration;
 import buildcraft.api.core.BCLog;
 import buildcraft.compat.CompatModuleAMT;
 import buildcraft.compat.CompatModuleAgriCraft;
+import buildcraft.compat.CompatModuleAquaTweaks;
 import buildcraft.compat.CompatModuleBase;
+import buildcraft.compat.CompatModuleBigReactors;
 import buildcraft.compat.CompatModuleBinnie;
 import buildcraft.compat.CompatModuleBundledRedstone;
 import buildcraft.compat.CompatModuleCarpentersBlocks;
 import buildcraft.compat.CompatModuleEnderIO;
 import buildcraft.compat.CompatModuleFMP;
+import buildcraft.compat.CompatModuleFactorization;
 import buildcraft.compat.CompatModuleForestry;
+import buildcraft.compat.CompatModuleImmersiveEngineering;
 import buildcraft.compat.CompatModuleImmibisMicroblocks;
 import buildcraft.compat.CompatModuleIronChest;
 import buildcraft.compat.CompatModuleMFR;
@@ -91,7 +94,9 @@ public class BuildCraftCompat extends BuildCraftMod {
         this.offerModule(new CompatModuleAgriCraft());
         this.offerModule(new CompatModuleBinnie());
         this.offerModule(new CompatModuleEnderIO());
-        // this.offerModule(new CompatModuleFactorization());
+        this.offerModule(new CompatModuleBigReactors());
+        this.offerModule(new CompatModuleFactorization());
+        this.offerModule(new CompatModuleImmersiveEngineering());
 
         BuildCraftCompat.config.save();
 

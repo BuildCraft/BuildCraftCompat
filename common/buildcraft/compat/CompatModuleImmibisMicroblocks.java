@@ -7,6 +7,7 @@ import net.minecraft.world.World;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
 
+import buildcraft.api.blueprints.SchematicTile;
 import buildcraft.api.core.BCLog;
 import buildcraft.compat.immibis.FakeWorldIMTesting;
 import buildcraft.compat.immibis.SchematicTileMicroblocks;
@@ -46,6 +47,11 @@ public class CompatModuleImmibisMicroblocks extends CompatModuleBase
         Set<String> ss = SchematicRegistry.INSTANCE.schematicBlocks.keySet();
 
         for (String s : ss.toArray(new String[ss.size()])) {
+            Class clazz = SchematicRegistry.INSTANCE.schematicBlocks.get(s).clazz;
+            if (clazz == SchematicTileMicroblocks.class || !SchematicTile.class.isAssignableFrom(clazz)) {
+                continue;
+            }
+
             String name = s.substring(0, s.lastIndexOf(":"));
             int meta = new Integer(s.substring(s.lastIndexOf(":") + 1));
             Block b = Block.getBlockFromName(name);

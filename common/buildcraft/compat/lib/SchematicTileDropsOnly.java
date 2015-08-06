@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import buildcraft.api.blueprints.IBuilderContext;
 import buildcraft.api.blueprints.SchematicTile;
 
-public class SchematicTileDrops extends SchematicTile {
+public class SchematicTileDropsOnly extends SchematicTile {
 	@Override
 	public void storeRequirements(IBuilderContext context, int x, int y, int z) {
 		if (block != null) {

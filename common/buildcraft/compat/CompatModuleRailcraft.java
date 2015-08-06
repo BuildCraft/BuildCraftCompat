@@ -3,7 +3,7 @@ package buildcraft.compat;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
 
-import buildcraft.compat.lib.SchematicTileDrops;
+import buildcraft.compat.lib.SchematicTileDropsOnly;
 import buildcraft.compat.lib.SchematicTileStairs;
 import buildcraft.compat.railcraft.SchematicRCDetector;
 import buildcraft.compat.railcraft.SchematicRCEngine;
@@ -31,7 +31,7 @@ public class CompatModuleRailcraft extends CompatModuleBase
 
     @Optional.Method(modid = "BuildCraft|Builders")
     private void initBuilders() {
-        CompatUtils.registerSchematic("Railcraft:slab", SchematicTileDrops.class);
+        CompatUtils.registerSchematic("Railcraft:slab", SchematicTileDropsOnly.class);
         CompatUtils.registerSchematic("Railcraft:stair", SchematicTileStairs.class);
         CompatUtils.registerSchematic("Railcraft:track.elevator", SchematicRCTrackElevator.class);
         CompatUtils.registerSchematic("Railcraft:track", SchematicRCTrack.class);

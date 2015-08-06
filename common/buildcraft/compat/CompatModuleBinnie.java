@@ -5,7 +5,7 @@ import cpw.mods.fml.common.Optional;
 
 import buildcraft.compat.binnie.SchematicTileCarpentry;
 import buildcraft.compat.lib.SchematicTileDoor;
-import buildcraft.compat.lib.SchematicTileDrops;
+import buildcraft.compat.lib.SchematicTileDropsOnly;
 import buildcraft.compat.lib.SchematicTileStairs;
 import buildcraft.core.builders.schematics.SchematicRotateMeta;
 
@@ -30,10 +30,10 @@ public class CompatModuleBinnie extends CompatModuleBase
 
     @Optional.Method(modid = "BuildCraft|Builders")
     private void initBuilders() {
-        CompatUtils.registerSchematic("ExtraTrees:slab", SchematicTileDrops.class);
-        CompatUtils.registerSchematic("ExtraTrees:fence", SchematicTileDrops.class);
-        CompatUtils.registerSchematic("ExtraTrees:multifence", SchematicTileDrops.class);
-        CompatUtils.registerSchematic("ExtraTrees:planks", SchematicTileDrops.class);
+        CompatUtils.registerSchematic("ExtraTrees:slab", SchematicTileDropsOnly.class);
+        CompatUtils.registerSchematic("ExtraTrees:fence", SchematicTileDropsOnly.class);
+        CompatUtils.registerSchematic("ExtraTrees:multifence", SchematicTileDropsOnly.class);
+        CompatUtils.registerSchematic("ExtraTrees:planks", SchematicTileDropsOnly.class);
         CompatUtils.registerSchematic("ExtraTrees:stairs", SchematicTileStairs.class);
         CompatUtils.registerSchematic("ExtraTrees:door", SchematicTileDoor.class);
         CompatUtils.registerSchematic("ExtraTrees:gate", SchematicRotateMeta.class, new int[]{0, 1, 2, 3}, true);
@@ -41,9 +41,9 @@ public class CompatModuleBinnie extends CompatModuleBase
         CompatUtils.registerSchematic("ExtraTrees:stainedglass", SchematicTileCarpentry.class);
         CompatUtils.registerSchematic("ExtraTrees:carpentry", SchematicTileCarpentry.class);
 
-        CompatUtils.registerSchematic("Botany:stained", SchematicTileDrops.class);
-        CompatUtils.registerSchematic("Botany:ceramic", SchematicTileDrops.class);
-        CompatUtils.registerSchematic("Botany:ceramicBrick", SchematicTileDrops.class);
+        CompatUtils.registerSchematic("Botany:stained", SchematicTileDropsOnly.class);
+        CompatUtils.registerSchematic("Botany:ceramic", SchematicTileDropsOnly.class);
+        CompatUtils.registerSchematic("Botany:ceramicBrick", SchematicTileDropsOnly.class);
         CompatUtils.registerSchematic("Botany:ceramicPattern", SchematicTileCarpentry.class);
     }
 }
