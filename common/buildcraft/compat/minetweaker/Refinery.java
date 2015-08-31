@@ -36,7 +36,7 @@ public class Refinery {
 	}
 
 	@ZenMethod
-	public static void remove(ILiquidStack output) {
+	public static void removeRecipe(ILiquidStack output) {
 		Fluid fluid = MineTweakerMC.getLiquidStack(output).getFluid();
 		
 		List<IFlexibleRecipe<FluidStack>> toRemove = new ArrayList<IFlexibleRecipe<FluidStack>>();
