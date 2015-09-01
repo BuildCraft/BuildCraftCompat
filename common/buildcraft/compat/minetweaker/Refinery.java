@@ -54,19 +54,9 @@ public class Refinery {
 	//Deprecated method for backwards compability
 	@ZenMethod
 	public static void remove(ILiquidStack output) {
-		Fluid fluid = MineTweakerMC.getLiquidStack(output).getFluid();
-		
-		List<IFlexibleRecipe<FluidStack>> toRemove = new ArrayList<IFlexibleRecipe<FluidStack>>();
-		for (IFlexibleRecipe<FluidStack> recipe : BuildcraftRecipeRegistry.refinery.getRecipes()) {
-			if (recipe instanceof IFlexibleRecipeViewable && ((IFlexibleRecipeViewable) recipe).getOutput() == fluid) {
-				toRemove.add(recipe);
-			}
-		}
-		
-		for (IFlexibleRecipe<FluidStack> recipe : toRemove) {
-			MineTweakerAPI.apply(new RemoveRecipeAction(recipe));
-		}
+	       removeRecipe(output);
 	}
+
 	
 	// ######################
 	// ### Action Classes ###
