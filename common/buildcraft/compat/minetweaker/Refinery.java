@@ -34,9 +34,26 @@ public class Refinery {
 	public static void addRecipe(ILiquidStack output, int energyPerMB, int ticksPerMB, ILiquidStack input1, @Optional ILiquidStack input2) {
 		MineTweakerAPI.apply(new AddRecipeAction(output, energyPerMB, ticksPerMB, input1, input2));
 	}
-
+	
 	@ZenMethod
 	public static void removeRecipe(ILiquidStack output) {
+		Fluid fluid = MineTweakerMC.getLiquidStack(output).getFluid();
+		
+		List<IFlexibleRecipe<FluidStack>> toRemove = new ArrayList<IFlexibleRecipe<FluidStack>>();
+		for (IFlexibleRecipe<FluidStack> recipe : BuildcraftRecipeRegistry.refinery.getRecipes()) {
+			if (recipe instanceof IFlexibleRecipeViewable && ((IFlexibleRecipeViewable) recipe).getOutput() == fluid) {
+				toRemove.add(recipe);
+			}
+		}
+		
+		for (IFlexibleRecipe<FluidStack> recipe : toRemove) {
+			MineTweakerAPI.apply(new RemoveRecipeAction(recipe));
+		}
+	}
+	
+	//Deprecated method for backwards compability
+	@ZenMethod
+	public static void remove(ILiquidStack output) {
 		Fluid fluid = MineTweakerMC.getLiquidStack(output).getFluid();
 		
 		List<IFlexibleRecipe<FluidStack>> toRemove = new ArrayList<IFlexibleRecipe<FluidStack>>();
