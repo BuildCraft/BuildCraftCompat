@@ -42,6 +42,7 @@ import buildcraft.compat.CompatModuleWitchery;
 import buildcraft.compat.forestry.pipes.network.PacketGenomeFilterChange;
 import buildcraft.compat.forestry.pipes.network.PacketRequestFilterSet;
 import buildcraft.compat.forestry.pipes.network.PacketTypeFilterChange;
+import buildcraft.compat.pamhc.CompatModulePamHarvestCraft;
 import buildcraft.core.DefaultProps;
 import buildcraft.core.lib.network.ChannelHandler;
 import buildcraft.gui.CompatGuiHandler;
@@ -92,6 +93,7 @@ public class BuildCraftCompat extends BuildCraftMod {
         this.offerModule(new CompatModuleWAILA());
         this.offerModule(new CompatModuleBundledRedstone());
         this.offerModule(new CompatModuleAgriCraft());
+        this.offerModule(new CompatModulePamHarvestCraft());
         this.offerModule(new CompatModuleBinnie());
         this.offerModule(new CompatModuleEnderIO());
         this.offerModule(new CompatModuleBigReactors());
