@@ -99,6 +99,7 @@ public class BuildCraftCompat extends BuildCraftMod {
         this.offerModule(new CompatModuleBigReactors());
         this.offerModule(new CompatModuleFactorization());
         this.offerModule(new CompatModuleImmersiveEngineering());
+        this.offerModule(new CompatModuleEnderStorage());
 
         BuildCraftCompat.config.save();
 
