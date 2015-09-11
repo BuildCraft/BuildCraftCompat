@@ -26,6 +26,7 @@ import buildcraft.compat.CompatModuleBinnie;
 import buildcraft.compat.CompatModuleBundledRedstone;
 import buildcraft.compat.CompatModuleCarpentersBlocks;
 import buildcraft.compat.CompatModuleEnderIO;
+import buildcraft.compat.CompatModuleEnderStorage;
 import buildcraft.compat.CompatModuleFMP;
 import buildcraft.compat.CompatModuleFactorization;
 import buildcraft.compat.CompatModuleForestry;
