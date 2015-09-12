@@ -1,5 +1,7 @@
 package buildcraft.compat;
 
+import buildcraft.api.crops.CropManager;
+import buildcraft.compat.forestry.CropHandlerForestry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -48,9 +50,16 @@ public class CompatModuleForestry extends CompatModuleBase
 
     @Override
     public void init() {
+        CropManager.registerHandler(new CropHandlerForestry());
+
         if (Loader.isModLoaded("BuildCraft|Builders")) {
             initBuilders();
         }
+    }
+
+    @Override
+    public void postInit() {
+        CropHandlerForestry.postInit();
     }
 
     @Optional.Method(modid = "BuildCraft|Transport")
