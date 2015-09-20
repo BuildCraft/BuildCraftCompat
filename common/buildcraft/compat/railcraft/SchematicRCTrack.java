@@ -1,12 +1,18 @@
 package buildcraft.compat.railcraft;
 
 import java.util.LinkedList;
+import java.util.Set;
+
+import com.google.common.collect.Sets;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 
+import net.minecraftforge.common.util.ForgeDirection;
+
 import buildcraft.api.blueprints.IBuilderContext;
 import buildcraft.api.blueprints.SchematicTile;
+import buildcraft.api.core.BlockIndex;
 
 public class SchematicRCTrack extends SchematicTile {
 	private static final int[] shiftMatrix = {1, 0, 5, 4, 2, 3, 7, 8, 9, 6};
@@ -50,5 +56,10 @@ public class SchematicRCTrack extends SchematicTile {
 	@Override
 	public void postProcessing(IBuilderContext context, int x, int y, int z) {
 		context.world().setBlockMetadataWithNotify(x, y, z, this.meta, 3);
+	}
+
+	@Override
+	public Set<BlockIndex> getPrerequisiteBlocks(IBuilderContext context) {
+		return Sets.newHashSet(new BlockIndex[]{RELATIVE_INDEXES[ForgeDirection.DOWN.ordinal()]});
 	}
 }

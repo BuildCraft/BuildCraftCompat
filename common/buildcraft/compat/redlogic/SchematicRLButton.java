@@ -1,12 +1,16 @@
 package buildcraft.compat.redlogic;
 
 import java.lang.reflect.Method;
+import java.util.Set;
+
+import com.google.common.collect.Sets;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 
 import buildcraft.api.blueprints.IBuilderContext;
 import buildcraft.api.blueprints.SchematicTile;
+import buildcraft.api.core.BlockIndex;
 
 public class SchematicRLButton extends SchematicTile {
 	private static final byte[] shiftMatrix = {0, 1, 5, 4, 2, 3, 6, 7};
@@ -38,7 +42,11 @@ public class SchematicRLButton extends SchematicTile {
 
 	}
 
-	public BuildingStage getBuildStage() {
-		return BuildingStage.SUPPORTED;
+	@Override
+	public Set<BlockIndex> getPrerequisiteBlocks(IBuilderContext context) {
+		if (tileNBT.hasKey("side")) {
+			return Sets.newHashSet(new BlockIndex[]{RELATIVE_INDEXES[tileNBT.getByte("side") & 7]});
+		}
+		return null;
 	}
 }

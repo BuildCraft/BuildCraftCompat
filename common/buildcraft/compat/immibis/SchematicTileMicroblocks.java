@@ -2,6 +2,7 @@ package buildcraft.compat.immibis;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Set;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -16,6 +17,7 @@ import buildcraft.api.blueprints.Schematic;
 import buildcraft.api.blueprints.SchematicTile;
 import buildcraft.api.blueprints.Translation;
 import buildcraft.api.core.BCLog;
+import buildcraft.api.core.BlockIndex;
 import buildcraft.api.core.IInvSlot;
 import buildcraft.api.core.JavaTools;
 import buildcraft.core.blueprints.SchematicRegistry;
@@ -207,6 +209,11 @@ public class SchematicTileMicroblocks extends SchematicTile {
 	@Override
 	public int buildTime() {
 		return wrapped.buildTime();
+	}
+
+	@Override
+	public Set<BlockIndex> getPrerequisiteBlocks(IBuilderContext context) {
+		return wrapped.getPrerequisiteBlocks(context);
 	}
 
 	@Override

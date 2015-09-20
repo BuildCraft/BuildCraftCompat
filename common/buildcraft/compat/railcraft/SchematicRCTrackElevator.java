@@ -1,5 +1,11 @@
 package buildcraft.compat.railcraft;
 
+import java.util.Set;
+
+import com.google.common.collect.Sets;
+
+import buildcraft.api.blueprints.IBuilderContext;
+import buildcraft.api.core.BlockIndex;
 import buildcraft.core.builders.schematics.SchematicRotateMeta;
 
 public class SchematicRCTrackElevator extends SchematicRotateMeta {
@@ -8,7 +14,11 @@ public class SchematicRCTrackElevator extends SchematicRotateMeta {
 	}
 
 	@Override
-	public BuildingStage getBuildStage() {
-		return BuildingStage.SUPPORTED;
+	public Set<BlockIndex> getPrerequisiteBlocks(IBuilderContext context) {
+		int side = meta & 7;
+		if (side >= 2 && side <= 5) {
+			return Sets.newHashSet(new BlockIndex[]{RELATIVE_INDEXES[side ^ 1]});
+		}
+		return null;
 	}
 }

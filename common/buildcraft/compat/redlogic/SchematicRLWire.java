@@ -1,12 +1,15 @@
 package buildcraft.compat.redlogic;
 
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Set;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 import buildcraft.api.blueprints.IBuilderContext;
 import buildcraft.api.blueprints.SchematicTile;
+import buildcraft.api.core.BlockIndex;
 import buildcraft.compat.CompatUtils;
 
 public class SchematicRLWire extends SchematicTile {
@@ -78,8 +81,15 @@ public class SchematicRLWire extends SchematicTile {
 	}
 
 	@Override
-	public BuildingStage getBuildStage() {
-		return BuildingStage.SUPPORTED;
+	public Set<BlockIndex> getPrerequisiteBlocks(IBuilderContext context) {
+		Set<BlockIndex> relativeIndexes = new HashSet<BlockIndex>();
+		byte mask = tileNBT.getByte("mask");
+		for (int i = 0; i < 6; i++) {
+			if ((mask & (1 << i)) != 0) {
+				relativeIndexes.add(RELATIVE_INDEXES[i]);
+			}
+		}
+		return relativeIndexes;
 	}
 
 	@Override
