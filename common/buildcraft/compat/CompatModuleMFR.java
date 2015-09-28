@@ -1,9 +1,15 @@
 package buildcraft.compat;
 
-import cpw.mods.fml.common.event.*;
-import cpw.mods.fml.common.*;
-import buildcraft.robotics.*;
-import java.lang.reflect.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.Optional;
+import cpw.mods.fml.common.event.FMLInterModComms;
+
+import buildcraft.api.statements.StatementManager;
+import buildcraft.compat.mfr.MFRTriggerProvider;
+import buildcraft.robotics.EntityRobot;
 
 public class CompatModuleMFR extends CompatModuleBase
 {
@@ -14,6 +20,8 @@ public class CompatModuleMFR extends CompatModuleBase
     
     @Override
     public void init() {
+		StatementManager.registerTriggerProvider(new MFRTriggerProvider());
+
         if (Loader.isModLoaded("BuildCraft|Robotics")) {
             initRobotics();
         }
