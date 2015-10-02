@@ -1,4 +1,4 @@
-package buildcraft.compat.pamhc;
+package buildcraft.compat.pamharvestcraft;
 
 import java.util.ArrayList;
 import java.util.Collection;

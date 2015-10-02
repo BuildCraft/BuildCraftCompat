@@ -1,7 +1,10 @@
 package buildcraft.compat;
 
-import minetweaker.*;
-import buildcraft.compat.minetweaker.*;
+import buildcraft.compat.minetweaker.AssemblyTable;
+import buildcraft.compat.minetweaker.Fuels;
+import buildcraft.compat.minetweaker.Refinery;
+
+import minetweaker.MineTweakerAPI;
 
 public class CompatModuleMineTweaker3 extends CompatModuleBase
 {
@@ -12,9 +15,8 @@ public class CompatModuleMineTweaker3 extends CompatModuleBase
     
     @Override
     public void postInit() {
-        MineTweakerAPI.registerClass((Class)AssemblyTable.class);
-        MineTweakerAPI.registerClass((Class)Fuels.class);
-        MineTweakerAPI.registerClass((Class)IntegrationTable.class);
-        MineTweakerAPI.registerClass((Class)Refinery.class);
+        MineTweakerAPI.registerClass(AssemblyTable.class);
+        MineTweakerAPI.registerClass(Fuels.class);
+        MineTweakerAPI.registerClass(Refinery.class);
     }
 }

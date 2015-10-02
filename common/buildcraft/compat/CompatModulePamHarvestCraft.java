@@ -1,9 +1,9 @@
-package buildcraft.compat.pamhc;
+package buildcraft.compat;
 
 import cpw.mods.fml.common.Loader;
 
 import buildcraft.api.crops.CropManager;
-import buildcraft.compat.CompatModuleBase;
+import buildcraft.compat.pamharvestcraft.CropHandlerHarvestCraft;
 
 public class CompatModulePamHarvestCraft extends CompatModuleBase {
 	@Override

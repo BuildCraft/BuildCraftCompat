@@ -15,6 +15,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.config.Property;
 
 import buildcraft.api.core.BCLog;
 import buildcraft.compat.CompatModuleAMT;
@@ -36,21 +37,22 @@ import buildcraft.compat.CompatModuleIronChest;
 import buildcraft.compat.CompatModuleMFR;
 import buildcraft.compat.CompatModuleMineTweaker3;
 import buildcraft.compat.CompatModuleNEI;
+import buildcraft.compat.CompatModulePamHarvestCraft;
 import buildcraft.compat.CompatModuleRailcraft;
 import buildcraft.compat.CompatModuleRedLogic;
+import buildcraft.compat.CompatModuleThermalExpansion;
 import buildcraft.compat.CompatModuleWAILA;
 import buildcraft.compat.CompatModuleWitchery;
 import buildcraft.compat.forestry.pipes.network.PacketGenomeFilterChange;
 import buildcraft.compat.forestry.pipes.network.PacketRequestFilterSet;
 import buildcraft.compat.forestry.pipes.network.PacketTypeFilterChange;
-import buildcraft.compat.pamhc.CompatModulePamHarvestCraft;
 import buildcraft.core.DefaultProps;
 import buildcraft.core.lib.network.ChannelHandler;
 import buildcraft.gui.CompatGuiHandler;
 import buildcraft.network.PacketHandlerCompat;
 import buildcraft.texture.TextureManager;
 
-@Mod(name = "BuildCraft Compat", version = "@VERSION@", useMetadata = false, modid = "BuildCraft|Compat", acceptedMinecraftVersions = "[1.7.10,1.8)", dependencies = "required-after:Forge@[10.13.0.1179,);required-after:BuildCraft|Core;after:Forestry;after:BuildCraft|Transport;after:BuildCraft|Builders")
+@Mod(name = "BuildCraft Compat", version = "@VERSION@", useMetadata = false, modid = "BuildCraft|Compat", acceptedMinecraftVersions = "[1.7.10,1.8)", dependencies = "required-after:Forge@[10.13.0.1179,);required-after:BuildCraft|Core;after:Forestry;after:BuildCraft|Transport;after:BuildCraft|Builders;after:ThermalExpansion")
 public class BuildCraftCompat extends BuildCraftMod {
     @Mod.Instance("BuildCraft|Compat")
     public static BuildCraftCompat instance;
@@ -65,7 +67,8 @@ public class BuildCraftCompat extends BuildCraftMod {
     }
 
     private void offerModule(final CompatModuleBase module) {
-        if (module.canLoad() && BuildCraftCompat.config.getBoolean(module.name(), "modules", true, module.comment())) {
+		Property prop = BuildCraftCompat.config.get("modules", module.name(), true);
+        if (module.canLoad() && prop.getBoolean(true) == true) {
             BuildCraftCompat.modules.add(module);
             BuildCraftCompat.moduleNames.add(module.name());
         }
@@ -101,6 +104,7 @@ public class BuildCraftCompat extends BuildCraftMod {
         this.offerModule(new CompatModuleFactorization());
         this.offerModule(new CompatModuleImmersiveEngineering());
         this.offerModule(new CompatModuleEnderStorage());
+		this.offerModule(new CompatModuleThermalExpansion());
 
         BuildCraftCompat.config.save();
 

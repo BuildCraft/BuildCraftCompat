@@ -3,7 +3,7 @@ package buildcraft.compat;
 import cpw.mods.fml.common.Loader;
 
 import buildcraft.api.crops.CropManager;
-import buildcraft.compat.amt.CropHandlerAMT;
+import buildcraft.compat.applemilktea2.CropHandlerAMT;
 
 public class CompatModuleAMT extends CompatModuleBase
 {

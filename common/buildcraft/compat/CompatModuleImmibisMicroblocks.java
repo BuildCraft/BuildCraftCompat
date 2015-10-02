@@ -3,6 +3,7 @@ package buildcraft.compat;
 import java.util.Set;
 
 import net.minecraft.block.Block;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
@@ -63,7 +64,8 @@ public class CompatModuleImmibisMicroblocks extends CompatModuleBase
 
             if (b.hasTileEntity(meta)) {
                 try {
-                    isImmibis = b.createTileEntity(test, meta) instanceof ICoverableTile;
+					TileEntity t = b.createTileEntity(test, meta);
+                    isImmibis = t instanceof ICoverableTile;
                 } catch (Exception e) {
 
                 }

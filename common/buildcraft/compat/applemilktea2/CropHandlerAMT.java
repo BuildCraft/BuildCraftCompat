@@ -1,4 +1,4 @@
-package buildcraft.compat.amt;
+package buildcraft.compat.applemilktea2;
 
 import java.util.List;
 
