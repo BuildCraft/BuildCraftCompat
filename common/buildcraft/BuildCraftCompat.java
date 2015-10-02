@@ -40,6 +40,7 @@ import buildcraft.compat.CompatModuleNEI;
 import buildcraft.compat.CompatModulePamHarvestCraft;
 import buildcraft.compat.CompatModuleRailcraft;
 import buildcraft.compat.CompatModuleRedLogic;
+import buildcraft.compat.CompatModuleRemainInMotion;
 import buildcraft.compat.CompatModuleThermalExpansion;
 import buildcraft.compat.CompatModuleWAILA;
 import buildcraft.compat.CompatModuleWitchery;
@@ -105,6 +106,7 @@ public class BuildCraftCompat extends BuildCraftMod {
         this.offerModule(new CompatModuleImmersiveEngineering());
         this.offerModule(new CompatModuleEnderStorage());
 		this.offerModule(new CompatModuleThermalExpansion());
+		this.offerModule(new CompatModuleRemainInMotion());
 
         BuildCraftCompat.config.save();
 

@@ -72,7 +72,7 @@ public class PipeItemsPropolis extends Pipe<PipeTransportItems> {
 	}
 
 	@Override
-	public boolean blockActivated(EntityPlayer player) {
+	public boolean blockActivated(EntityPlayer player, ForgeDirection side) {
 		if (getWorld().isRemote) {
 			return true;
 		}

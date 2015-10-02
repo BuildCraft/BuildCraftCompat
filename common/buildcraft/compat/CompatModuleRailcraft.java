@@ -9,6 +9,7 @@ import buildcraft.compat.lib.SchematicTileStairs;
 import buildcraft.compat.railcraft.SchematicRCDirectional;
 import buildcraft.compat.railcraft.SchematicRCTrack;
 import buildcraft.compat.railcraft.SchematicRCTrackElevator;
+import buildcraft.core.builders.schematics.SchematicIgnore;
 import buildcraft.core.builders.schematics.SchematicRotateMeta;
 
 public class CompatModuleRailcraft extends CompatModuleBase
@@ -32,6 +33,8 @@ public class CompatModuleRailcraft extends CompatModuleBase
 
     @Optional.Method(modid = "BuildCraft|Builders")
     private void initBuilders() {
+		CompatUtils.registerSchematic("Railcraft:residual.heat", SchematicIgnore.class);
+
 		CompatUtils.registerSchematic("Railcraft:anvil", SchematicRotateMeta.class, new Object[]{new int[]{0, 1, 2, 3}, Boolean.valueOf(true)});
         CompatUtils.registerSchematic("Railcraft:slab", SchematicTileDropsOnly.class);
         CompatUtils.registerSchematic("Railcraft:stair", SchematicTileStairs.class);

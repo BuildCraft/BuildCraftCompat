@@ -5,6 +5,7 @@ import cpw.mods.fml.common.Loader;
 import buildcraft.compat.thermalexpansion.SchematicTE4Base;
 import buildcraft.compat.thermalexpansion.SchematicTE4Cache;
 import buildcraft.compat.thermalexpansion.SchematicTE4Dynamo;
+import buildcraft.compat.thermalexpansion.SchematicTE4Light;
 import buildcraft.compat.thermalexpansion.SchematicTE4Machine;
 import buildcraft.compat.thermalexpansion.SchematicTE4Strongbox;
 import buildcraft.compat.thermalexpansion.SchematicTE4Tank;
@@ -33,5 +34,6 @@ public class CompatModuleThermalExpansion extends CompatModuleBase
 		CompatUtils.registerSchematic("ThermalExpansion:Tank", SchematicTE4Tank.class);
 		CompatUtils.registerSchematic("ThermalExpansion:Cache", SchematicTE4Cache.class);
 		CompatUtils.registerSchematic("ThermalExpansion:Strongbox", SchematicTE4Strongbox.class);
+		CompatUtils.registerSchematic("ThermalExpansion:Light", SchematicTE4Light.class);
     }
 }

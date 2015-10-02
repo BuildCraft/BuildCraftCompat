@@ -33,6 +33,7 @@ public class SchematicRLLampNonCube extends SchematicTile {
 		}
 		return null;
 	}
+
 	@Override
 	public void storeRequirements(IBuilderContext context, int x, int y, int z) {
 		if (this.block != null) {
