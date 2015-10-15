@@ -34,9 +34,9 @@ public class Refinery {
 	public static void addRecipe(ILiquidStack output, int energyPerMB, int ticksPerMB, ILiquidStack input1, @Optional ILiquidStack input2) {
 		MineTweakerAPI.apply(new AddRecipeAction(output, energyPerMB, ticksPerMB, input1, input2));
 	}
-
+	
 	@ZenMethod
-	public static void remove(ILiquidStack output) {
+	public static void removeRecipe(ILiquidStack output) {
 		Fluid fluid = MineTweakerMC.getLiquidStack(output).getFluid();
 		
 		List<IFlexibleRecipe<FluidStack>> toRemove = new ArrayList<IFlexibleRecipe<FluidStack>>();
@@ -50,6 +50,13 @@ public class Refinery {
 			MineTweakerAPI.apply(new RemoveRecipeAction(recipe));
 		}
 	}
+	
+	//Deprecated method for backwards compability
+	@ZenMethod
+	public static void remove(ILiquidStack output) {
+	       removeRecipe(output);
+	}
+
 	
 	// ######################
 	// ### Action Classes ###
