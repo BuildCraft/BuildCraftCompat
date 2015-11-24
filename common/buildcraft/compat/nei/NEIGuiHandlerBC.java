@@ -4,6 +4,7 @@ import codechicken.nei.VisiblityData;
 import codechicken.nei.api.INEIGuiHandler;
 import codechicken.nei.api.TaggedInventoryArea;
 
+import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
@@ -17,7 +18,7 @@ public class NEIGuiHandlerBC implements INEIGuiHandler {
 	}
 	@Override
 	public Iterable<Integer> getItemSpawnSlots(GuiContainer gui, ItemStack item) {
-		return null;
+		return new ArrayList<Integer>();
 	}
 	@Override
 	public List<TaggedInventoryArea> getInventoryAreas(GuiContainer gui) {
