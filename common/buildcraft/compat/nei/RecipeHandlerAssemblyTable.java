@@ -18,7 +18,6 @@ import codechicken.nei.PositionedStack;
 import codechicken.nei.api.API;
 
 public class RecipeHandlerAssemblyTable extends RecipeHandlerBase {
-    
     private static final int[][] INPUTS = { { 0, 0 }, { 1, 0 }, { 2, 0 }, { 0, 1 }, { 1, 1 }, { 2, 1 }, { 0, 2 }, { 1, 2 }, { 2, 2 }, { 0, 3 }, { 1, 3 }, { 2, 3 } };
     private static Class<? extends GuiContainer> guiClass;
     
@@ -29,7 +28,6 @@ public class RecipeHandlerAssemblyTable extends RecipeHandlerBase {
     }
     
     public class CachedAssemblyTableRecipe extends CachedBaseRecipe {
-        
         public List<PositionedStack> inputs = new ArrayList<PositionedStack>();
         public PositionedStack output;
         public int energy;
