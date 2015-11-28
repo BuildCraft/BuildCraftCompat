@@ -11,6 +11,7 @@ for.gui.pipe.filter.closed=Closed
 for.gui.pipe.filter.drone=Drones
 for.gui.pipe.filter.flyer=Strong Flyers
 for.gui.pipe.filter.item=Items
+for.gui.pipe.filter.natural=Natural Origin
 for.gui.pipe.filter.nocturnal=Nocturnal Bees
 for.gui.pipe.filter.princess=Princesses
 for.gui.pipe.filter.pure_breed=Pure-Bred Bees
