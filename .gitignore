@@ -4,6 +4,7 @@
 .metadata
 org.*
 bin
+*.launch
 
 #idea
 *.iml
