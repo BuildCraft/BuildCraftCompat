@@ -17,8 +17,8 @@ public class GateGuiHandler implements IAdvancedGuiHandler<GuiGateInterface> {
     @Override
     public List<Rectangle> getGuiExtraAreas(GuiGateInterface gate) {
         List<Rectangle> rectangles = new ArrayList<>();
-        int guiLeft = (gate.width - gate.getXSize()) / 2;
-        int guiTop = (gate.height - gate.getYSize()) / 2;
+        int guiLeft = (gate.width - gate.xSize()) / 2;
+        int guiTop = (gate.height - gate.ySize()) / 2;
 
         // Triggers
         // int triggerStartX;
@@ -31,7 +31,7 @@ public class GateGuiHandler implements IAdvancedGuiHandler<GuiGateInterface> {
         // }
 
         // Actions
-        int actionStartX = guiLeft + gate.getXSize();
+        int actionStartX = guiLeft + gate.xSize();
         int actionStartY = guiTop + 6;
 
         if (gate.actionRows > 1) {

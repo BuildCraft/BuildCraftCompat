@@ -21,7 +21,7 @@ public class HandlerCombusionEngine implements IRecipeHandler<IFuel> {
 
     @Override
     public IRecipeWrapper getRecipeWrapper(IFuel recipe) {
-        return new WrapperCombustionEngine(recipe);
+        return new WrapperCombustionEngine(BCPluginJEI.registry.getJeiHelpers().getGuiHelper(), recipe);
     }
 
     @Override

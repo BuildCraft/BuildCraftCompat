@@ -45,7 +45,7 @@ repositories {
 apply plugin: "net.minecraftforge.gradle.forge" // adds the forge dependency
 apply plugin: 'maven' // for uploading to a maven repo
 
-version = "7.2.0-pre12-compat1"
+version = "7.2.0-refinery-test-compat"
 group = "com.mod-buildcraft-compat"
 archivesBaseName = "buildcraft" // the name that all artifacts will use as a base. artifacts names follow this pattern: [baseName]-[appendix]-[version]-[classifier].[extension]
 
@@ -53,13 +53,13 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-	deobfCompile "com.mod-buildcraft:buildcraft:7.2.0-pre12"
-    deobfCompile "mezz.jei:jei_1.8.9:2.25.12.152"
+	deobfCompile "com.mod-buildcraft:buildcraft:7.2.0-refinery-test"
+    deobfCompile "mezz.jei:jei_1.8.9:2.28.6.173" // Versions from http://minecraft.curseforge.com/projects/just-enough-items-jei/files
 }
 
 minecraft {
     mappings = "snapshot_20160214"
-    version = "1.8.9-11.15.1.1744"
+    version = "1.8.9-11.15.1.1763"
 
     runDir = "run" // the directory for ForgeGradle to run Minecraft in
 
