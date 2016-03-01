@@ -2,8 +2,6 @@ package buildcraft.compat.jei;
 
 import javax.annotation.Nonnull;
 
-import net.minecraft.client.Minecraft;
-
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IGuiFluidStackGroup;
@@ -44,8 +42,15 @@ public class CategoryCombustionEngine extends FurnaceRecipeCategory {
             wrapper = (WrapperCombustionEngine) recipeWrapper;
             IGuiFluidStackGroup guiFluidStacks = recipeLayout.getFluidStacks();
 
-            guiFluidStacks.init(fuelSlot, true, 1, 15, 16, 16, 1000, false, null);
-            guiFluidStacks.set(fuelSlot, wrapper.getFluidInputs());
+            guiFluidStacks.init(0, true, 1, 15, 16, 16, 1000, false, null);
+            guiFluidStacks.set(0, wrapper.getFluidInputs());
+
+            if (wrapper instanceof WrapperCombustionEngine.Dirty) {
+                WrapperCombustionEngine.Dirty dirty = (WrapperCombustionEngine.Dirty) wrapper;
+
+                guiFluidStacks.init(1, true, 41, 15, 16, 16, 1000, false, null);
+                guiFluidStacks.set(1, wrapper.getFluidOutputs());
+            }
         } else {
             wrapper = null;
         }

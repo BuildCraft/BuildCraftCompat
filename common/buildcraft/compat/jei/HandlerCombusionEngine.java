@@ -3,6 +3,7 @@ package buildcraft.compat.jei;
 import net.minecraftforge.fluids.FluidRegistry;
 
 import buildcraft.api.fuels.IFuel;
+import buildcraft.api.fuels.IFuelManager.IDirtyFuel;
 
 import mezz.jei.api.recipe.IRecipeHandler;
 import mezz.jei.api.recipe.IRecipeWrapper;
@@ -21,6 +22,9 @@ public class HandlerCombusionEngine implements IRecipeHandler<IFuel> {
 
     @Override
     public IRecipeWrapper getRecipeWrapper(IFuel recipe) {
+        if (recipe instanceof IDirtyFuel) {
+            return new WrapperCombustionEngine.Dirty(BCPluginJEI.registry.getJeiHelpers().getGuiHelper(), (IDirtyFuel) recipe);
+        }
         return new WrapperCombustionEngine(BCPluginJEI.registry.getJeiHelpers().getGuiHelper(), recipe);
     }
 

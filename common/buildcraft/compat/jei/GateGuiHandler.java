@@ -20,16 +20,6 @@ public class GateGuiHandler implements IAdvancedGuiHandler<GuiGateInterface> {
         int guiLeft = (gate.width - gate.xSize()) / 2;
         int guiTop = (gate.height - gate.ySize()) / 2;
 
-        // Triggers
-        // int triggerStartX;
-        // int triggerStartY;
-
-        // if (gate.triggerRows > 1) {
-
-        // } else if (gate.triggerRows == 1) {
-        // rectangles.add(new Rectangle(tir));
-        // }
-
         // Actions
         int actionStartX = guiLeft + gate.xSize();
         int actionStartY = guiTop + 6;

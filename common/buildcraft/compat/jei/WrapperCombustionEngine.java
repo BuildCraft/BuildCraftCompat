@@ -15,6 +15,7 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
 import buildcraft.api.fuels.IFuel;
+import buildcraft.api.fuels.IFuelManager.IDirtyFuel;
 
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawableAnimated;
@@ -78,5 +79,19 @@ public class WrapperCombustionEngine implements IRecipeWrapper {
     @Override
     public boolean handleClick(Minecraft minecraft, int mouseX, int mouseY, int mouseButton) {
         return false;
+    }
+
+    public static class Dirty extends WrapperCombustionEngine {
+        public final IDirtyFuel dirty;
+
+        public Dirty(@Nonnull IGuiHelper guiHelper, IDirtyFuel fuel) {
+            super(guiHelper, fuel);
+            this.dirty = fuel;
+        }
+
+        @Override
+        public List<FluidStack> getFluidOutputs() {
+            return ImmutableList.of(dirty.getResidue());
+        }
     }
 }

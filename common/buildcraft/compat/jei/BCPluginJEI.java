@@ -10,8 +10,12 @@ import net.minecraftforge.fml.common.Loader;
 
 import buildcraft.api.core.BCLog;
 import buildcraft.energy.fuels.FuelManager;
+import buildcraft.energy.gui.GuiCombustionEngine;
+import buildcraft.energy.gui.GuiStoneEngine;
+import buildcraft.silicon.gui.GuiAdvancedCraftingTable;
 
 import mezz.jei.api.*;
+import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 
 @JEIPlugin
 public class BCPluginJEI implements IModPlugin {
@@ -35,11 +39,10 @@ public class BCPluginJEI implements IModPlugin {
         boolean robotics = Loader.isModLoaded("BuildCraft|Robotics");
         List<String> lst = new ArrayList<>();
 
+        jeiRegistry.addAdvancedGuiHandlers(new LedgerGuiHandler());
         if (transport) {
             lst.add("transport");
-
-            jeiRegistry.addAdvancedGuiHandlers(new GateGuiHandler());
-            jeiRegistry.addAdvancedGuiHandlers(new LedgerGuiHandler());
+            loadTransport(jeiRegistry);
         }
         if (factory) {
             lst.add("factory");
@@ -49,12 +52,30 @@ public class BCPluginJEI implements IModPlugin {
         }
         if (energy) {
             lst.add("energy");
-
-            jeiRegistry.addRecipeCategories(new CategoryCombustionEngine(jeiRegistry.getJeiHelpers().getGuiHelper()));
-            jeiRegistry.addRecipeHandlers(new HandlerCombusionEngine());
-            jeiRegistry.addRecipes(ImmutableList.copyOf(FuelManager.INSTANCE.getFuels()));
+            loadEnergy(jeiRegistry);
+        }
+        if (silicon) {
+            lst.add("silicon");
+            loadSilicon(jeiRegistry);
         }
         BCLog.logger.info("Loaded JEI mods: " + Arrays.toString(lst.toArray()));
+    }
+
+    private static void loadTransport(IModRegistry jeiRegistry) {
+        jeiRegistry.addAdvancedGuiHandlers(new GateGuiHandler());
+    }
+
+    private static void loadEnergy(IModRegistry jeiRegistry) {
+        jeiRegistry.addRecipeCategories(new CategoryCombustionEngine(jeiRegistry.getJeiHelpers().getGuiHelper()));
+        jeiRegistry.addRecipeHandlers(new HandlerCombusionEngine());
+        jeiRegistry.addRecipes(ImmutableList.copyOf(FuelManager.INSTANCE.getFuels()));
+
+        jeiRegistry.addRecipeClickArea(GuiCombustionEngine.class, 76, 41, 22, 15, CategoryCombustionEngine.UID);
+        jeiRegistry.addRecipeClickArea(GuiStoneEngine.class, 80, 24, 16, 16, VanillaRecipeCategoryUid.FUEL);
+    }
+
+    private static void loadSilicon(IModRegistry jeiRegistry) {
+        jeiRegistry.addRecipeClickArea(GuiAdvancedCraftingTable.class, 93, 34, 22, 15, VanillaRecipeCategoryUid.CRAFTING);
     }
 
     @Override
