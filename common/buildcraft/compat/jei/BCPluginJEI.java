@@ -17,6 +17,7 @@ import buildcraft.compat.jei.recipe.HandlerHeatableFluid;
 import buildcraft.energy.fuels.FuelManager;
 import buildcraft.energy.gui.GuiCombustionEngine;
 import buildcraft.energy.gui.GuiStoneEngine;
+import buildcraft.factory.gui.GuiEnergyHeater;
 import buildcraft.silicon.gui.GuiAdvancedCraftingTable;
 
 import mezz.jei.api.*;
@@ -87,6 +88,8 @@ public class BCPluginJEI implements IModPlugin {
         jeiRegistry.addRecipes(ImmutableList.copyOf(BuildcraftRecipeRegistry.complexRefinery.getCoolableRegistry().getAllRecipes()));
         jeiRegistry.addRecipes(ImmutableList.copyOf(BuildcraftRecipeRegistry.complexRefinery.getHeatableRegistry().getAllRecipes()));
         jeiRegistry.addRecipes(ImmutableList.copyOf(BuildcraftRecipeRegistry.complexRefinery.getDistilationRegistry().getAllRecipes()));
+
+        jeiRegistry.addRecipeClickArea(GuiEnergyHeater.class, 61, 18, 54, 23, CategoryHeatable.UID);
     }
 
     private static void loadSilicon(IModRegistry jeiRegistry) {

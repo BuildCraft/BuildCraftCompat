@@ -1,5 +1,6 @@
 package buildcraft.compat.jei.recipe;
 
+import java.awt.Color;
 import java.util.Collections;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import net.minecraft.client.Minecraft;
 
 import net.minecraftforge.fluids.FluidStack;
 
+import buildcraft.BuildCraftFactory;
 import buildcraft.api.recipes.IComplexRefineryRecipeManager.IHeatableRecipe;
 
 import mezz.jei.api.IGuiHelper;
@@ -29,7 +31,7 @@ public class WrapperHeatableRecipe implements IRecipeWrapper {
         out = ImmutableList.of(recipe.out());
 
         IDrawableStatic overComplete = guiHelper.createDrawable(CategoryHeatable.energyHeaterBackground, 176, 152, 54, 19);
-        animated = guiHelper.createAnimatedDrawable(overComplete, recipe.ticks() * 50, IDrawableAnimated.StartDirection.LEFT, false);
+        animated = guiHelper.createAnimatedDrawable(overComplete, recipe.ticks() * 20, IDrawableAnimated.StartDirection.LEFT, false);
     }
 
     @Override
@@ -56,7 +58,11 @@ public class WrapperHeatableRecipe implements IRecipeWrapper {
     public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight) {}
 
     @Override
-    public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {}
+    public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
+        minecraft.fontRendererObj.drawString("Takes " + (heatable.ticks() / 20.0) + "s", 93, 0, Color.gray.getRGB());
+        int rftick = Math.abs(heatable.heatFrom() - heatable.heatTo()) * BuildCraftFactory.rfPerHeatPerMB * heatable.in().amount;
+        minecraft.fontRendererObj.drawString(" at " + rftick + "RF/t", 93, 11, Color.gray.getRGB());
+    }
 
     @Override
     public void drawAnimations(Minecraft minecraft, int recipeWidth, int recipeHeight) {

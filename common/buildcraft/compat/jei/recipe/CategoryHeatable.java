@@ -17,7 +17,7 @@ public class CategoryHeatable implements IRecipeCategory {
     private final IDrawable background, slotIn, slotOut;
 
     public CategoryHeatable(IGuiHelper helper) {
-        background = helper.createDrawable(energyHeaterBackground, 176, 76, 54, 19, 0, 0, 18, 80);
+        background = helper.createDrawable(energyHeaterBackground, 176, 19, 54, 19, 0, 0, 18, 80);
         slotIn = helper.createDrawable(energyHeaterBackground, 7, 22, 18, 18, 0, 0, 0, 0);
         slotOut = helper.createDrawable(energyHeaterBackground, 7, 22, 18, 18, 0, 0, 72, 0);
     }
@@ -52,10 +52,10 @@ public class CategoryHeatable implements IRecipeCategory {
             WrapperHeatableRecipe wrapper = (WrapperHeatableRecipe) recipeWrapper;
             IGuiFluidStackGroup guiFluidStacks = recipeLayout.getFluidStacks();
 
-            guiFluidStacks.init(0, true, 1, 1, 16, 16, 20, false, null);
+            guiFluidStacks.init(0, true, 1, 1, 16, 16, 10, false, null);
             guiFluidStacks.set(0, wrapper.getFluidInputs());
 
-            guiFluidStacks.init(1, false, 73, 1, 16, 16, 20, false, null);
+            guiFluidStacks.init(1, false, 73, 1, 16, 16, 10, false, null);
             guiFluidStacks.set(1, wrapper.getFluidOutputs());
         }
     }
