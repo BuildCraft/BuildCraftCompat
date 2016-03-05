@@ -14,7 +14,7 @@ import buildcraft.api.core.BCLog;
 import buildcraft.compat.CompatModuleBase;
 
 @Mod(name = "BuildCraft Compat", version = "@VERSION@", useMetadata = false, modid = "BuildCraft|Compat", acceptedMinecraftVersions = "[1.8.9]",
-        dependencies = "required-after:Forge@[11.15.1.1763,);required-after:BuildCraft|Core;after:BuildCraft|Transport;after:BuildCraft|Builders")
+        dependencies = "required-after:Forge@[11.15.1.1764,);required-after:BuildCraft|Core;after:BuildCraft|Transport;after:BuildCraft|Builders")
 public class BuildCraftCompat extends BuildCraftMod {
     @Mod.Instance("BuildCraft|Compat")
     public static BuildCraftCompat instance;

@@ -9,6 +9,11 @@ import com.google.common.collect.ImmutableList;
 import net.minecraftforge.fml.common.Loader;
 
 import buildcraft.api.core.BCLog;
+import buildcraft.api.recipes.BuildcraftRecipeRegistry;
+import buildcraft.compat.jei.recipe.CategoryCombustionEngine;
+import buildcraft.compat.jei.recipe.CategoryHeatable;
+import buildcraft.compat.jei.recipe.HandlerCombusionEngine;
+import buildcraft.compat.jei.recipe.HandlerHeatableFluid;
 import buildcraft.energy.fuels.FuelManager;
 import buildcraft.energy.gui.GuiCombustionEngine;
 import buildcraft.energy.gui.GuiStoneEngine;
@@ -46,9 +51,9 @@ public class BCPluginJEI implements IModPlugin {
         }
         if (factory) {
             lst.add("factory");
-            // if (energy) {
-
-            // }
+            if (energy) {
+                loadFactoryEnergy(jeiRegistry);
+            }
         }
         if (energy) {
             lst.add("energy");
@@ -72,6 +77,16 @@ public class BCPluginJEI implements IModPlugin {
 
         jeiRegistry.addRecipeClickArea(GuiCombustionEngine.class, 76, 41, 22, 15, CategoryCombustionEngine.UID);
         jeiRegistry.addRecipeClickArea(GuiStoneEngine.class, 80, 24, 16, 16, VanillaRecipeCategoryUid.FUEL);
+    }
+
+    private void loadFactoryEnergy(IModRegistry jeiRegistry) {
+        IGuiHelper helper = jeiRegistry.getJeiHelpers().getGuiHelper();
+        jeiRegistry.addRecipeCategories(new CategoryHeatable(helper));
+        jeiRegistry.addRecipeHandlers(new HandlerHeatableFluid());
+
+        jeiRegistry.addRecipes(ImmutableList.copyOf(BuildcraftRecipeRegistry.complexRefinery.getCoolableRegistry().getAllRecipes()));
+        jeiRegistry.addRecipes(ImmutableList.copyOf(BuildcraftRecipeRegistry.complexRefinery.getHeatableRegistry().getAllRecipes()));
+        jeiRegistry.addRecipes(ImmutableList.copyOf(BuildcraftRecipeRegistry.complexRefinery.getDistilationRegistry().getAllRecipes()));
     }
 
     private static void loadSilicon(IModRegistry jeiRegistry) {

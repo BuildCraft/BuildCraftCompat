@@ -1,9 +1,10 @@
-package buildcraft.compat.jei;
+package buildcraft.compat.jei.recipe;
 
 import net.minecraftforge.fluids.FluidRegistry;
 
 import buildcraft.api.fuels.IFuel;
 import buildcraft.api.fuels.IFuelManager.IDirtyFuel;
+import buildcraft.compat.jei.BCPluginJEI;
 
 import mezz.jei.api.recipe.IRecipeHandler;
 import mezz.jei.api.recipe.IRecipeWrapper;

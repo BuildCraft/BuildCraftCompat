@@ -1,4 +1,4 @@
-package buildcraft.compat.jei;
+package buildcraft.compat.jei.recipe;
 
 import java.awt.Color;
 import java.util.Collections;

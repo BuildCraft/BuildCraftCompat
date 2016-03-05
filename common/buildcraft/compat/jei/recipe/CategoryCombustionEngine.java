@@ -1,4 +1,4 @@
-package buildcraft.compat.jei;
+package buildcraft.compat.jei.recipe;
 
 import javax.annotation.Nonnull;
 
@@ -48,7 +48,7 @@ public class CategoryCombustionEngine extends FurnaceRecipeCategory {
             if (wrapper instanceof WrapperCombustionEngine.Dirty) {
                 WrapperCombustionEngine.Dirty dirty = (WrapperCombustionEngine.Dirty) wrapper;
 
-                guiFluidStacks.init(1, true, 41, 15, 16, 16, 1000, false, null);
+                guiFluidStacks.init(1, false, 95, 15, 16, 16, 1000, false, null);
                 guiFluidStacks.set(1, wrapper.getFluidOutputs());
             }
         } else {
