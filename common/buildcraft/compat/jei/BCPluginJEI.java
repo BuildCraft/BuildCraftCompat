@@ -17,7 +17,9 @@ import buildcraft.compat.jei.recipe.HandlerHeatableFluid;
 import buildcraft.energy.fuels.FuelManager;
 import buildcraft.energy.gui.GuiCombustionEngine;
 import buildcraft.energy.gui.GuiStoneEngine;
+import buildcraft.factory.gui.GuiDistiller;
 import buildcraft.factory.gui.GuiEnergyHeater;
+import buildcraft.factory.gui.GuiHeatExchanger;
 import buildcraft.silicon.gui.GuiAdvancedCraftingTable;
 
 import mezz.jei.api.*;
@@ -82,14 +84,16 @@ public class BCPluginJEI implements IModPlugin {
 
     private void loadFactoryEnergy(IModRegistry jeiRegistry) {
         IGuiHelper helper = jeiRegistry.getJeiHelpers().getGuiHelper();
-        jeiRegistry.addRecipeCategories(new CategoryHeatable(helper));
-        jeiRegistry.addRecipeHandlers(new HandlerHeatableFluid());
+        jeiRegistry.addRecipeCategories(new CategoryHeatable(helper), new CategoryDistiller(helper), new CategoryCoolable(helper));
+        jeiRegistry.addRecipeHandlers(new HandlerHeatableFluid(), new HandlerDistiller(), new HandlerCoolable());
 
         jeiRegistry.addRecipes(ImmutableList.copyOf(BuildcraftRecipeRegistry.complexRefinery.getCoolableRegistry().getAllRecipes()));
         jeiRegistry.addRecipes(ImmutableList.copyOf(BuildcraftRecipeRegistry.complexRefinery.getHeatableRegistry().getAllRecipes()));
         jeiRegistry.addRecipes(ImmutableList.copyOf(BuildcraftRecipeRegistry.complexRefinery.getDistilationRegistry().getAllRecipes()));
 
         jeiRegistry.addRecipeClickArea(GuiEnergyHeater.class, 61, 18, 54, 23, CategoryHeatable.UID);
+        jeiRegistry.addRecipeClickArea(GuiDistiller.class, 61, 12, 36, 57, CategoryDistiller.UID);
+        jeiRegistry.addRecipeClickArea(GuiHeatExchanger.class, 61, 38, 54, 17, CategoryHeatable.UID, CategoryCoolable.UID);
     }
 
     private static void loadSilicon(IModRegistry jeiRegistry) {
