@@ -87,10 +87,10 @@ minecraft {
 sourceSets {
     main {
         java {
-            srcDir 'common'
+            srcDir "common"
         }
         resources {
-            srcDir 'resources'
+            srcDir "resources"
         }
     }
     bc_core {
@@ -99,6 +99,7 @@ sourceSets {
         }
         resources {
             srcDir "BuildCraft/buildcraft_resources"
+            srcDir "BuildCraft/BuildCraft-Localization"
         }
     }
     bc_api {
@@ -108,7 +109,7 @@ sourceSets {
     }
     mod_api {
         java {
-            srcDir 'api'
+            srcDir "api"
         }
     }
 }
