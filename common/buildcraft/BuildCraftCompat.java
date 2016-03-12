@@ -12,11 +12,12 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 import buildcraft.api.core.BCLog;
 import buildcraft.compat.CompatModuleBase;
+import buildcraft.compat.CompatModuleIronChest;
 import buildcraft.compat.CompatModuleMineTweaker3;
 import buildcraft.compat.CompatModuleWAILA;
 
 @Mod(name = "BuildCraft Compat", version = "@VERSION@", useMetadata = false, modid = "BuildCraft|Compat", acceptedMinecraftVersions = "[1.8.9]",
-        dependencies = "required-after:Forge@[11.15.1.1764,);required-after:BuildCraft|Core;after:BuildCraft|Transport;after:BuildCraft|Builders")
+        dependencies = "required-after:Forge@[11.15.1.1764,);required-after:BuildCraft|Core;after:BuildCraft|Transport;after:BuildCraft|Builders;after:IronChest")
 public class BuildCraftCompat extends BuildCraftMod {
     @Mod.Instance("BuildCraft|Compat")
     public static BuildCraftCompat instance;
@@ -46,6 +47,7 @@ public class BuildCraftCompat extends BuildCraftMod {
         (BuildCraftCompat.config = new Configuration(new File(new File(evt.getSuggestedConfigurationFile().getParentFile(), "buildcraft"),
                 "compat.cfg"))).load();
 
+		this.offerModule(new CompatModuleIronChest());
 		this.offerModule(new CompatModuleMineTweaker3());
 		this.offerModule(new CompatModuleWAILA());
 

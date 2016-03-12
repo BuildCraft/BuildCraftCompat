@@ -1,5 +1,7 @@
 package buildcraft.compat;
 
+import net.minecraftforge.fml.common.Loader;
+
 import buildcraft.compat.minetweaker.AssemblyTable;
 import buildcraft.compat.minetweaker.Fuels;
 import buildcraft.compat.minetweaker.ProgrammingTable;
@@ -7,11 +9,15 @@ import buildcraft.compat.minetweaker.Refinery;
 
 import minetweaker.MineTweakerAPI;
 
-public class CompatModuleMineTweaker3 extends CompatModuleBase
-{
+public class CompatModuleMineTweaker3 extends CompatModuleBase {
+	@Override
+	public boolean canLoad() {
+		return Loader.isModLoaded("crafttweaker") || Loader.isModLoaded(name());
+	}
+
     @Override
     public String name() {
-        return "crafttweaker";
+        return "MineTweaker3";
     }
     
     @Override
