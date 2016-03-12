@@ -53,7 +53,6 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-	deobfCompile "com.mod-buildcraft:buildcraft:7.2.0-refinery-test"
     deobfCompile "mezz.jei:jei_1.8.9:2.28.6.173" // Versions from http://minecraft.curseforge.com/projects/just-enough-items-jei/files
 }
 
@@ -80,7 +79,20 @@ sourceSets {
             srcDir 'resources'
         }
     }
-    api {
+    bc_core {
+        java {
+            srcDir "BuildCraft/common"
+        }
+        resources {
+            srcDir "BuildCraft/buildcraft_resources"
+        }
+    }
+    bc_api {
+        java {
+            srcDir "BuildCraft/BuildCraftAPI/api"
+        }
+    }
+    mod_api {
         java {
             srcDir 'api'
         }
