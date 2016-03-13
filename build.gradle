@@ -32,14 +32,6 @@ repositories {
     maven {
         url "http://dvs1.progwml6.com/files/maven"
     }
-    ivy {
-    	name "BuildCraft-local"
-    	artifactPattern System.getProperty("user.home") + "/.m2/repository/com/mod-buildcraft/BuildCraft/[revision]/[module]-[revision].[ext]"
-    }
-    ivy {
-        name "BuildCraft"
-        artifactPattern "http://www.mod-buildcraft.com/releases/BuildCraft/[revision]/[module]-[revision]-[classifier].[ext]"
-    }
 }
 
 apply plugin: "net.minecraftforge.gradle.forge" // adds the forge dependency
