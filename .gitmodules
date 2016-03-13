@@ -1,0 +1,3 @@
+[submodule "BuildCraft"]
+	path = BuildCraft
+	url = https://github.com/BuildCraft/BuildCraft.git
