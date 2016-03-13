@@ -11,17 +11,17 @@ import mezz.jei.api.recipe.IRecipeWrapper;
 /**
  * Created by asie on 3/12/16.
  */
-public class HandlerAssemblyRecipe extends HandlerFlexibleRecipe {
+public class HandlerAssemblyTable extends HandlerFlexibleRecipe {
 	@Nonnull
 	@Override
 	public String getRecipeCategoryUid() {
-		return CategoryAssemblyRecipe.UID;
+		return CategoryAssemblyTable.UID;
 	}
 
 	@Nonnull
 	@Override
 	public IRecipeWrapper getRecipeWrapper(@Nonnull IFlexibleRecipe recipe) {
-		return new WrapperAssemblyRecipe(BCPluginJEI.registry.getJeiHelpers().getGuiHelper(), recipe);
+		return new WrapperAssemblyTable(BCPluginJEI.registry.getJeiHelpers().getGuiHelper(), recipe);
 	}
 
 	@Override

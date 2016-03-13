@@ -13,14 +13,14 @@ import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.recipe.BlankRecipeCategory;
 import mezz.jei.api.recipe.IRecipeWrapper;
 
-public class CategoryAssemblyRecipe extends BlankRecipeCategory {
+public class CategoryAssemblyTable extends BlankRecipeCategory {
     public static final String UID = "buildcraft-compat:silicon.assembly";
 
 	protected final ResourceLocation backgroundLocation;
     private final IDrawable background;
-    private WrapperAssemblyRecipe wrapper = null;
+    private WrapperAssemblyTable wrapper = null;
 
-    public CategoryAssemblyRecipe(IGuiHelper guiHelper) {
+    public CategoryAssemblyTable(IGuiHelper guiHelper) {
 		backgroundLocation = new ResourceLocation("buildcraftsilicon", "textures/gui/assembly_table.png");
 		background = guiHelper.createDrawable(backgroundLocation, 5, 34, 166, 76, 10, 0, 0, 0);
 	}
@@ -42,8 +42,8 @@ public class CategoryAssemblyRecipe extends BlankRecipeCategory {
 
     @Override
     public void setRecipe(@Nonnull IRecipeLayout recipeLayout, @Nonnull IRecipeWrapper recipeWrapper) {
-		if (recipeWrapper instanceof WrapperAssemblyRecipe) {
-			wrapper = (WrapperAssemblyRecipe) recipeWrapper;
+		if (recipeWrapper instanceof WrapperAssemblyTable) {
+			wrapper = (WrapperAssemblyTable) recipeWrapper;
 			IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
 
 			for (int i = 0; i < wrapper.getInputs().size(); i++) {

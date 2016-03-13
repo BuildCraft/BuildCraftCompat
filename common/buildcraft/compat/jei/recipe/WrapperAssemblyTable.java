@@ -20,14 +20,14 @@ import mezz.jei.api.gui.IDrawableAnimated;
 import mezz.jei.api.gui.IDrawableStatic;
 import mezz.jei.api.recipe.IRecipeWrapper;
 
-public class WrapperAssemblyRecipe implements IRecipeWrapper {
+public class WrapperAssemblyTable implements IRecipeWrapper {
     private final IFlexibleRecipe<ItemStack> recipe;
 	private final IFlexibleRecipeViewable viewable;
     @Nonnull
     private final IDrawableAnimated progressBar;
 	private final List inputs, outputs;
 
-    public WrapperAssemblyRecipe(@Nonnull IGuiHelper guiHelper, IFlexibleRecipe recipe) {
+    public WrapperAssemblyTable(@Nonnull IGuiHelper guiHelper, IFlexibleRecipe recipe) {
         this.recipe = (IFlexibleRecipe<ItemStack>) recipe;
 		this.viewable = (IFlexibleRecipeViewable) recipe;
 		this.inputs = ImmutableList.copyOf(viewable.getInputs());
