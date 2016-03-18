@@ -158,12 +158,8 @@ public class PipeItemsPropolis extends Pipe<PipeTransportItems> {
 	public void eventHandler(PipeEventItem.Entered event) {
 		// A bit of speed to perhaps prevent bees from popping out of the pipe.
 		try {
-			event.item.setSpeed(TransportConstants.PIPE_NORMAL_SPEED * 20F);
+			event.item.setSpeed(TransportConstants.PIPE_DEFAULT_SPEED * 20F);
 		} catch (Throwable ignored) {
 		}
-	}
-
-	public void eventHandler(PipeEventItem.AdjustSpeed event) {
-		transport.defaultReajustSpeed(event.item);
 	}
 }
