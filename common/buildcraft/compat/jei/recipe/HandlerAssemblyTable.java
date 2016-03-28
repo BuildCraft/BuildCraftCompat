@@ -6,6 +6,8 @@ import buildcraft.api.recipes.IFlexibleRecipeViewable;
 import buildcraft.compat.jei.BCPluginJEI;
 
 import javax.annotation.Nonnull;
+
+import buildcraft.core.recipes.AssemblyRecipeManager;
 import mezz.jei.api.recipe.IRecipeWrapper;
 
 /**
@@ -26,6 +28,6 @@ public class HandlerAssemblyTable extends HandlerFlexibleRecipe {
 
 	@Override
 	public boolean isRecipeValid(@Nonnull IFlexibleRecipe recipe) {
-		return recipe instanceof IFlexibleRecipeViewable && BuildcraftRecipeRegistry.assemblyTable.getRecipes().contains(recipe);
+		return recipe.getId() != null && recipe instanceof IFlexibleRecipeViewable && AssemblyRecipeManager.INSTANCE.getRecipe(recipe.getId()) == recipe;
 	}
 }

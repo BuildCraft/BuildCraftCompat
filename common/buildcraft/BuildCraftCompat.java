@@ -3,6 +3,7 @@ package buildcraft;
 import java.io.File;
 import java.util.HashSet;
 
+import buildcraft.compat.*;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.common.Mod;
@@ -11,10 +12,6 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 import buildcraft.api.core.BCLog;
-import buildcraft.compat.CompatModuleBase;
-import buildcraft.compat.CompatModuleIronChest;
-import buildcraft.compat.CompatModuleMineTweaker3;
-import buildcraft.compat.CompatModuleWAILA;
 
 @Mod(name = "BuildCraft Compat", version = "@VERSION@", useMetadata = false, modid = "BuildCraft|Compat", acceptedMinecraftVersions = "[1.8.9]",
 		updateJSON = "http://mod-buildcraft.com/version/versions-compat.json",
@@ -32,10 +29,12 @@ public class BuildCraftCompat extends BuildCraftMod {
     }
 
     private void offerModule(final CompatModuleBase module) {
-        Property prop = BuildCraftCompat.config.get("modules", module.name(), true);
-        if (module.canLoad() && prop.getBoolean(true) == true) {
-            BuildCraftCompat.modules.add(module);
-            BuildCraftCompat.moduleNames.add(module.name());
+        if (module.canLoad()) {
+            Property prop = BuildCraftCompat.config.get("modules", module.name(), true);
+            if (prop.getBoolean(true) == true) {
+                BuildCraftCompat.modules.add(module);
+                BuildCraftCompat.moduleNames.add(module.name());
+            }
         }
     }
 
@@ -48,6 +47,7 @@ public class BuildCraftCompat extends BuildCraftMod {
         (BuildCraftCompat.config = new Configuration(new File(new File(evt.getSuggestedConfigurationFile().getParentFile(), "buildcraft"),
                 "compat.cfg"))).load();
 
+        this.offerModule(new CompatModuleAgriCraft());
 		this.offerModule(new CompatModuleIronChest());
 		this.offerModule(new CompatModuleMineTweaker3());
 		this.offerModule(new CompatModuleWAILA());
