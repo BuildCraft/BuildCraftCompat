@@ -3,6 +3,7 @@ package buildcraft;
 import java.io.File;
 import java.util.HashSet;
 
+import buildcraft.compat.*;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLMissingMappingsEvent;
@@ -18,32 +19,6 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 
 import buildcraft.api.core.BCLog;
-import buildcraft.compat.CompatModuleAMT;
-import buildcraft.compat.CompatModuleAgriCraft;
-import buildcraft.compat.CompatModuleAquaTweaks;
-import buildcraft.compat.CompatModuleBase;
-import buildcraft.compat.CompatModuleBigReactors;
-import buildcraft.compat.CompatModuleBinnie;
-import buildcraft.compat.CompatModuleBundledRedstone;
-import buildcraft.compat.CompatModuleCarpentersBlocks;
-import buildcraft.compat.CompatModuleEnderIO;
-import buildcraft.compat.CompatModuleEnderStorage;
-import buildcraft.compat.CompatModuleFMP;
-import buildcraft.compat.CompatModuleFactorization;
-import buildcraft.compat.CompatModuleForestry;
-import buildcraft.compat.CompatModuleImmersiveEngineering;
-import buildcraft.compat.CompatModuleImmibisMicroblocks;
-import buildcraft.compat.CompatModuleIronChest;
-import buildcraft.compat.CompatModuleMFR;
-import buildcraft.compat.CompatModuleMineTweaker3;
-import buildcraft.compat.CompatModuleNEI;
-import buildcraft.compat.CompatModulePamHarvestCraft;
-import buildcraft.compat.CompatModuleRailcraft;
-import buildcraft.compat.CompatModuleRedLogic;
-import buildcraft.compat.CompatModuleRemainInMotion;
-import buildcraft.compat.CompatModuleThermalExpansion;
-import buildcraft.compat.CompatModuleWAILA;
-import buildcraft.compat.CompatModuleWitchery;
 import buildcraft.compat.forestry.pipes.network.PacketGenomeFilterChange;
 import buildcraft.compat.forestry.pipes.network.PacketRequestFilterSet;
 import buildcraft.compat.forestry.pipes.network.PacketTypeFilterChange;
@@ -107,7 +82,7 @@ public class BuildCraftCompat extends BuildCraftMod {
         this.offerModule(new CompatModuleEnderStorage());
 		this.offerModule(new CompatModuleThermalExpansion());
 		this.offerModule(new CompatModuleRemainInMotion());
-
+        this.offerModule(new CompatModuleMagicCrops());
         BuildCraftCompat.config.save();
 
         for (final CompatModuleBase m : BuildCraftCompat.modules) {
