@@ -43,7 +43,7 @@ public class CropHandlerAgriCraft implements ICropHandler {
 	@Override
 	public boolean isMature(IBlockAccess blockAccess, Block block, int meta, int x, int y, int z) {
 		if (block.getUnlocalizedName().equals("tile.agricraft:crops")) {
-			return meta == 7;
+			return meta >= 7;
 		}
 		return false;
 	}
