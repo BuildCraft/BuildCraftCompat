@@ -34,7 +34,7 @@ repositories {
     }
     maven {
         name = "Qmunity"
-        url = "http://maven.bluepowermod.com/"
+        url = "http://maven.quetzi.net/"
     }
     ivy {
         name "MineTweaker3"
@@ -50,7 +50,7 @@ apply plugin: 'forge' // adds the forge dependency
 apply plugin: 'maven' // for uploading to a maven repo
 // apply plugin: 'checkstyle'
 
-version = "7.1.5"
+version = "7.1.6"
 group = "com.mod-buildcraft-compat"
 archivesBaseName = "buildcraft-compat" // the name that all artifacts will use as a base. artifacts names follow this pattern: [baseName]-[appendix]-[version]-[classifier].[extension]
 
