@@ -18,14 +18,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT"
-    }
-}
-
-repositories {
-    // JEI
-    maven {
-        url "http://dvs1.progwml6.com/files/maven"
+        classpath "net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT"
     }
 }
 
@@ -47,8 +40,32 @@ archivesBaseName = "buildcraft-compat" // the name that all artifacts will use a
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+repositories {
+    maven { name='JEI'; url='http://dvs1.progwml6.com/files/maven' }
+    maven { name='build craft'; url='https://www.mod-buildcraft.com/maven' }
+
+    maven { // The repo from which to get waila
+        name "Mobius Repo"
+        url "http://mobiusstrip.eu/maven"
+    }
+    maven { // the repo from which to get NEI and stuff
+        name 'CB Repo'
+        url "http://chickenbones.net/maven/"
+    }
+}
+
 dependencies {
-    deobfCompile "mezz.jei:jei_1.8.9:2.28.9.176" // Versions from http://minecraft.curseforge.com/projects/just-enough-items-jei/files
+    // deobfCompile "mezz.jei:jei_1.8.9:2.28.9.176" // Versions from http://minecraft.curseforge.com/projects/just-enough-items-jei/files
+    // JEI Stuff
+    deobfCompile "mezz.jei:jei_${config.mc_version}:${config.jei_version}:api"
+    runtime "mezz.jei:jei_${config.mc_version}:${config.jei_version}"
+
+    // BuildCraft Stuff
+    deobfCompile "com.mod-buildcraft:buildcraft-api:${config.mod_version}"
+    runtime "com.mod-buildcraft:buildcraft:${config.mod_version}"
+
+    // WAILA Stuff
+    compile "mcp.mobius.waila:Waila:${config.waila_version}"
 }
 
 minecraft {
@@ -80,25 +97,25 @@ sourceSets {
             srcDir "resources"
         }
     }
-    bc_core {
-        java {
-            srcDir "BuildCraft/common"
-        }
-        resources {
-            srcDir "BuildCraft/buildcraft_resources"
-            srcDir "BuildCraft/BuildCraft-Localization"
-        }
-    }
-    bc_api {
-        java {
-            srcDir "BuildCraft/BuildCraftAPI/api"
-        }
-    }
-    api {
-        java {
-            srcDir "api"
-        }
-    }
+//    bc_core {
+//        java {
+//            srcDir "BuildCraft/common"
+//        }
+//        resources {
+//            srcDir "BuildCraft/buildcraft_resources"
+//            srcDir "BuildCraft/BuildCraft-Localization"
+//        }
+//    }
+//    bc_api {
+//        java {
+//            srcDir "BuildCraft/BuildCraftAPI/api"
+//        }
+//    }
+//    api {
+//        java {
+//            srcDir "api"
+//        }
+//    }
 }
 
 processResources {
