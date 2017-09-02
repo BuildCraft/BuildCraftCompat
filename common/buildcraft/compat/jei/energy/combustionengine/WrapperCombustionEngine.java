@@ -65,6 +65,8 @@ public class WrapperCombustionEngine implements IRecipeWrapper {
     @Override
     @SideOnly(Side.CLIENT)
     public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
+        this.flame.draw(minecraft, 2, 0);
+
         GlStateManager.pushMatrix();
         GlStateManager.translate(24, 8, 0);
         // GlStateManager.scale(.7, .7, 1.0);
@@ -74,8 +76,6 @@ public class WrapperCombustionEngine implements IRecipeWrapper {
         GlStateManager.scale(.7, .7, 1.0);
         minecraft.fontRenderer.drawString(" total " + MjAPI.formatMj(fuel.getPowerPerCycle() * fuel.getTotalBurningTime()) + " MJ", 1, 2, Color.gray.getRGB());
         GlStateManager.popMatrix();
-        
-        this.flame.draw(minecraft, 2, 0);
     }
 
 //    @Override
