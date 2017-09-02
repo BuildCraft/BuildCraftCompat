@@ -1,4 +1,4 @@
-package buildcraft.compat.jei.recipe;
+package buildcraft.compat.jei.energy.combustionengine;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;

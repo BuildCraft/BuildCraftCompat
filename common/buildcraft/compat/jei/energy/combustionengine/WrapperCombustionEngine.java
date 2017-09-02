@@ -1,4 +1,4 @@
-package buildcraft.compat.jei.recipe;
+package buildcraft.compat.jei.energy.combustionengine;
 
 import java.awt.Color;
 import java.util.List;

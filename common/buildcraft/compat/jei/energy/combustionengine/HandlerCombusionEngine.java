@@ -1,4 +1,4 @@
-package buildcraft.compat.jei.recipe;
+package buildcraft.compat.jei.energy.combustionengine;
 
 import buildcraft.api.fuels.IFuel;
 import buildcraft.api.fuels.IFuelManager.IDirtyFuel;
