@@ -1,56 +1,48 @@
-//package buildcraft.compat.jei;
-//
-//import java.util.ArrayList;
-//import java.util.Arrays;
-//import java.util.List;
-//
-//import com.google.common.collect.ImmutableList;
-//
-//import net.minecraftforge.fml.common.Loader;
-//
-//import buildcraft.api.core.BCLog;
-//import buildcraft.api.recipes.BuildcraftRecipeRegistry;
-//import buildcraft.compat.jei.recipe.CategoryAssemblyTable;
-//import buildcraft.compat.jei.recipe.CategoryCombustionEngine;
-//import buildcraft.compat.jei.recipe.CategoryHeatable;
-//import buildcraft.compat.jei.recipe.CategoryIntegrationTable;
-//import buildcraft.compat.jei.recipe.HandlerAssemblyTable;
-//import buildcraft.compat.jei.recipe.HandlerCombusionEngine;
-//import buildcraft.compat.jei.recipe.HandlerHeatableFluid;
-//import buildcraft.compat.jei.recipe.HandlerIntegrationTable;
-//import buildcraft.energy.fuels.FuelManager;
-//import buildcraft.energy.gui.GuiCombustionEngine;
-//import buildcraft.energy.gui.GuiStoneEngine;
-//import buildcraft.factory.gui.GuiDistiller;
-//import buildcraft.factory.gui.GuiEnergyHeater;
-//import buildcraft.factory.gui.GuiHeatExchanger;
-//import buildcraft.silicon.gui.GuiAdvancedCraftingTable;
-//
-//import mezz.jei.api.*;
-//import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
-//
-//@JEIPlugin
-//public class BCPluginJEI implements IModPlugin {
+package buildcraft.compat.jei;
+
+import com.google.common.collect.ImmutableList;
+import net.minecraftforge.fml.common.Loader;
+import buildcraft.api.BCModules;
+import buildcraft.api.fuels.IFuel;
+import buildcraft.lib.fluid.FuelRegistry;
+import buildcraft.compat.jei.recipe.CategoryCombustionEngine;
+import buildcraft.compat.jei.recipe.HandlerCombusionEngine;
+import mezz.jei.api.BlankModPlugin;
+import mezz.jei.api.IModRegistry;
+import mezz.jei.api.JEIPlugin;
+import mezz.jei.api.recipe.IRecipeCategoryRegistration;
+
+@JEIPlugin
+public class BCPluginJEI extends BlankModPlugin {
 //    public static boolean disableFacadeJEI;
-//    public static IModRegistry registry;
+    public static IModRegistry registry;
 //    public static IJeiRuntime runtime;
-//
-//    @Override
-//    public void onJeiHelpersAvailable(IJeiHelpers jeiHelpers) {}
-//
-//    @Override
-//    public void onItemRegistryAvailable(IItemRegistry itemRegistry) {}
-//
-//    @Override
-//    public void register(IModRegistry jeiRegistry) {
-//        registry = jeiRegistry;
-//        boolean transport = Loader.isModLoaded("BuildCraft|Transport");
-//        boolean factory = Loader.isModLoaded("BuildCraft|Factory");
-//        boolean energy = Loader.isModLoaded("BuildCraft|Energy");
-//        boolean silicon = Loader.isModLoaded("BuildCraft|Silicon");
-//        boolean robotics = Loader.isModLoaded("BuildCraft|Robotics");
+
+    @Override
+    public void register(IModRegistry registry) {
+        BCPluginJEI.registry = registry;
+//        boolean transport = Loader.isModLoaded(BCModules.TRANSPORT.getModId());
+//        boolean factory = Loader.isModLoaded(BCModules.FACTORY.getModId());
+        boolean energy = Loader.isModLoaded(BCModules.ENERGY.getModId());
+//        boolean silicon = Loader.isModLoaded(BCModules.SILICON.getModId());
+//        boolean robotics = Loader.isModLoaded(BCModules.ROBOTICS.getModId());
+
+        if (energy) {
+            registry.handleRecipes(IFuel.class, new HandlerCombusionEngine(), CategoryCombustionEngine.UID);
+            registry.addRecipes(ImmutableList.copyOf(FuelRegistry.INSTANCE.getFuels()), CategoryCombustionEngine.UID);
+        }
+    }
+
+    @Override
+    public void registerCategories(IRecipeCategoryRegistration registry) {
+//        boolean transport = Loader.isModLoaded(BCModules.TRANSPORT.getModId());
+//        boolean factory = Loader.isModLoaded(BCModules.FACTORY.getModId());
+        boolean energy = Loader.isModLoaded(BCModules.ENERGY.getModId());
+//        boolean silicon = Loader.isModLoaded(BCModules.SILICON.getModId());
+//        boolean robotics = Loader.isModLoaded(BCModules.ROBOTICS.getModId());
+
 //        List<String> lst = new ArrayList<>();
-//
+
 //        jeiRegistry.addAdvancedGuiHandlers(new LedgerGuiHandler());
 //        if (transport) {
 //            lst.add("transport");
@@ -62,30 +54,34 @@
 //                loadFactoryEnergy(jeiRegistry);
 //            }
 //        }
-//        if (energy) {
+        if (energy) {
 //            lst.add("energy");
-//            loadEnergy(jeiRegistry);
-//        }
+//            loadEnergy(registry);
+            registry.addRecipeCategories(new CategoryCombustionEngine(registry.getJeiHelpers().getGuiHelper()));
+        }
 //        if (silicon) {
 //            lst.add("silicon");
 //            loadSilicon(jeiRegistry);
 //        }
 //        BCLog.logger.info("Loaded JEI mods: " + Arrays.toString(lst.toArray()));
-//    }
-//
+    }
+
 //    private static void loadTransport(IModRegistry jeiRegistry) {
 //        jeiRegistry.addAdvancedGuiHandlers(new GateGuiHandler());
 //    }
+
+//    private static void loadEnergy(IRecipeCategoryRegistration registry) {
+//        registry.addRecipeCategories(new CategoryCombustionEngine(BCPluginJEI.registry.getJeiHelpers().getGuiHelper()));
+//        BCPluginJEI.registry.handleRecipes(IFuel.class, new HandlerCombusionEngine(), CategoryCombustionEngine.UID);
+//        BCPluginJEI.registry.addRecipes(ImmutableList.copyOf(FuelRegistry.INSTANCE.getFuels()), CategoryCombustionEngine.UID);
 //
-//    private static void loadEnergy(IModRegistry jeiRegistry) {
-//        jeiRegistry.addRecipeCategories(new CategoryCombustionEngine(jeiRegistry.getJeiHelpers().getGuiHelper()));
-//        jeiRegistry.addRecipeHandlers(new HandlerCombusionEngine());
-//        jeiRegistry.addRecipes(ImmutableList.copyOf(FuelManager.INSTANCE.getFuels()));
+////        BCPluginJEI.registry.addRecipeHandlers(new HandlerCombusionEngine());
+////        BCPluginJEI.registry.addRecipes(ImmutableList.copyOf(FuelManager.INSTANCE.getFuels()));
 //
-//        jeiRegistry.addRecipeClickArea(GuiCombustionEngine.class, 76, 41, 22, 15, CategoryCombustionEngine.UID);
-//        jeiRegistry.addRecipeClickArea(GuiStoneEngine.class, 80, 24, 16, 16, VanillaRecipeCategoryUid.FUEL);
+////        BCPluginJEI.registry.addRecipeClickArea(GuiCombustionEngine.class, 76, 41, 22, 15, CategoryCombustionEngine.UID);
+////        BCPluginJEI.registry.addRecipeClickArea(GuiStoneEngine.class, 80, 24, 16, 16, VanillaRecipeCategoryUid.FUEL);
 //    }
-//
+
 //    private void loadFactoryEnergy(IModRegistry jeiRegistry) {
 //        IGuiHelper helper = jeiRegistry.getJeiHelpers().getGuiHelper();
 //        jeiRegistry.addRecipeCategories(new CategoryHeatable(helper), new CategoryDistiller(helper), new CategoryCoolable(helper));
@@ -110,12 +106,12 @@
 //
 //        jeiRegistry.addRecipeClickArea(GuiAdvancedCraftingTable.class, 93, 34, 22, 15, VanillaRecipeCategoryUid.CRAFTING);
 //    }
-//
+
 //    @Override
 //    public void onRecipeRegistryAvailable(IRecipeRegistry recipeRegistry) {}
 //
 //    @Override
 //    public void onRuntimeAvailable(IJeiRuntime jeiRuntime) {
-//        runtime = jeiRuntime;
+//        BCPluginJEI.runtime = jeiRuntime;
 //    }
-//}
+}

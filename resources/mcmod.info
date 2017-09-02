@@ -1,6 +1,5 @@
-[
-{
-  "modid": "BuildCraft|Compat",
+[{
+  "modid": "$modid",
   "name": "BuildCraft Compat",
   "version": "$version",
   "mcversion": "$mcversion",
@@ -8,11 +7,10 @@
   "credits": "Created by asie",
   "url": "http://www.mod-buildcraft.com/",
   "updateUrl": "",
-  "authorList": [ "asie", "BuildCraft Team" ],
+  "authorList": [ "Face_of_Cat", "BuildCraft Team" ],
   "parent":"",
   "screenshots": [],
   "dependencies": [
      "mod_MinecraftForge"
   ]
-}
-]
+}]

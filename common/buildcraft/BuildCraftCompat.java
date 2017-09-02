@@ -2,27 +2,26 @@ package buildcraft;
 
 import java.io.File;
 import java.util.HashSet;
-
-import buildcraft.compat.*;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-
 import buildcraft.api.core.BCLog;
+import buildcraft.compat.CompatModuleBase;
+import buildcraft.compat.CompatModuleWAILA;
 
-@Mod(name = "BuildCraft Compat", version = "@VERSION@", useMetadata = false, modid = "BuildCraft|Compat", acceptedMinecraftVersions = "[1.8.9]",
+@Mod(name = "BuildCraft Compat", version = "@VERSION@", modid = "@MODID@", acceptedMinecraftVersions = "[@MCVERSION@]",
 		updateJSON = "http://mod-buildcraft.com/version/versions-compat.json",
-        dependencies = "required-after:Forge@[11.15.1.1764,);required-after:BuildCraft|Core;after:BuildCraft|Transport;after:BuildCraft|Builders;after:IronChest")
+        dependencies = "required-after:forge@[@FORGEVERSION@,);required-after:buildcraftcore;after:buildcrafttransport;after:buildcraftbuilders;after:ironchest")
 public class BuildCraftCompat /*extends BuildCraftMod*/ {
-    @Mod.Instance("BuildCraft|Compat")
+    @Mod.Instance("@MODID@")
     public static BuildCraftCompat instance;
 
     private static Configuration config;
     private static final HashSet<CompatModuleBase> modules;
-    private static final HashSet<String> moduleNames;
+//    private static final HashSet<String> moduleNames;
 
     public Configuration getConfig() {
         return config;
@@ -31,15 +30,11 @@ public class BuildCraftCompat /*extends BuildCraftMod*/ {
     private void offerModule(final CompatModuleBase module) {
         if (module.canLoad()) {
             Property prop = BuildCraftCompat.config.get("modules", module.name(), true);
-            if (prop.getBoolean(true) == true) {
+            if (prop.getBoolean(true)) {
                 BuildCraftCompat.modules.add(module);
-                BuildCraftCompat.moduleNames.add(module.name());
+//                BuildCraftCompat.moduleNames.add(module.name());
             }
         }
-    }
-
-    public static boolean isLoaded(String module) {
-        return moduleNames.contains(module);
     }
 
     @Mod.EventHandler
@@ -101,12 +96,16 @@ public class BuildCraftCompat /*extends BuildCraftMod*/ {
     // }
     // }
 
-    public static boolean hasModule(final String module) {
-        return BuildCraftCompat.moduleNames.contains(module);
-    }
+//    public static boolean isLoaded(String module) {
+//        return moduleNames.contains(module);
+//    }
+
+//    public static boolean hasModule(final String module) {
+//        return BuildCraftCompat.moduleNames.contains(module);
+//    }
 
     static {
-        modules = new HashSet<CompatModuleBase>();
-        moduleNames = new HashSet<String>();
+        modules = new HashSet<>();
+//        moduleNames = new HashSet<>();
     }
 }

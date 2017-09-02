@@ -84,6 +84,9 @@ minecraft {
     // replacing stuff in the source
     replace '@VERSION@', project.version
     replace '@MC_VERSION@', version
+    replace '@MODID@', config.modid
+    replace '@MCVERSION@', config.mc_version
+    replace '@FORGEVERSION@', config.forge_version
 
     useDepAts = true
 }
@@ -126,7 +129,7 @@ processResources {
 
         // replace version and mcversion
         // ${version}   and    ${mcversion}    are the exact strings being replaced
-        expand 'version': project.version, 'mcversion': project.minecraft.version
+        expand 'version': project.version, 'mcversion': project.minecraft.version, 'modid': config.modid
     }
 
     // copy everything else, that's not the mcmod.info
