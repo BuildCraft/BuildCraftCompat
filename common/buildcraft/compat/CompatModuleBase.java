@@ -4,10 +4,10 @@ import net.minecraftforge.fml.common.Loader;
 
 public abstract class CompatModuleBase {
     public boolean canLoad() {
-        return Loader.isModLoaded(this.name());
+        return Loader.isModLoaded(this.compatModId());
     }
 
-    public abstract String name();
+    public abstract String compatModId();
 
     public String comment() {
         return null;
