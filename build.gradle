@@ -130,10 +130,3 @@ processResources {
         exclude 'mcmod.info'
     }
 }
-
-task compatJar(type: Jar, dependsOn: build) {
-    doFirst {
-        from sourceSets.main.allSource
-    }
-}
-
