@@ -13,12 +13,23 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 import buildcraft.api.core.BCLog;
 
-@Mod(name = "BuildCraft Compat", version = "@VERSION@", modid = "buildcraftcompat", acceptedMinecraftVersions = "[@MCVERSION@]",
-		updateJSON = "https://mod-buildcraft.com/version/versions-compat.json",
-        dependencies = "required-after:forge@[@FORGEVERSION@,);required-after:buildcraftcore;after:buildcrafttransport;after:buildcraftbuilders;after:ironchest")
-public class BuildCraftCompat {
-    @Mod.Instance("@MODID@")
-    public static BuildCraftCompat instance;
+//@formatter:off
+@Mod(
+    modid = BCCompat.MODID,
+    name = "BuildCraft Compat",
+    version = BCCompat.VERSION,
+    updateJSON = "https://mod-buildcraft.com/version/versions-compat.json",
+    acceptedMinecraftVersions = "(gradle_replace_mcversion,)",
+    dependencies = "required-after:forge@(gradle_replace_forgeversion,);required-after:buildcraftcore;after:buildcrafttransport;after:buildcraftbuilders"
+)
+//@formatter:on
+public class BCCompat {
+
+    public static final String MODID = "buildcraftcompat";
+    public static final String VERSION = "${version}";
+
+    @Mod.Instance(MODID)
+    public static BCCompat instance;
 
     private static Configuration config;
     private static final Map<String, CompatModuleBase> modules = new HashMap<>();
