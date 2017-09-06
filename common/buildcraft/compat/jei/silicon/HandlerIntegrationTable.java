@@ -1,14 +1,17 @@
-//package buildcraft.compat.jei.recipe;
-//
-//import buildcraft.api.recipes.IIntegrationRecipe;
-//import buildcraft.compat.jei.BCPluginJEI;
-//
-//import javax.annotation.Nonnull;
-//import mezz.jei.api.recipe.IRecipeHandler;
-//import mezz.jei.api.recipe.IRecipeWrapper;
-//
-//public class HandlerIntegrationTable implements IRecipeHandler<IIntegrationRecipe> {
-//
+package buildcraft.compat.jei.silicon;
+
+import buildcraft.api.recipes.IntegrationRecipe;
+import buildcraft.compat.jei.BCPluginJEI;
+import mezz.jei.api.recipe.IRecipeWrapper;
+import mezz.jei.api.recipe.IRecipeWrapperFactory;
+
+public class HandlerIntegrationTable implements IRecipeWrapperFactory<IntegrationRecipe> {
+    @Override
+    public IRecipeWrapper getRecipeWrapper(IntegrationRecipe recipe) {
+        return new WrapperIntegrationTable(BCPluginJEI.registry.getJeiHelpers().getGuiHelper(), recipe);
+    }
+
+    //
 //	@Nonnull
 //	@Override
 //	public Class<IIntegrationRecipe> getRecipeClass() {
@@ -30,4 +33,4 @@
 //	public boolean isRecipeValid(@Nonnull IIntegrationRecipe recipe) {
 //		return true;
 //	}
-//}
+}

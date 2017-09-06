@@ -7,7 +7,6 @@ import net.minecraft.world.IBlockAccess;
 
 public class CompatUtils {
     private CompatUtils() {
-
     }
 
     public static NBTTagCompound getTileNBT(IBlockAccess a, BlockPos pos) {

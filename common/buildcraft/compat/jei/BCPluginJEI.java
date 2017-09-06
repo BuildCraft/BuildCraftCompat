@@ -2,6 +2,16 @@ package buildcraft.compat.jei;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
+
+import buildcraft.api.recipes.AssemblyRecipe;
+import buildcraft.api.recipes.IntegrationRecipe;
+import buildcraft.compat.jei.silicon.CategoryAssemblyTable;
+import buildcraft.compat.jei.silicon.CategoryIntegrationTable;
+import buildcraft.compat.jei.silicon.HandlerAssemblyTable;
+import buildcraft.compat.jei.silicon.HandlerIntegrationTable;
+import buildcraft.lib.recipe.AssemblyRecipeRegistry;
+import buildcraft.lib.recipe.IntegrationRecipeRegistry;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import net.minecraftforge.fml.common.Loader;
@@ -37,7 +47,7 @@ public class BCPluginJEI extends BlankModPlugin {
 //        boolean transport = Loader.isModLoaded(BCModules.TRANSPORT.getModId());
         boolean factory = Loader.isModLoaded(BCModules.FACTORY.getModId());
         boolean energy = Loader.isModLoaded(BCModules.ENERGY.getModId());
-//        boolean silicon = Loader.isModLoaded(BCModules.SILICON.getModId());
+        boolean silicon = Loader.isModLoaded(BCModules.SILICON.getModId());
 //        boolean robotics = Loader.isModLoaded(BCModules.ROBOTICS.getModId());
 
         if (factory) {
@@ -48,16 +58,17 @@ public class BCPluginJEI extends BlankModPlugin {
             registry.addRecipes(ImmutableList.copyOf(BuildcraftRecipeRegistry.refineryRecipes.getCoolableRegistry().getAllRecipes()), CategoryCoolable.UID);
             registry.addRecipes(ImmutableList.copyOf(BuildcraftRecipeRegistry.refineryRecipes.getDistillationRegistry().getAllRecipes()), CategoryDistiller.UID);
             registry.addRecipes(ImmutableList.copyOf(BuildcraftRecipeRegistry.refineryRecipes.getHeatableRegistry().getAllRecipes()), CategoryHeatable.UID);
-
-//            registry.addRecipeClickArea(GuiEnergyHeater.class, 61, 18, 54, 23, CategoryHeatable.UID);
-//            registry.addRecipeClickArea(GuiDistiller.class, 61, 12, 36, 57, CategoryDistiller.UID);
-//            registry.addRecipeClickArea(GuiHeatExchanger.class, 61, 38, 54, 17, CategoryHeatable.UID, CategoryCoolable.UID);
         }
         if (energy) {
             registry.handleRecipes(IFuel.class, new HandlerCombusionEngine(), CategoryCombustionEngine.UID);
             registry.addRecipes(ImmutableList.copyOf(FuelRegistry.INSTANCE.getFuels()), CategoryCombustionEngine.UID);
-//            registry.addRecipeClickArea(GuiCombustionEngine.class, 76, 41, 22, 15, CategoryCombustionEngine.UID);
-//            registry.addRecipeClickArea(GuiStoneEngine.class, 80, 24, 16, 16,  VanillaRecipeCategoryUid.FUEL);
+        }
+        if (silicon) {
+            registry.handleRecipes(AssemblyRecipe.class, new HandlerAssemblyTable(), CategoryAssemblyTable.UID);
+            registry.handleRecipes(IntegrationRecipe.class, new HandlerIntegrationTable(), CategoryIntegrationTable.UID);
+
+            registry.addRecipes(ImmutableList.copyOf(AssemblyRecipeRegistry.INSTANCE.getAllRecipes()), CategoryAssemblyTable.UID);
+            registry.addRecipes(ImmutableList.copyOf(IntegrationRecipeRegistry.INSTANCE.getAllRecipes()), CategoryIntegrationTable.UID);
         }
     }
 
@@ -66,10 +77,11 @@ public class BCPluginJEI extends BlankModPlugin {
 //        boolean transport = Loader.isModLoaded(BCModules.TRANSPORT.getModId());
         boolean factory = Loader.isModLoaded(BCModules.FACTORY.getModId());
         boolean energy = Loader.isModLoaded(BCModules.ENERGY.getModId());
-//        boolean silicon = Loader.isModLoaded(BCModules.SILICON.getModId());
+        boolean silicon = Loader.isModLoaded(BCModules.SILICON.getModId());
 //        boolean robotics = Loader.isModLoaded(BCModules.ROBOTICS.getModId());
 
         List<String> lst = Lists.newArrayList();
+        IGuiHelper helper = registry.getJeiHelpers().getGuiHelper();
 
 //        jeiRegistry.addAdvancedGuiHandlers(new LedgerGuiHandler());
 //        if (transport) {
@@ -78,19 +90,19 @@ public class BCPluginJEI extends BlankModPlugin {
 //        }
         if (factory) {
             lst.add("factory");
-            IGuiHelper helper = registry.getJeiHelpers().getGuiHelper();
             registry.addRecipeCategories(new CategoryHeatable(helper));
             registry.addRecipeCategories(new CategoryDistiller(helper));
             registry.addRecipeCategories(new CategoryCoolable(helper));
         }
         if (energy) {
             lst.add("energy");
-            registry.addRecipeCategories(new CategoryCombustionEngine(registry.getJeiHelpers().getGuiHelper()));
+            registry.addRecipeCategories(new CategoryCombustionEngine(helper));
         }
-//        if (silicon) {
-//            lst.add("silicon");
-//            loadSilicon(jeiRegistry);
-//        }
+        if (silicon) {
+            lst.add("silicon");
+            registry.addRecipeCategories(new CategoryAssemblyTable(helper));
+            registry.addRecipeCategories(new CategoryIntegrationTable(helper));
+        }
 
         BCLog.logger.info("Loaded JEI mods: " + Arrays.toString(lst.toArray()));
     }
@@ -99,20 +111,6 @@ public class BCPluginJEI extends BlankModPlugin {
 //        jeiRegistry.addAdvancedGuiHandlers(new GateGuiHandler());
 //    }
 
-//    private void loadFactoryEnergy(IModRegistry jeiRegistry) {
-//        IGuiHelper helper = jeiRegistry.getJeiHelpers().getGuiHelper();
-//        jeiRegistry.addRecipeCategories(new CategoryHeatable(helper), new CategoryDistiller(helper), new CategoryCoolable(helper));
-//        jeiRegistry.addRecipeHandlers(new HandlerHeatable(), new HandlerDistiller(), new HandlerCoolable());
-//
-//        jeiRegistry.addRecipes(ImmutableList.copyOf(BuildcraftRecipeRegistry.complexRefinery.getCoolableRegistry().getAllRecipes()));
-//        jeiRegistry.addRecipes(ImmutableList.copyOf(BuildcraftRecipeRegistry.complexRefinery.getHeatableRegistry().getAllRecipes()));
-//        jeiRegistry.addRecipes(ImmutableList.copyOf(BuildcraftRecipeRegistry.complexRefinery.getDistilationRegistry().getAllRecipes()));
-//
-//        jeiRegistry.addRecipeClickArea(GuiEnergyHeater.class, 61, 18, 54, 23, CategoryHeatable.UID);
-//        jeiRegistry.addRecipeClickArea(GuiDistiller.class, 61, 12, 36, 57, CategoryDistiller.UID);
-//        jeiRegistry.addRecipeClickArea(GuiHeatExchanger.class, 61, 38, 54, 17, CategoryHeatable.UID, CategoryCoolable.UID);
-//    }
-//
 //    private static void loadSilicon(IModRegistry jeiRegistry) {
 //		IGuiHelper helper = jeiRegistry.getJeiHelpers().getGuiHelper();
 //		jeiRegistry.addRecipeCategories(new CategoryAssemblyTable(helper), new CategoryIntegrationTable(helper));
