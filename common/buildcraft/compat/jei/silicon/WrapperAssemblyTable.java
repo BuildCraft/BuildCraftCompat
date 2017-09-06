@@ -1,35 +1,34 @@
 package buildcraft.compat.jei.silicon;
 
-import buildcraft.api.mj.MjAPI;
-import buildcraft.api.recipes.AssemblyRecipe;
-import buildcraft.api.recipes.StackDefinition;
+import java.awt.Color;
+import java.util.List;
+import javax.annotation.Nonnull;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import mezz.jei.api.IGuiHelper;
-import mezz.jei.api.gui.IDrawableAnimated;
-import mezz.jei.api.gui.IDrawableStatic;
-import mezz.jei.api.ingredients.IIngredients;
-import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import javax.annotation.Nonnull;
-import java.awt.*;
-import java.util.List;
+import buildcraft.api.mj.MjAPI;
+import buildcraft.api.recipes.AssemblyRecipe;
+import buildcraft.api.recipes.StackDefinition;
+import mezz.jei.api.IGuiHelper;
+import mezz.jei.api.gui.IDrawableAnimated;
+import mezz.jei.api.gui.IDrawableStatic;
+import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.IRecipeWrapper;
 
 public class WrapperAssemblyTable implements IRecipeWrapper {
     private final AssemblyRecipe recipe;
     @Nonnull
     private final IDrawableAnimated progressBar;
-	private final List<ItemStack> inputs, outputs;
+    private final List<ItemStack> inputs, outputs;
 
     public WrapperAssemblyTable(@Nonnull IGuiHelper guiHelper, AssemblyRecipe recipe) {
         this.recipe = recipe;
-		List<ItemStack> inputs = Lists.newArrayList();
-		for(StackDefinition definition : recipe.requiredStacks) {
+        List<ItemStack> inputs = Lists.newArrayList();
+        for (StackDefinition definition : recipe.requiredStacks) {
 //		    for(ItemStack es: definition.filter.getExamples()) {
 //		        ItemStack s = es.copy();
 //		        s.setCount(sd.count);
@@ -37,12 +36,12 @@ public class WrapperAssemblyTable implements IRecipeWrapper {
 //            }
             inputs.addAll(Utils.getItemStacks(definition));
         }
-		this.inputs = ImmutableList.copyOf(inputs);
-		this.outputs = ImmutableList.of(recipe.output);
+        this.inputs = ImmutableList.copyOf(inputs);
+        this.outputs = ImmutableList.of(recipe.output);
 
-		ResourceLocation backgroundLocation = new ResourceLocation("buildcraftsilicon", "textures/gui/assembly_table.png");
-		IDrawableStatic progressDrawable = guiHelper.createDrawable(backgroundLocation, 176, 17, 4, 71, 10, 0, 0, 0);
-		progressBar = guiHelper.createAnimatedDrawable(progressDrawable, (int)(recipe.requiredMicroJoules / 720), IDrawableAnimated.StartDirection.BOTTOM, false);
+        ResourceLocation backgroundLocation = new ResourceLocation("buildcraftsilicon", "textures/gui/assembly_table.png");
+        IDrawableStatic progressDrawable = guiHelper.createDrawable(backgroundLocation, 176, 17, 4, 71, 10, 0, 0, 0);
+        progressBar = guiHelper.createAnimatedDrawable(progressDrawable, (int) (recipe.requiredMicroJoules / 720), IDrawableAnimated.StartDirection.BOTTOM, false);
     }
 
 //    @Override

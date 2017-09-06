@@ -1,33 +1,27 @@
 package buildcraft.compat.jei.silicon;
 
 import java.util.List;
-
-import buildcraft.api.BCModules;
-import buildcraft.lib.gui.slot.SlotBase;
-import buildcraft.silicon.container.ContainerIntegrationTable;
-import mezz.jei.api.ingredients.IIngredients;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-
-import javax.annotation.Nonnull;
+import buildcraft.api.BCModules;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.BlankRecipeCategory;
-import mezz.jei.api.recipe.IRecipeWrapper;
 
 public class CategoryIntegrationTable extends BlankRecipeCategory<WrapperIntegrationTable> {
     public static final String UID = "buildcraft-compat:silicon.integration";
 
-	protected final ResourceLocation backgroundLocation;
+    protected final ResourceLocation backgroundLocation;
     private final IDrawable background;
     private WrapperIntegrationTable wrapper = null;
 
     public CategoryIntegrationTable(IGuiHelper guiHelper) {
-		backgroundLocation = new ResourceLocation("buildcraftsilicon", "textures/gui/integration_table.png");
-		background = guiHelper.createDrawable(backgroundLocation, 17, 22, 153, 71, 0, 0, 9, 0);
-	}
+        backgroundLocation = new ResourceLocation("buildcraftsilicon", "textures/gui/integration_table.png");
+        background = guiHelper.createDrawable(backgroundLocation, 17, 22, 153, 71, 0, 0, 9, 0);
+    }
 
     @Override
     public String getUid() {
@@ -55,8 +49,8 @@ public class CategoryIntegrationTable extends BlankRecipeCategory<WrapperIntegra
 
         List<List<ItemStack>> inputs = ingredients.getInputs(ItemStack.class);
         int inventoryIndex = 0;
-        for(int y = 0; y < 3; ++y) {
-            for(int x = 0; x < 3; ++x) {
+        for (int y = 0; y < 3; ++y) {
+            for (int x = 0; x < 3; ++x) {
                 int slotIndex = ((x == 1) && (y == 1)) ? 0 : (x + y * 3 + 1);
                 if (inputs.size() > slotIndex) {
                     guiItemStacks.init(inventoryIndex, true, 19 + x * 25, 24 + y * 25);

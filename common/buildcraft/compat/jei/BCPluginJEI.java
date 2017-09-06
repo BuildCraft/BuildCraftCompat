@@ -2,25 +2,19 @@ package buildcraft.compat.jei;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
-
-import buildcraft.api.recipes.AssemblyRecipe;
-import buildcraft.api.recipes.IntegrationRecipe;
-import buildcraft.compat.jei.silicon.CategoryAssemblyTable;
-import buildcraft.compat.jei.silicon.CategoryIntegrationTable;
-import buildcraft.compat.jei.silicon.HandlerAssemblyTable;
-import buildcraft.compat.jei.silicon.HandlerIntegrationTable;
-import buildcraft.lib.recipe.AssemblyRecipeRegistry;
-import buildcraft.lib.recipe.IntegrationRecipeRegistry;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import net.minecraftforge.fml.common.Loader;
 import buildcraft.api.BCModules;
 import buildcraft.api.core.BCLog;
 import buildcraft.api.fuels.IFuel;
+import buildcraft.api.recipes.AssemblyRecipe;
 import buildcraft.api.recipes.BuildcraftRecipeRegistry;
 import buildcraft.api.recipes.IRefineryRecipeManager;
+import buildcraft.api.recipes.IntegrationRecipe;
 import buildcraft.lib.fluid.FuelRegistry;
+import buildcraft.lib.recipe.AssemblyRecipeRegistry;
+import buildcraft.lib.recipe.IntegrationRecipeRegistry;
 import buildcraft.compat.jei.energy.combustionengine.CategoryCombustionEngine;
 import buildcraft.compat.jei.energy.combustionengine.HandlerCombusionEngine;
 import buildcraft.compat.jei.factory.CategoryCoolable;
@@ -29,15 +23,21 @@ import buildcraft.compat.jei.factory.CategoryHeatable;
 import buildcraft.compat.jei.factory.HandlerCoolable;
 import buildcraft.compat.jei.factory.HandlerDistiller;
 import buildcraft.compat.jei.factory.HandlerHeatable;
+import buildcraft.compat.jei.silicon.CategoryAssemblyTable;
+import buildcraft.compat.jei.silicon.CategoryIntegrationTable;
+import buildcraft.compat.jei.silicon.HandlerAssemblyTable;
+import buildcraft.compat.jei.silicon.HandlerIntegrationTable;
+import buildcraft.compat.jei.transferhandlers.AutoCraftItemsTransferHandler;
 import mezz.jei.api.BlankModPlugin;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.JEIPlugin;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
+import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 
 @JEIPlugin
 public class BCPluginJEI extends BlankModPlugin {
-//    public static boolean disableFacadeJEI;
+    //    public static boolean disableFacadeJEI;
     public static IModRegistry registry;
 //    public static IJeiRuntime runtime;
 
@@ -70,6 +70,10 @@ public class BCPluginJEI extends BlankModPlugin {
             registry.addRecipes(ImmutableList.copyOf(AssemblyRecipeRegistry.INSTANCE.getAllRecipes()), CategoryAssemblyTable.UID);
             registry.addRecipes(ImmutableList.copyOf(IntegrationRecipeRegistry.INSTANCE.getAllRecipes()), CategoryIntegrationTable.UID);
         }
+
+//        registry.getRecipeTransferRegistry().addRecipeTransferHandler(ContainerAutoCraftItems.class, VanillaRecipeCategoryUid.CRAFTING,
+//                45, 9, 0, 36);
+        registry.getRecipeTransferRegistry().addRecipeTransferHandler(new AutoCraftItemsTransferHandler(), VanillaRecipeCategoryUid.CRAFTING);
     }
 
     @Override
@@ -109,24 +113,5 @@ public class BCPluginJEI extends BlankModPlugin {
 
 //    private static void loadTransport(IModRegistry jeiRegistry) {
 //        jeiRegistry.addAdvancedGuiHandlers(new GateGuiHandler());
-//    }
-
-//    private static void loadSilicon(IModRegistry jeiRegistry) {
-//		IGuiHelper helper = jeiRegistry.getJeiHelpers().getGuiHelper();
-//		jeiRegistry.addRecipeCategories(new CategoryAssemblyTable(helper), new CategoryIntegrationTable(helper));
-//		jeiRegistry.addRecipeHandlers(new HandlerAssemblyTable(), new HandlerIntegrationTable());
-//
-//		jeiRegistry.addRecipes(ImmutableList.copyOf(BuildcraftRecipeRegistry.assemblyTable.getRecipes()));
-//		jeiRegistry.addRecipes(ImmutableList.copyOf(BuildcraftRecipeRegistry.integrationTable.getRecipes()));
-//
-//        jeiRegistry.addRecipeClickArea(GuiAdvancedCraftingTable.class, 93, 34, 22, 15, VanillaRecipeCategoryUid.CRAFTING);
-//    }
-
-//    @Override
-//    public void onRecipeRegistryAvailable(IRecipeRegistry recipeRegistry) {}
-//
-//    @Override
-//    public void onRuntimeAvailable(IJeiRuntime jeiRuntime) {
-//        BCPluginJEI.runtime = jeiRuntime;
 //    }
 }

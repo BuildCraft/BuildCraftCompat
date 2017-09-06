@@ -1,43 +1,42 @@
 package buildcraft.compat.jei.silicon;
 
-import buildcraft.api.mj.MjAPI;
-import buildcraft.api.recipes.IntegrationRecipe;
-import buildcraft.api.recipes.StackDefinition;
+import java.awt.Color;
+import java.util.List;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import mezz.jei.api.IGuiHelper;
-import mezz.jei.api.gui.IDrawableAnimated;
-import mezz.jei.api.gui.IDrawableStatic;
-import mezz.jei.api.ingredients.IIngredients;
-import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import java.awt.*;
-import java.util.List;
+import buildcraft.api.mj.MjAPI;
+import buildcraft.api.recipes.IntegrationRecipe;
+import buildcraft.api.recipes.StackDefinition;
+import mezz.jei.api.IGuiHelper;
+import mezz.jei.api.gui.IDrawableAnimated;
+import mezz.jei.api.gui.IDrawableStatic;
+import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.IRecipeWrapper;
 
 public class WrapperIntegrationTable implements IRecipeWrapper {
     private final IntegrationRecipe recipe;
     private final IDrawableAnimated progressBar;
-	private final List<ItemStack> inputs, outputs;
+    private final List<ItemStack> inputs, outputs;
 
     public WrapperIntegrationTable(IGuiHelper guiHelper, IntegrationRecipe recipe) {
         this.recipe = recipe;
 
-		List<ItemStack> inputs = Lists.newArrayList();
-		inputs.addAll(Utils.getItemStacks(recipe.target));
-		for(StackDefinition definition: recipe.toIntegrate) {
-		    inputs.addAll(Utils.getItemStacks(definition));
+        List<ItemStack> inputs = Lists.newArrayList();
+        inputs.addAll(Utils.getItemStacks(recipe.target));
+        for (StackDefinition definition : recipe.toIntegrate) {
+            inputs.addAll(Utils.getItemStacks(definition));
         }
-		this.inputs = ImmutableList.copyOf(inputs);
-		this.outputs = ImmutableList.of(recipe.output);
+        this.inputs = ImmutableList.copyOf(inputs);
+        this.outputs = ImmutableList.of(recipe.output);
 
-		ResourceLocation backgroundLocation = new ResourceLocation("buildcraftsilicon", "textures/gui/integration_table.png");
-		IDrawableStatic progressDrawable = guiHelper.createDrawable(backgroundLocation, 176, 17, 4, 69, 0, 0, 0, 0);
-		this.progressBar = guiHelper.createAnimatedDrawable(progressDrawable, (int)(recipe.requiredMicroJoules / 720), IDrawableAnimated.StartDirection.BOTTOM, false);
+        ResourceLocation backgroundLocation = new ResourceLocation("buildcraftsilicon", "textures/gui/integration_table.png");
+        IDrawableStatic progressDrawable = guiHelper.createDrawable(backgroundLocation, 176, 17, 4, 69, 0, 0, 0, 0);
+        this.progressBar = guiHelper.createAnimatedDrawable(progressDrawable, (int) (recipe.requiredMicroJoules / 720), IDrawableAnimated.StartDirection.BOTTOM, false);
     }
 
 //    @Override

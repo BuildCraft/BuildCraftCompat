@@ -3,24 +3,22 @@ package buildcraft.compat;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-
 import buildcraft.api.core.BCLog;
 
 //@formatter:off
 @Mod(
-    modid = BCCompat.MODID,
-    name = "BuildCraft Compat",
-    version = BCCompat.VERSION,
-    updateJSON = "https://mod-buildcraft.com/version/versions-compat.json",
-    acceptedMinecraftVersions = "(gradle_replace_mcversion,)",
-    dependencies = "required-after:forge@(gradle_replace_forgeversion,);required-after:buildcraftcore;after:buildcrafttransport;after:buildcraftbuilders"
+        modid = BCCompat.MODID,
+        name = "BuildCraft Compat",
+        version = BCCompat.VERSION,
+        updateJSON = "https://mod-buildcraft.com/version/versions-compat.json",
+        acceptedMinecraftVersions = "(gradle_replace_mcversion,)",
+        dependencies = "required-after:forge@(gradle_replace_forgeversion,);required-after:buildcraftcore;after:buildcrafttransport;after:buildcraftbuilders"
 )
 //@formatter:on
 public class BCCompat {

@@ -1,5 +1,8 @@
 package buildcraft.compat.jei.silicon;
 
+import java.util.List;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import buildcraft.api.BCModules;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
@@ -7,21 +10,17 @@ import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.BlankRecipeCategory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-
-import java.util.List;
 
 public class CategoryAssemblyTable extends BlankRecipeCategory<WrapperAssemblyTable> {
     public static final String UID = "buildcraft-compat:silicon.assembly";
 
-	protected final ResourceLocation backgroundLocation;
+    protected final ResourceLocation backgroundLocation;
     private final IDrawable background;
 
     public CategoryAssemblyTable(IGuiHelper guiHelper) {
-		this.backgroundLocation = new ResourceLocation("buildcraftsilicon", "textures/gui/assembly_table.png");
-		this.background = guiHelper.createDrawable(backgroundLocation, 5, 34, 166, 76, 10, 0, 0, 0);
-	}
+        this.backgroundLocation = new ResourceLocation("buildcraftsilicon", "textures/gui/assembly_table.png");
+        this.background = guiHelper.createDrawable(backgroundLocation, 5, 34, 166, 76, 10, 0, 0, 0);
+    }
 
     @Override
     public String getUid() {
