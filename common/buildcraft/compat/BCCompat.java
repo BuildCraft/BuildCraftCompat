@@ -1,27 +1,38 @@
-package buildcraft;
+package buildcraft.compat;
 
 import java.io.File;
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Map;
+
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import buildcraft.api.core.BCLog;
-import buildcraft.compat.CompatModuleBase;
-import buildcraft.compat.CompatModuleWAILA;
 
-@Mod(name = "BuildCraft Compat", version = "@VERSION@", modid = "@MODID@", acceptedMinecraftVersions = "[@MCVERSION@]",
-		updateJSON = "http://mod-buildcraft.com/version/versions-compat.json",
-        dependencies = "required-after:forge@[@FORGEVERSION@,);required-after:buildcraftcore;after:buildcrafttransport;after:buildcraftbuilders;after:ironchest")
-public class BuildCraftCompat /*extends BuildCraftMod*/ {
-    @Mod.Instance("@MODID@")
-    public static BuildCraftCompat instance;
+import buildcraft.api.core.BCLog;
+
+//@formatter:off
+@Mod(
+    modid = BCCompat.MODID,
+    name = "BuildCraft Compat",
+    version = BCCompat.VERSION,
+    updateJSON = "https://mod-buildcraft.com/version/versions-compat.json",
+    acceptedMinecraftVersions = "(gradle_replace_mcversion,)",
+    dependencies = "required-after:forge@(gradle_replace_forgeversion,);required-after:buildcraftcore;after:buildcrafttransport;after:buildcraftbuilders"
+)
+//@formatter:on
+public class BCCompat {
+
+    public static final String MODID = "buildcraftcompat";
+    public static final String VERSION = "${version}";
+
+    @Mod.Instance(MODID)
+    public static BCCompat instance;
 
     private static Configuration config;
-    private static final HashSet<CompatModuleBase> modules;
-//    private static final HashSet<String> moduleNames;
+    private static final Map<String, CompatModuleBase> modules = new HashMap<>();
 
     public Configuration getConfig() {
         return config;
@@ -29,29 +40,27 @@ public class BuildCraftCompat /*extends BuildCraftMod*/ {
 
     private void offerModule(final CompatModuleBase module) {
         if (module.canLoad()) {
-            Property prop = BuildCraftCompat.config.get("modules", module.name(), true);
+            Property prop = config.get("modules", module.compatModId(), true);
             if (prop.getBoolean(true)) {
-                BuildCraftCompat.modules.add(module);
-//                BuildCraftCompat.moduleNames.add(module.name());
+                modules.put(module.compatModId(), module);
             }
         }
     }
 
     @Mod.EventHandler
     public void preInit(final FMLPreInitializationEvent evt) {
-        (BuildCraftCompat.config = new Configuration(new File(new File(evt.getSuggestedConfigurationFile().getParentFile(), "buildcraft"),
-                "compat.cfg"))).load();
+        File cfgFolder = evt.getModConfigurationDirectory();
+        cfgFolder = new File(cfgFolder, "buildcraft");
+        config = new Configuration(new File(cfgFolder, "config.cfg"));
+        config.load();
 
-//      this.offerModule(new CompatModuleAgriCraft());
-//		this.offerModule(new CompatModuleIronChest());
-//		this.offerModule(new CompatModuleMineTweaker3());
-		this.offerModule(new CompatModuleWAILA());
+        // Module offering/addition goes here
 
-        BuildCraftCompat.config.save();
 
-        for (final CompatModuleBase m : BuildCraftCompat.modules) {
+        for (CompatModuleBase m : modules.values()) {
             m.preInit();
         }
+        config.save();
     }
 
     @Mod.EventHandler
@@ -68,17 +77,17 @@ public class BuildCraftCompat /*extends BuildCraftMod*/ {
         // channels = NetworkRegistry.INSTANCE.newChannel
         // (DefaultProps.NET_CHANNEL_NAME + "-COMPAT", compatChannelHandler, new PacketHandlerCompat());
 
-        for (final CompatModuleBase m : BuildCraftCompat.modules) {
-            BCLog.logger.info("Loading compat module " + m.name());
+        for (final CompatModuleBase m : modules.values()) {
+            BCLog.logger.info("[compat] Loading module " + m.compatModId());
             m.init();
         }
 
-        BuildCraftCompat.config.save();
+        config.save();
     }
 
     @Mod.EventHandler
     public void postInit(final FMLPostInitializationEvent evt) {
-        for (final CompatModuleBase m : BuildCraftCompat.modules) {
+        for (final CompatModuleBase m : modules.values()) {
             m.postInit();
         }
     }
@@ -103,9 +112,4 @@ public class BuildCraftCompat /*extends BuildCraftMod*/ {
 //    public static boolean hasModule(final String module) {
 //        return BuildCraftCompat.moduleNames.contains(module);
 //    }
-
-    static {
-        modules = new HashSet<>();
-//        moduleNames = new HashSet<>();
-    }
 }
