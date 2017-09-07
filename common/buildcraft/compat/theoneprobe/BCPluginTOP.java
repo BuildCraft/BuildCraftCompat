@@ -27,7 +27,7 @@ import mcjty.theoneprobe.api.IProbeInfoProvider;
 import mcjty.theoneprobe.api.ITheOneProbe;
 import mcjty.theoneprobe.api.ProbeMode;
 
-@Optional.InterfaceList(value = {
+@Optional.InterfaceList({
         @Optional.Interface(modid = TOP_MOD_ID, iface = "mcjty.theoneprobe.api.IBlockDisplayOverride"),
         @Optional.Interface(modid = TOP_MOD_ID, iface = "mcjty.theoneprobe.api.IProbeInfoProvider")
 })
@@ -90,6 +90,10 @@ public class BCPluginTOP implements Function<ITheOneProbe, Void>, IBlockDisplayO
             List<ItemStack> stacks = Lists.newArrayList();
             for (int slot = 0; slot < crafter.getInvBlueprint().getSlots(); slot++) {
                 ItemStack stack = crafter.getInvBlueprint().getStackInSlot(slot);
+                if (stack.isEmpty()) {
+                    continue;
+                }
+
                 boolean handled = false;
                 for (ItemStack existing : stacks) {
                     if (existing.isItemEqual(stack)) {
