@@ -60,8 +60,8 @@ dependencies {
     runtime "mcjty.theoneprobe:TheOneProbe:${config.top_version}"
 
     // BuildCraft stuff
-    compileOnly files("build/libs/${config.mod_version}/buildcraft-${config.mod_version}-dev.jar")
-    runtime files("build/libs/${config.mod_version}/buildcraft-${config.mod_version}.jar")
+    compileOnly files("BuildCraft/build/libs/${config.mod_version}/buildcraft-${config.mod_version}-dev.jar")
+    runtime files("BuildCraft/build/libs/buildcraft-${config.mod_version}.jar")
 }
 
 minecraft {
