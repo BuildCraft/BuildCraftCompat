@@ -27,6 +27,7 @@ import buildcraft.compat.jei.silicon.CategoryAssemblyTable;
 import buildcraft.compat.jei.silicon.CategoryIntegrationTable;
 import buildcraft.compat.jei.silicon.HandlerAssemblyTable;
 import buildcraft.compat.jei.silicon.HandlerIntegrationTable;
+import buildcraft.compat.jei.transferhandlers.AdvancedCraftingItemsTransferHandler;
 import buildcraft.compat.jei.transferhandlers.AutoCraftItemsTransferHandler;
 import mezz.jei.api.BlankModPlugin;
 import mezz.jei.api.IGuiHelper;
@@ -74,6 +75,7 @@ public class BCPluginJEI extends BlankModPlugin {
 //        registry.getRecipeTransferRegistry().addRecipeTransferHandler(ContainerAutoCraftItems.class, VanillaRecipeCategoryUid.CRAFTING,
 //                45, 9, 0, 36);
         registry.getRecipeTransferRegistry().addRecipeTransferHandler(new AutoCraftItemsTransferHandler(), VanillaRecipeCategoryUid.CRAFTING);
+        registry.getRecipeTransferRegistry().addRecipeTransferHandler(new AdvancedCraftingItemsTransferHandler(), VanillaRecipeCategoryUid.CRAFTING);
     }
 
     @Override

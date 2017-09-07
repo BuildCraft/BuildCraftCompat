@@ -4,21 +4,21 @@ import java.util.Map;
 import javax.annotation.Nullable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import buildcraft.factory.container.ContainerAutoCraftItems;
+import buildcraft.silicon.container.ContainerAdvancedCraftingTable;
 import mezz.jei.api.gui.IGuiIngredient;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.recipe.transfer.IRecipeTransferError;
 import mezz.jei.api.recipe.transfer.IRecipeTransferHandler;
 
-public class AutoCraftItemsTransferHandler implements IRecipeTransferHandler<ContainerAutoCraftItems> {
+public class AdvancedCraftingItemsTransferHandler implements IRecipeTransferHandler<ContainerAdvancedCraftingTable> {
     @Override
-    public Class<ContainerAutoCraftItems> getContainerClass() {
-        return ContainerAutoCraftItems.class;
+    public Class<ContainerAdvancedCraftingTable> getContainerClass() {
+        return ContainerAdvancedCraftingTable.class;
     }
 
     @Nullable
     @Override
-    public IRecipeTransferError transferRecipe(ContainerAutoCraftItems container, IRecipeLayout recipeLayout, EntityPlayer player, boolean maxTransfer, boolean doTransfer) {
+    public IRecipeTransferError transferRecipe(ContainerAdvancedCraftingTable container, IRecipeLayout recipeLayout, EntityPlayer player, boolean maxTransfer, boolean doTransfer) {
         if (doTransfer) {
             Map<Integer, ? extends IGuiIngredient<ItemStack>> inputs = recipeLayout.getItemStacks().getGuiIngredients();
 
