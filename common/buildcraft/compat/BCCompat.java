@@ -10,6 +10,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import buildcraft.api.core.BCLog;
+import buildcraft.compat.theoneprobe.BCPluginTOP;
 
 //@formatter:off
 @Mod(
@@ -18,7 +19,7 @@ import buildcraft.api.core.BCLog;
         version = BCCompat.VERSION,
         updateJSON = "https://mod-buildcraft.com/version/versions-compat.json",
         acceptedMinecraftVersions = "(gradle_replace_mcversion,)",
-        dependencies = "required-after:forge@(gradle_replace_forgeversion,);required-after:buildcraftcore;after:buildcrafttransport;after:buildcraftbuilders"
+        dependencies = "required-after:forge@(gradle_replace_forgeversion,);required-after:buildcraftcore;after:buildcrafttransport;after:buildcraftbuilders;after:buildcraftsilicon;after:theoneprobe;"
 )
 //@formatter:on
 public class BCCompat {
@@ -52,12 +53,14 @@ public class BCCompat {
         config = new Configuration(new File(cfgFolder, "config.cfg"));
         config.load();
 
+        // TODO: put this in a compat module or something :S
+        BCPluginTOP.init();
+
         // Module offering/addition goes here
-
-
         for (CompatModuleBase m : modules.values()) {
             m.preInit();
         }
+
         config.save();
     }
 
