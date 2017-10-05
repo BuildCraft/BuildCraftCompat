@@ -47,6 +47,7 @@ targetCompatibility = 1.8
 repositories {
     maven { name="JEI"; url="http://dvs1.progwml6.com/files/maven" }
     maven { name="TOP"; url="http://maven.tterrag.com/" }
+    maven { name="hwyla"; url="http://tehnut.info/maven" }
 }
 
 dependencies {
@@ -58,6 +59,9 @@ dependencies {
     // The One Probe Stuff
     compileOnly "mcjty.theoneprobe:TheOneProbe:${config.top_version}:api"
     runtime "mcjty.theoneprobe:TheOneProbe:${config.top_version}"
+
+    // HWYLA
+    deobfCompile "mcp.mobius.waila:Hwyla:${config.hwyla_version}"
 
     // BuildCraft stuff
     compileOnly files("BuildCraft/build/libs/${config.mod_version}/buildcraft-${config.mod_version}-dev.jar")
