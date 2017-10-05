@@ -18,14 +18,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT"
-    }
-}
-
-repositories {
-    // JEI
-    maven {
-        url "http://dvs1.progwml6.com/files/maven"
+        classpath "net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT"
     }
 }
 
@@ -36,19 +29,43 @@ ext.configFile = file "build.properties"
 configFile.withReader {
     // Load config. It shall from now be referenced as simply config or project.config
     def prop = new Properties()
+    File cfg2 = file "BuildCraft/build.properties"
+    cfg2.withReader {
+        prop.load(it)
+    }
     prop.load(it)
     project.ext.config = new ConfigSlurper().parse prop
 }
 
-version = config.mod_version
+version = config.compat_version
 group = "com.mod-buildcraft-compat"
 archivesBaseName = "buildcraft-compat" // the name that all artifacts will use as a base. artifacts names follow this pattern: [baseName]-[appendix]-[version]-[classifier].[extension]
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+repositories {
+    maven { name="JEI"; url="http://dvs1.progwml6.com/files/maven" }
+    maven { name="TOP"; url="http://maven.tterrag.com/" }
+    maven { name="hwyla"; url="http://tehnut.info/maven" }
+}
+
 dependencies {
-    deobfCompile "mezz.jei:jei_1.8.9:2.28.9.176" // Versions from http://minecraft.curseforge.com/projects/just-enough-items-jei/files
+    // JEI Stuff
+    // Versions from http://minecraft.curseforge.com/projects/just-enough-items-jei/files
+    compileOnly "mezz.jei:jei_${config.mc_version}:${config.jei_version}:api"
+    runtime "mezz.jei:jei_${config.mc_version}:${config.jei_version}"
+
+    // The One Probe Stuff
+    compileOnly "mcjty.theoneprobe:TheOneProbe:${config.top_version}:api"
+    runtime "mcjty.theoneprobe:TheOneProbe:${config.top_version}"
+
+    // HWYLA
+    deobfCompile "mcp.mobius.waila:Hwyla:${config.hwyla_version}"
+
+    // BuildCraft stuff
+    compileOnly files("BuildCraft/build/libs/${config.mod_version}/buildcraft-${config.mod_version}-dev.jar")
+    runtime files("BuildCraft/build/libs/buildcraft-${config.mod_version}.jar")
 }
 
 minecraft {
@@ -64,39 +81,41 @@ minecraft {
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 
     // replacing stuff in the source
-    replace '@VERSION@', project.version
-    replace '@MC_VERSION@', version
+    replace "\${version}", project.version
+    replace "\${mcversion}", version
+    // Replace @Mod.acceptedMinecraftVersions specially as it has to be a valid version in a dev environment :/
+   	replace "(gradle_replace_mcversion,)", "[" + version + "]"
+   	replace "(gradle_replace_forgeversion,)", "[" + config.forge_version + ",)"
 
     useDepAts = true
 }
 
+compileJava {
+    options.compilerArgs << "-Xmaxerrs" << "2000"
+    options.compilerArgs << "-Xmaxwarns" << "2"
+    options.compilerArgs << "-Xlint:all"
+    options.compilerArgs << "-Xdiags:verbose"
+}
+
 // configure  the source folders
 sourceSets {
+//    api {
+//        java {
+//            srcDir "api"
+//            srcDir "BuildCraft/BuildCraftAPI/api"
+//            srcDir "BuildCraft/common"
+//        }
+//        resources {
+//            srcDir "BuildCraft/buildcraft_resources"
+//            exclude "**/mcmod.info"
+//        }
+//    }
     main {
         java {
             srcDir "common"
         }
         resources {
             srcDir "resources"
-        }
-    }
-    bc_core {
-        java {
-            srcDir "BuildCraft/common"
-        }
-        resources {
-            srcDir "BuildCraft/buildcraft_resources"
-            srcDir "BuildCraft/BuildCraft-Localization"
-        }
-    }
-    bc_api {
-        java {
-            srcDir "BuildCraft/BuildCraftAPI/api"
-        }
-    }
-    api {
-        java {
-            srcDir "api"
         }
     }
 }
@@ -108,7 +127,7 @@ processResources {
 
         // replace version and mcversion
         // ${version}   and    ${mcversion}    are the exact strings being replaced
-        expand 'version': project.version, 'mcversion': project.minecraft.version
+        expand 'version': project.version, 'mcversion': project.minecraft.version, 'modid': config.modid
     }
 
     // copy everything else, that's not the mcmod.info
@@ -116,4 +135,3 @@ processResources {
         exclude 'mcmod.info'
     }
 }
-
