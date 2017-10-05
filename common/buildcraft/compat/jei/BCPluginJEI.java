@@ -29,6 +29,7 @@ import buildcraft.compat.jei.silicon.HandlerAssemblyTable;
 import buildcraft.compat.jei.silicon.HandlerIntegrationTable;
 import buildcraft.compat.jei.transferhandlers.AdvancedCraftingItemsTransferHandler;
 import buildcraft.compat.jei.transferhandlers.AutoCraftItemsTransferHandler;
+import buildcraft.silicon.container.ContainerAssemblyTable;
 import mezz.jei.api.BlankModPlugin;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.IModRegistry;
@@ -72,10 +73,11 @@ public class BCPluginJEI extends BlankModPlugin {
             registry.addRecipes(ImmutableList.copyOf(IntegrationRecipeRegistry.INSTANCE.getAllRecipes()), CategoryIntegrationTable.UID);
         }
 
-//        registry.getRecipeTransferRegistry().addRecipeTransferHandler(ContainerAutoCraftItems.class, VanillaRecipeCategoryUid.CRAFTING,
-//                45, 9, 0, 36);
         registry.getRecipeTransferRegistry().addRecipeTransferHandler(new AutoCraftItemsTransferHandler(), VanillaRecipeCategoryUid.CRAFTING);
         registry.getRecipeTransferRegistry().addRecipeTransferHandler(new AdvancedCraftingItemsTransferHandler(), VanillaRecipeCategoryUid.CRAFTING);
+        // registry.getRecipeTransferRegistry().addRecipeTransferHandler(new AssemblyTableTranferHandler(), CategoryAssemblyTable.UID);
+        registry.getRecipeTransferRegistry().addRecipeTransferHandler(ContainerAssemblyTable.class, CategoryAssemblyTable.UID,
+                36, 12, 0, 36);
     }
 
     @Override
