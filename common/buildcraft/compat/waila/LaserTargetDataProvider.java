@@ -10,14 +10,19 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.fml.common.Optional;
 import buildcraft.api.mj.ILaserTarget;
 import buildcraft.api.mj.MjAPI;
+
+import static buildcraft.compat.waila.HWYLAPlugin.WAILA_MOD_ID;
+
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 
 class LaserTargetDataProvider extends BaseWailaDataProvider {
     @Nonnull
     @Override
+    @Optional.Method(modid = WAILA_MOD_ID)
     public List<String> getWailaBody(ItemStack itemStack, List<String> currentTip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
         TileEntity tile = accessor.getTileEntity();
         if (tile instanceof ILaserTarget) {
@@ -36,6 +41,7 @@ class LaserTargetDataProvider extends BaseWailaDataProvider {
 
     @Nonnull
     @Override
+    @Optional.Method(modid = WAILA_MOD_ID)
     public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
         NBTTagCompound nbt = super.getNBTData(player, te, tag, world, pos);
 

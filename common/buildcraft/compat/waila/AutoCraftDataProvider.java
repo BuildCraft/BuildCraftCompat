@@ -12,8 +12,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.fml.common.Optional;
 import buildcraft.compat.CompatUtils;
 import buildcraft.factory.util.IAutoCraft;
+
+import static buildcraft.compat.waila.HWYLAPlugin.WAILA_MOD_ID;
+
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.SpecialChars;
@@ -21,6 +25,7 @@ import mcp.mobius.waila.api.SpecialChars;
 class AutoCraftDataProvider extends BaseWailaDataProvider {
     @Nonnull
     @Override
+    @Optional.Method(modid = WAILA_MOD_ID)
     public List<String> getWailaBody(ItemStack itemStack, List<String> currentTip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
         TileEntity tile = accessor.getTileEntity();
         if (tile instanceof IAutoCraft) {
@@ -49,6 +54,7 @@ class AutoCraftDataProvider extends BaseWailaDataProvider {
 
     @Nonnull
     @Override
+    @Optional.Method(modid = WAILA_MOD_ID)
     public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
         NBTTagCompound nbt = super.getNBTData(player, te, tag, world, pos);
 
