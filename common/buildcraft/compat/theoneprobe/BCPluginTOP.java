@@ -2,12 +2,12 @@ package buildcraft.compat.theoneprobe;
 
 import java.util.List;
 import com.google.common.base.Function;
-import com.google.common.collect.Lists;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Optional;
@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.event.FMLInterModComms;
 import buildcraft.api.BCModules;
 import buildcraft.api.mj.ILaserTarget;
 import buildcraft.api.mj.MjAPI;
+import buildcraft.compat.CompatUtils;
 import buildcraft.factory.util.IAutoCraft;
 
 import static buildcraft.compat.theoneprobe.BCPluginTOP.TOP_MOD_ID;
@@ -87,25 +88,7 @@ public class BCPluginTOP implements Function<ITheOneProbe, Void>, IBlockDisplayO
             IProbeInfo info = mainInfo
                     .horizontal(mainInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER))
                     .text("From: ");
-            List<ItemStack> stacks = Lists.newArrayList();
-            for (int slot = 0; slot < crafter.getInvBlueprint().getSlots(); slot++) {
-                ItemStack stack = crafter.getInvBlueprint().getStackInSlot(slot);
-                if (stack.isEmpty()) {
-                    continue;
-                }
-
-                boolean handled = false;
-                for (ItemStack existing : stacks) {
-                    if (existing.isItemEqual(stack)) {
-                        existing.grow(stack.getCount());
-                        handled = true;
-                        break;
-                    }
-                }
-                if (!handled) {
-                    stacks.add(stack.copy());
-                }
-            }
+            List<ItemStack> stacks = CompatUtils.compactInventory(crafter.getInvBlueprint());
 
             for (ItemStack stack : stacks)
                 info.item(stack);
@@ -117,9 +100,9 @@ public class BCPluginTOP implements Function<ITheOneProbe, Void>, IBlockDisplayO
         long power = laserTarget.getRequiredLaserPower();
         if (power > 0) {
             probeInfo.horizontal()
-                    .text("Waiting from laser: ")
-                    .text(MjAPI.formatMj(power))
-                    .text("MJ");
+                    .text(TextFormatting.WHITE + "Waiting from laser: ")
+                    .text(TextFormatting.AQUA + MjAPI.formatMj(power))
+                    .text(TextFormatting.AQUA + "MJ");
         }
     }
 }

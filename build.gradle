@@ -61,7 +61,8 @@ dependencies {
     runtime "mcjty.theoneprobe:TheOneProbe:${config.top_version}"
 
     // HWYLA
-    deobfCompile "mcp.mobius.waila:Hwyla:${config.hwyla_version}"
+    compileOnly "mcp.mobius.waila:Hwyla:${config.hwyla_version}:api"
+    runtime "mcp.mobius.waila:Hwyla:${config.hwyla_version}"
 
     // BuildCraft stuff
     compileOnly files("BuildCraft/build/libs/${config.mod_version}/buildcraft-${config.mod_version}-dev.jar")
