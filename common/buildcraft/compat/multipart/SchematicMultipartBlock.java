@@ -4,11 +4,19 @@ import buildcraft.api.blueprints.*;
 import codechicken.lib.vec.BlockCoord;
 import codechicken.multipart.TMultiPart;
 import codechicken.multipart.handler.MultipartProxy;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
+import gnu.trove.map.TObjectIntMap;
+import gnu.trove.map.hash.TObjectIntHashMap;
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 public final class SchematicMultipartBlock extends SchematicBlock
@@ -24,6 +32,53 @@ public final class SchematicMultipartBlock extends SchematicBlock
 
     @Override
     public boolean isAlreadyBuilt(IBuilderContext context, int x, int y, int z) {
+        Block block = context.world().getBlock(x, y, z);
+        if (block == MultipartProxy.block()) {
+            // The following code is technically accurate, but does not take actual part information
+            // into account very well. If you wish to fix it, be my guest, but it will require
+            // better knowledge of FMP than what I have (that is, nearly none).
+
+            TObjectIntMap<String> partList = new TObjectIntHashMap<>();
+
+            for (int i = 0; i < parts.tagCount(); i++) {
+                NBTTagCompound tag = parts.getCompoundTagAt(i);
+                partList.adjustOrPutValue(tag.getString("type"), 1, 1);
+            }
+
+            for(Entry<TMultiPart, SchematicPart> s : MultipartSchematics.getSchematics(context, x, y, z)) {
+                String type = s.getKey().getType();
+                partList.adjustOrPutValue( type, -1, -1);
+            }
+
+            for (String s : partList.keySet()) {
+                if (partList.get(s) != 0) {
+                    return false;
+                }
+            }
+
+            return true;
+
+            /* Multimap<String, NBTTagCompound> partList = HashMultimap.create();
+
+            for (int i = 0; i < parts.tagCount(); i++) {
+                NBTTagCompound tag = parts.getCompoundTagAt(i);
+                partList.put(tag.getString("type"), tag.getCompoundTag("part"));
+            }
+
+            for(Entry<TMultiPart, SchematicPart> s : MultipartSchematics.getSchematics(context, x, y, z)) {
+                String type = s.getKey().getType();
+                if (!partList.containsKey(type)) {
+                    return false;
+                }
+
+                if (!partList.remove(type, s.getValue().writePart(s.getKey()))) {
+                    return false;
+                }
+            }
+
+            return partList.isEmpty(); */
+        }
+
         return false;
     }
 
