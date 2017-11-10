@@ -1,7 +1,9 @@
 package buildcraft.compat;
 
+import java.util.HashSet;
 import java.util.Set;
 
+import buildcraft.BuildCraftCompat;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -16,8 +18,12 @@ import buildcraft.compat.immibis.SchematicTileMicroblocksBase;
 import buildcraft.core.blueprints.SchematicRegistry;
 import mods.immibis.core.api.multipart.ICoverableTile;
 
-public class CompatModuleImmibisMicroblocks extends CompatModuleBase
-{
+public class CompatModuleImmibisMicroblocks extends CompatModuleBase {
+    private Set<String> fcSet = new HashSet<>();
+    private String[] forbiddenClasses = new String[] {
+            "ic2.core.block.BlockMultiID"
+    };
+
     @Override
     public String name() {
         return "ImmibisMicroblocks";
@@ -26,6 +32,16 @@ public class CompatModuleImmibisMicroblocks extends CompatModuleBase
     @Override
     public boolean canLoad() {
         return super.canLoad() && Loader.isModLoaded("BuildCraft|Builders");
+    }
+
+    @Override
+    public void preInit() {
+        forbiddenClasses = BuildCraftCompat.instance.getConfig().getStringList("forbiddenClasses", "immibismicroblocks", forbiddenClasses, "A list of block classes which should be ignored in the Immibis' Microblocks heuristics due to crashes.");
+
+        fcSet.clear();
+        for (String s : forbiddenClasses) {
+            fcSet.add(s);
+        }
     }
 
     @Override
@@ -56,7 +72,7 @@ public class CompatModuleImmibisMicroblocks extends CompatModuleBase
             String name = s.substring(0, s.lastIndexOf(":"));
             int meta = new Integer(s.substring(s.lastIndexOf(":") + 1));
             Block b = Block.getBlockFromName(name);
-            if (b == null || meta < 0 || meta >= 16) {
+            if (b == null || meta < 0 || meta >= 16 || fcSet.contains(b.getClass().getName())) {
                 continue;
             }
 

@@ -16,7 +16,6 @@ public enum EnumFilterType {
 	CLOSED, ANYTHING, ITEM, BEE, DRONE, PRINCESS, QUEEN, PURE_BREED, NOCTURNAL, PURE_NOCTURNAL, FLYER, PURE_FLYER, CAVE, PURE_CAVE, NATURAL;
 
 	public static EnumFilterType getType(ItemStack stack) {
-
 		if (CompatModuleForestry.beeRoot.isMember(stack)) {
 			if (CompatModuleForestry.beeRoot.isDrone(stack)) {
 				return DRONE;

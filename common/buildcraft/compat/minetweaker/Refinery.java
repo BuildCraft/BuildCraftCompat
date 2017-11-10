@@ -79,11 +79,12 @@ public class Refinery {
 
 		@Override
 		public void apply() {
-			String name = "MineTweaker:" + input1.getName() + ":"  + input2.getName() + ":" + output.getName();
 			if (input2 == null) {
+				String name = "MineTweaker:" + input1.getName() + ":" + output.getName();
 				BuildcraftRecipeRegistry.refinery.addRecipe(name, MineTweakerMC.getLiquidStack(input1),
 						MineTweakerMC.getLiquidStack(output), energyPerMB, ticksPerMB);
 			} else {
+				String name = "MineTweaker:" + input1.getName() + ":"  + input2.getName() + ":" + output.getName();
 				BuildcraftRecipeRegistry.refinery.addRecipe(name, MineTweakerMC.getLiquidStack(input1),
 						MineTweakerMC.getLiquidStack(input2), MineTweakerMC.getLiquidStack(output), energyPerMB, ticksPerMB);
 			}

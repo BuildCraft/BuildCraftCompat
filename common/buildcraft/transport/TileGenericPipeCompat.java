@@ -268,10 +268,12 @@ public class TileGenericPipeCompat extends TileGenericPipe
 
 	@Optional.Method(modid = "ProjRed|Core")
 	private void updateProjectRedBundled() {
-		for (int i = 0; i < 6; i++) {
-			byte[] data = ProjectRedAPI.transmissionAPI.getBundledInput(worldObj, xCoord, yCoord, zCoord, i);
-			if (data != null && data.length == 16) {
-				bundledCableReceived[i] = data;
+		if (ProjectRedAPI.transmissionAPI != null) {
+			for (int i = 0; i < 6; i++) {
+				byte[] data = ProjectRedAPI.transmissionAPI.getBundledInput(worldObj, xCoord, yCoord, zCoord, i);
+				if (data != null && data.length == 16) {
+					bundledCableReceived[i] = data;
+				}
 			}
 		}
 	}

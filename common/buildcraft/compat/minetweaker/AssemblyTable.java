@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+
+import buildcraft.compat.CompatModuleMineTweaker3;
 import minetweaker.IUndoableAction;
 import minetweaker.MineTweakerAPI;
 import minetweaker.annotations.ModOnly;
@@ -118,10 +120,7 @@ public class AssemblyTable {
 			
 			mcIngredients = new Object[ingredients.length];
 			for (int i = 0; i < ingredients.length; i++) {
-				mcIngredients[i] = ingredients[i].getInternal();
-				if (mcIngredients[i] == null) {
-					throw new IllegalArgumentException("Not a valid assembly table ingredient");
-				}
+				mcIngredients[i] = CompatModuleMineTweaker3.getFlexibleRecipeObject(ingredients[i]);
 				_name += ":" + ingredients[i].toString();
 			}
 

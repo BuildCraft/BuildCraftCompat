@@ -5,6 +5,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+import buildcraft.BuildCraftCompat;
+import buildcraft.BuildCraftMod;
+import buildcraft.api.core.BCLog;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
@@ -86,6 +89,10 @@ public class RecipeHandlerIntegrationTable extends RecipeHandlerBase
                 continue;
             }
             //crecipe.expectedOutput = result;
+            if (crecipe.getResult() == null) {
+                BCLog.logger.warn("IntegrationRecipe with null result detected: " + crecipe.getClass().getName() + ". This is a bug!");
+                continue;
+            }
             this.arecipes.add(crecipe);
         }
     }
@@ -157,7 +164,12 @@ public class RecipeHandlerIntegrationTable extends RecipeHandlerBase
             for (int i = 1; i < ingr.size(); i++) {
                 exps.add(ingr.get(i).item);
             }
-            return new PositionedStack(recipe.craft(input, exps, true), 138 - 5, 49 - 13, true);
+            ItemStack output = recipe.craft(input, exps, true);
+            if (output != null) {
+                return new PositionedStack(output, 138 - 5, 49 - 13, true);
+            } else {
+                return null;
+            }
         }
 
         public List<PositionedStack> getIngredients() {
