@@ -10,6 +10,9 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import buildcraft.api.core.BCLog;
+
+import buildcraft.lib.BCLib;
+
 import buildcraft.compat.theoneprobe.BCPluginTOP;
 
 //@formatter:off
@@ -26,6 +29,10 @@ public class BCCompat {
 
     public static final String MODID = "buildcraftcompat";
     public static final String VERSION = "${version}";
+    public static final String GIT_BRANCH = "${git_branch}";
+    public static final String GIT_COMMIT_HASH = "${git_commit_hash}";
+    public static final String GIT_COMMIT_MSG = "${git_commit_msg}";
+    public static final String GIT_COMMIT_AUTHOR = "${git_commit_author}";
 
     @Mod.Instance(MODID)
     public static BCCompat instance;
@@ -48,6 +55,20 @@ public class BCCompat {
 
     @Mod.EventHandler
     public void preInit(final FMLPreInitializationEvent evt) {
+
+        BCLog.logger.info("");
+        BCLog.logger.info("Starting BuildCraftCompat " + VERSION);
+        BCLog.logger.info("Copyright (c) the BuildCraft team, 2011-2017");
+        BCLog.logger.info("https://www.mod-buildcraft.com");
+        if (!GIT_COMMIT_HASH.startsWith("${")) {
+            BCLog.logger.info("Detailed Build Information:");
+            BCLog.logger.info("  Branch " + GIT_BRANCH);
+            BCLog.logger.info("  Commit " + GIT_COMMIT_HASH);
+            BCLog.logger.info("    " + GIT_COMMIT_MSG);
+            BCLog.logger.info("    committed by " + GIT_COMMIT_AUTHOR);
+        }
+        BCLog.logger.info("");
+
         File cfgFolder = evt.getModConfigurationDirectory();
         cfgFolder = new File(cfgFolder, "buildcraft");
         config = new Configuration(new File(cfgFolder, "config.cfg"));

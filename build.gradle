@@ -63,10 +63,6 @@ dependencies {
     // HWYLA
     compileOnly "mcp.mobius.waila:Hwyla:${config.hwyla_version}:api"
     runtime "mcp.mobius.waila:Hwyla:${config.hwyla_version}"
-
-    // BuildCraft stuff
-    compileOnly files("BuildCraft/build/libs/${config.mod_version}/buildcraft-${config.mod_version}-dev.jar")
-    runtime files("BuildCraft/build/libs/buildcraft-${config.mod_version}.jar")
 }
 
 minecraft {
@@ -87,6 +83,18 @@ minecraft {
     // Replace @Mod.acceptedMinecraftVersions specially as it has to be a valid version in a dev environment :/
    	replace "(gradle_replace_mcversion,)", "[" + version + "]"
    	replace "(gradle_replace_forgeversion,)", "[" + config.forge_version + ",)"
+    if (System.getenv("GIT_COMMIT_HASH") != null) {
+        replace "\${git_commit_hash}" , System.getenv("GIT_COMMIT_HASH")
+    }
+    if (System.getenv("GIT_COMMIT_MSG") != null) {
+        replace "\${git_commit_msg}" , System.getenv("GIT_COMMIT_MSG").replace("\"", "\\\"")
+    }
+    if (System.getenv("GIT_COMMIT_AUTHOR") != null) {
+        replace "\${git_commit_author}" , System.getenv("GIT_COMMIT_AUTHOR")
+    }
+    if (System.getenv("GIT_BRANCH") != null) {
+        replace "\${git_branch}" , System.getenv("GIT_BRANCH")
+    }
 
     useDepAts = true
 }
@@ -100,17 +108,18 @@ compileJava {
 
 // configure  the source folders
 sourceSets {
-//    api {
-//        java {
-//            srcDir "api"
-//            srcDir "BuildCraft/BuildCraftAPI/api"
-//            srcDir "BuildCraft/common"
-//        }
-//        resources {
-//            srcDir "BuildCraft/buildcraft_resources"
-//            exclude "**/mcmod.info"
-//        }
-//    }
+    api {
+        java {
+            srcDir "api"
+            srcDir "BuildCraft/BuildCraftAPI/api"
+            srcDir "BuildCraft/common"
+            srcDir "BuildCraft/src/autogen/java"
+        }
+        resources {
+            srcDir "BuildCraft/buildcraft_resources"
+            exclude "**/mcmod.info"
+        }
+    }
     main {
         java {
             srcDir "common"
