@@ -23,7 +23,7 @@ buildscript {
 }
 
 apply plugin: "net.minecraftforge.gradle.forge" // adds the forge dependency
-apply plugin: 'maven' // for uploading to a maven repo
+apply plugin: "maven" // for uploading to a maven repo
 apply plugin: "org.ajoberstar.grgit"
 
 ext.configFile = file "build.properties"
