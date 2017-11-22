@@ -103,6 +103,7 @@ public class WrapperCombustionEngine implements IRecipeWrapper {
 
         @Override
         public void getIngredients(IIngredients ingredients) {
+            super.getIngredients(ingredients);
             ingredients.setOutput(FluidStack.class, this.dirty.getResidue());
         }
     }
