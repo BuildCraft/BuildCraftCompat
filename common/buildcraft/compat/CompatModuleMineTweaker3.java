@@ -16,11 +16,14 @@ import java.lang.reflect.Field;
 
 public class CompatModuleMineTweaker3 extends CompatModuleBase {
     // MT3 probably won't get an update... so we have to reflect
-    private static final Field ingStackIngredient = ReflectionHelper.findField(IngredientStack.class, "ingredient");
+    private static Field ingStackIngredient;
 
     public static Object getFlexibleRecipeObject(IIngredient ingredient) {
         if (ingredient instanceof IngredientStack) {
             try {
+                if (ingStackIngredient == null) {
+                    ingStackIngredient = ReflectionHelper.findField(IngredientStack.class, "ingredient");
+                }
                 IIngredient parent = (IIngredient) ingStackIngredient.get(ingredient);
                 Object internal = parent.getInternal();
                 if (internal instanceof String) {
