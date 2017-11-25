@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -27,16 +28,16 @@ public class WrapperIntegrationTable implements IRecipeWrapper {
         this.recipe = recipe;
 
         List<ItemStack> inputs = Lists.newArrayList();
-        inputs.addAll(Utils.getItemStacks(recipe.target));
-        for (StackDefinition definition : recipe.toIntegrate) {
-            inputs.addAll(Utils.getItemStacks(definition));
-        }
+//        inputs.addAll(Utils.getItemStacks(recipe.target));
+//        for (StackDefinition definition : recipe.toIntegrate) {
+//            inputs.addAll(Utils.getItemStacks(definition));
+//        }
         this.inputs = ImmutableList.copyOf(inputs);
-        this.outputs = ImmutableList.of(recipe.output);
+        this.outputs = ImmutableList.of(new ItemStack(Blocks.COBBLESTONE));
 
         ResourceLocation backgroundLocation = new ResourceLocation("buildcraftsilicon", "textures/gui/integration_table.png");
         IDrawableStatic progressDrawable = guiHelper.createDrawable(backgroundLocation, 176, 17, 4, 69, 0, 0, 0, 0);
-        this.progressBar = guiHelper.createAnimatedDrawable(progressDrawable, (int) (recipe.requiredMicroJoules / 720), IDrawableAnimated.StartDirection.BOTTOM, false);
+        this.progressBar = guiHelper.createAnimatedDrawable(progressDrawable, (int) (/*recipe.requiredMicroJoules / */ 720), IDrawableAnimated.StartDirection.BOTTOM, false);
     }
 
 //    @Override
@@ -72,7 +73,7 @@ public class WrapperIntegrationTable implements IRecipeWrapper {
     @SideOnly(Side.CLIENT)
     public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
         this.progressBar.draw(minecraft, 156, 1);
-        minecraft.fontRenderer.drawString(MjAPI.formatMj(this.recipe.requiredMicroJoules) + " MJ", 80, 52, Color.gray.getRGB());
+        minecraft.fontRenderer.drawString(MjAPI.formatMj(/*this.recipe.requiredMicroJoules*/0) + " MJ", 80, 52, Color.gray.getRGB());
     }
 //
 //    @Override

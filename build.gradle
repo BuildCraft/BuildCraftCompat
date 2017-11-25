@@ -17,7 +17,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT"
+        classpath "net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT"
         classpath "org.ajoberstar:grgit:2.1.0"
     }
 }
@@ -49,6 +49,8 @@ repositories {
     maven { name="JEI"; url="http://dvs1.progwml6.com/files/maven" }
     maven { name="TOP"; url="http://maven.tterrag.com/" }
     maven { name="hwyla"; url="http://tehnut.info/maven" }
+    // The One probe depends on the RF API -- we don't use it ourselves, nor will we ever add compat for it...
+    maven { name="cofh"; url="http://maven.covers1624.net" }
 }
 
 dependencies {
@@ -58,8 +60,10 @@ dependencies {
     runtime "mezz.jei:jei_${config.mc_version}:${config.jei_version}"
 
     // The One Probe Stuff
-    compileOnly "mcjty.theoneprobe:TheOneProbe:${config.top_version}:api"
-    runtime "mcjty.theoneprobe:TheOneProbe:${config.top_version}"
+    compileOnly "mcjty.theoneprobe:TheOneProbe-1.12:${config.top_version}:api"
+    runtime "mcjty.theoneprobe:TheOneProbe-1.12:${config.top_version}"
+
+    // The One Probe depends on the RF api for some odd reason... we never intend to add support for RF ourselves though.
 
     // HWYLA
     compileOnly "mcp.mobius.waila:Hwyla:${config.hwyla_version}:api"

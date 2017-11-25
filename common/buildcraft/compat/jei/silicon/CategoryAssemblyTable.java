@@ -1,17 +1,20 @@
 package buildcraft.compat.jei.silicon;
 
 import java.util.List;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+
 import buildcraft.api.BCModules;
+
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
-import mezz.jei.api.recipe.BlankRecipeCategory;
+import mezz.jei.api.recipe.IRecipeCategory;
 
-public class CategoryAssemblyTable extends BlankRecipeCategory<WrapperAssemblyTable> {
+public class CategoryAssemblyTable implements IRecipeCategory<WrapperAssemblyTable> {
     public static final String UID = "buildcraft-compat:silicon.assembly";
 
     protected final ResourceLocation backgroundLocation;
