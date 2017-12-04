@@ -1,11 +1,14 @@
 package buildcraft.compat.waila;
 
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.Optional;
-import buildcraft.api.mj.ILaserTarget;
-import buildcraft.factory.util.IAutoCraft;
-
 import static buildcraft.compat.waila.HWYLAPlugin.WAILA_MOD_ID;
+
+import net.minecraft.item.ItemStack;
+
+import net.minecraftforge.fml.common.Optional;
+
+import buildcraft.api.mj.ILaserTarget;
+
+import buildcraft.lib.tile.craft.IAutoCraft;
 
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaPlugin;

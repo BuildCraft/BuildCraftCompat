@@ -1,7 +1,11 @@
 package buildcraft.compat.theoneprobe;
 
+import static buildcraft.compat.theoneprobe.BCPluginTOP.TOP_MOD_ID;
+
 import java.util.List;
+
 import com.google.common.base.Function;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -9,16 +13,18 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
+
 import buildcraft.api.BCModules;
 import buildcraft.api.mj.ILaserTarget;
 import buildcraft.api.mj.MjAPI;
-import buildcraft.compat.CompatUtils;
-import buildcraft.factory.util.IAutoCraft;
 
-import static buildcraft.compat.theoneprobe.BCPluginTOP.TOP_MOD_ID;
+import buildcraft.lib.tile.craft.IAutoCraft;
+
+import buildcraft.compat.CompatUtils;
 
 import mcjty.theoneprobe.api.ElementAlignment;
 import mcjty.theoneprobe.api.IBlockDisplayOverride;

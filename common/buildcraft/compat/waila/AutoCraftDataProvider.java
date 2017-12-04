@@ -1,7 +1,11 @@
 package buildcraft.compat.waila;
 
+import static buildcraft.compat.waila.HWYLAPlugin.WAILA_MOD_ID;
+
 import java.util.List;
+
 import javax.annotation.Nonnull;
+
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -11,12 +15,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.common.Optional;
-import buildcraft.compat.CompatUtils;
-import buildcraft.factory.util.IAutoCraft;
 
-import static buildcraft.compat.waila.HWYLAPlugin.WAILA_MOD_ID;
+import buildcraft.lib.tile.craft.IAutoCraft;
+
+import buildcraft.compat.CompatUtils;
 
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
