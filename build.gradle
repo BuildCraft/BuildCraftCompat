@@ -157,10 +157,8 @@ sourceJar.destinationDir = libsDir
 task allJar(type: Jar, dependsOn:reobfJar) {
     destinationDir = libsDir
 
-    doFirst {
-        from(project.ext.jarFile) {
-            includes.addAll("**")
-        }
+    from(project.ext.jarFile) {
+        includes.addAll("**")
     }
 }
 build.dependsOn(allJar)
