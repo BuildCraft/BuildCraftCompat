@@ -13,10 +13,6 @@ jobs:
     - stage: build
       install: ./gradlew setupCiWorkspace
       script: ./gradlew build
-    - stage: checkstyle
-      install: echo "skipping default ./gradlew assemble"
-      script: ./gradlew checkstyle
-
 env:
   global:
     TERM=dumb
