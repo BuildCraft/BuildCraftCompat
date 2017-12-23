@@ -85,12 +85,12 @@ public class BCPluginTOP implements Function<ITheOneProbe, Void>, IBlockDisplayO
 
     @Optional.Method(modid = TOP_MOD_ID)
     private void addAutoCraftInfo(IProbeInfo probeInfo, IAutoCraft crafter) {
-        if (crafter.getCurrentRecipe() != null) {
+        if (!crafter.getCurrentRecipeOutput().isEmpty()) {
             IProbeInfo mainInfo = probeInfo.vertical();
             mainInfo
                     .horizontal(mainInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER))
                     .text("Making: ")
-                    .item(crafter.getCurrentRecipe().getRecipeOutput());
+                    .item(crafter.getCurrentRecipeOutput());
             IProbeInfo info = mainInfo
                     .horizontal(mainInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER))
                     .text("From: ");

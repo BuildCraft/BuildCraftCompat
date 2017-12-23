@@ -8,7 +8,6 @@ import javax.annotation.Nonnull;
 
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
@@ -66,9 +65,9 @@ class AutoCraftDataProvider extends BaseWailaDataProvider {
         TileEntity tile = world.getTileEntity(pos);
         if (tile instanceof IAutoCraft) {
             IAutoCraft auto = IAutoCraft.class.cast(tile);
-            IRecipe recipe = auto.getCurrentRecipe();
-            if (recipe != null) {
-                nbt.setTag("recipe_result", recipe.getRecipeOutput().serializeNBT());
+            ItemStack output = auto.getCurrentRecipeOutput();
+            if (!output.isEmpty()) {
+                nbt.setTag("recipe_result", output.serializeNBT());
 
                 List<ItemStack> stacks = CompatUtils.compactInventory(auto.getInvBlueprint());
                 NBTTagList list = new NBTTagList();
