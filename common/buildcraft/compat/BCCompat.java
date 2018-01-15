@@ -13,7 +13,7 @@ import buildcraft.api.core.BCLog;
 
 import buildcraft.lib.BCLib;
 
-import buildcraft.compat.theoneprobe.BCPluginTOP;
+import buildcraft.compat.module.theoneprobe.BCPluginTOP;
 
 //@formatter:off
 @Mod(

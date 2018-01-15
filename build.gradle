@@ -51,6 +51,7 @@ repositories {
     maven { name="hwyla"; url="http://tehnut.info/maven" }
     // The One probe depends on the RF API -- we don't use it ourselves, nor will we ever add compat for it...
     maven { name="cofh"; url="http://maven.covers1624.net" }
+    maven { name="forestry"; url = "http://maven.ic2.player.to/" }
 }
 
 dependencies {
@@ -68,6 +69,9 @@ dependencies {
     // HWYLA
     compileOnly "mcp.mobius.waila:Hwyla:${config.hwyla_version}:api"
     runtime "mcp.mobius.waila:Hwyla:${config.hwyla_version}"
+
+    // Forestry
+    runtime "net.sengir.forestry:forestry_${config.mc_version}:${config.forestry_version}"
 }
 
 minecraft {
