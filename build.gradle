@@ -91,7 +91,7 @@ minecraft {
     // Replace @Mod.acceptedMinecraftVersions specially as it has to be a valid version in a dev environment :/
    	replace "(gradle_replace_mcversion,)", "[" + version + "]"
    	replace "(gradle_replace_forgeversion,)", "[" + config.forge_version + ",)"
-    replace "(gradle_replace_bcversion,)", "[" + config.version + ",)"
+    replace "(gradle_replace_bcversion,)", "[" + config.mod_version + ",)"
 
     // Git versioning stuffs
     if (grgit != null) {
@@ -165,4 +165,13 @@ task allJar(type: Jar, dependsOn:reobfJar) {
         includes.addAll("**")
     }
 }
-build.dependsOn(allJar)
+
+// because the normal output has been made to be obfuscated
+task deobfJar(type: Jar) {
+    destinationDir = libsDir
+    from sourceSets.main.output
+    from sourceSets.api.output
+    classifier = 'dev'
+}
+
+build.dependsOn(allJar, deobfJar)
