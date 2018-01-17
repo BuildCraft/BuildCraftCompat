@@ -91,6 +91,7 @@ minecraft {
     // Replace @Mod.acceptedMinecraftVersions specially as it has to be a valid version in a dev environment :/
    	replace "(gradle_replace_mcversion,)", "[" + version + "]"
    	replace "(gradle_replace_forgeversion,)", "[" + config.forge_version + ",)"
+    replace "(gradle_replace_bcversion,)", "[" + config.version + ",)"
 
     // Git versioning stuffs
     if (grgit != null) {
