@@ -30,7 +30,7 @@ import buildcraft.core.BCCoreConfig;
 public class BCCompat {
 
     static final String DEPENDENCIES = "required-after:forge@(gradle_replace_forgeversion,)"//
-        + ";required-after:buildcraftcore(gradle_replace_bcversion,)"//
+        + ";required-after:buildcraftcore@(gradle_replace_bcversion,)"//
         + ";after:buildcrafttransport"//
         + ";after:buildcraftbuilders"//
         + ";after:buildcraftsilicon"//
