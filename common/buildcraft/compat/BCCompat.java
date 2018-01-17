@@ -1,19 +1,21 @@
 package buildcraft.compat;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import net.minecraftforge.common.config.Configuration;
+
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+
 import buildcraft.api.core.BCLog;
 
-import buildcraft.lib.BCLib;
-
-import buildcraft.compat.module.theoneprobe.BCPluginTOP;
+import buildcraft.compat.module.forestry.CompatModuleForestry;
+import buildcraft.compat.module.theoneprobe.CompatModuleTheOneProbe;
+import buildcraft.compat.network.CompatGui;
+import buildcraft.core.BCCoreConfig;
 
 //@formatter:off
 @Mod(
@@ -22,10 +24,19 @@ import buildcraft.compat.module.theoneprobe.BCPluginTOP;
         version = BCCompat.VERSION,
         updateJSON = "https://mod-buildcraft.com/version/versions-compat.json",
         acceptedMinecraftVersions = "(gradle_replace_mcversion,)",
-        dependencies = "required-after:forge@(gradle_replace_forgeversion,);required-after:buildcraftcore;after:buildcrafttransport;after:buildcraftbuilders;after:buildcraftsilicon;after:theoneprobe;"
+        dependencies = BCCompat.DEPENDENCIES
 )
 //@formatter:on
 public class BCCompat {
+
+    static final String DEPENDENCIES = "required-after:forge@(gradle_replace_forgeversion,)"//
+        + ";required-after:buildcraftcore"//
+        + ";after:buildcrafttransport"//
+        + ";after:buildcraftbuilders"//
+        + ";after:buildcraftsilicon"//
+        + ";after:theoneprobe"//
+        + ";after:forestry"//
+    ;
 
     public static final String MODID = "buildcraftcompat";
     public static final String VERSION = "${version}";
@@ -37,24 +48,26 @@ public class BCCompat {
     @Mod.Instance(MODID)
     public static BCCompat instance;
 
-    private static Configuration config;
     private static final Map<String, CompatModuleBase> modules = new HashMap<>();
 
-    public Configuration getConfig() {
-        return config;
-    }
-
-    private void offerModule(final CompatModuleBase module) {
+    private static void offerAndPreInitModule(final CompatModuleBase module) {
+        String cModId = module.compatModId();
         if (module.canLoad()) {
-            Property prop = config.get("modules", module.compatModId(), true);
+            Property prop = BCCoreConfig.config.get("modules", cModId, true);
             if (prop.getBoolean(true)) {
-                modules.put(module.compatModId(), module);
+                modules.put(cModId, module);
+                BCLog.logger.info("[compat]   + " + cModId);
+                module.preInit();
+            } else {
+                BCLog.logger.info("[compat]   x " + cModId + " (It has been disabled in the config)");
             }
+        } else {
+            BCLog.logger.info("[compat]   x " + cModId + " (It cannot load)");
         }
     }
 
     @Mod.EventHandler
-    public void preInit(final FMLPreInitializationEvent evt) {
+    public static void preInit(final FMLPreInitializationEvent evt) {
 
         BCLog.logger.info("");
         BCLog.logger.info("Starting BuildCraftCompat " + VERSION);
@@ -69,46 +82,31 @@ public class BCCompat {
         }
         BCLog.logger.info("");
 
-        File cfgFolder = evt.getModConfigurationDirectory();
-        cfgFolder = new File(cfgFolder, "buildcraft");
-        config = new Configuration(new File(cfgFolder, "config.cfg"));
-        config.load();
-
-        // TODO: put this in a compat module or something :S
-        BCPluginTOP.init();
-
-        // Module offering/addition goes here
-        for (CompatModuleBase m : modules.values()) {
-            m.preInit();
-        }
-
-        config.save();
+        BCLog.logger.info("[compat] Module list:");
+        // List of all modules
+        offerAndPreInitModule(new CompatModuleForestry());
+        offerAndPreInitModule(new CompatModuleTheOneProbe());
+        // End of module list
     }
 
     @Mod.EventHandler
-    public void init(final FMLInitializationEvent evt) {
-        // NetworkRegistry.INSTANCE.registerGuiHandler(instance, new CompatGuiHandler());
-        //
+    public static void init(final FMLInitializationEvent evt) {
+        NetworkRegistry.INSTANCE.registerGuiHandler(instance, CompatGui.guiHandlerProxy);
+
         // compatChannelHandler = new ChannelHandler();
         // MinecraftForge.EVENT_BUS.register(this);
-        //
+
         // compatChannelHandler.registerPacketType(PacketGenomeFilterChange.class);
         // compatChannelHandler.registerPacketType(PacketTypeFilterChange.class);
         // compatChannelHandler.registerPacketType(PacketRequestFilterSet.class);
-        //
-        // channels = NetworkRegistry.INSTANCE.newChannel
-        // (DefaultProps.NET_CHANNEL_NAME + "-COMPAT", compatChannelHandler, new PacketHandlerCompat());
 
         for (final CompatModuleBase m : modules.values()) {
-            BCLog.logger.info("[compat] Loading module " + m.compatModId());
             m.init();
         }
-
-        config.save();
     }
 
     @Mod.EventHandler
-    public void postInit(final FMLPostInitializationEvent evt) {
+    public static void postInit(final FMLPostInitializationEvent evt) {
         for (final CompatModuleBase m : modules.values()) {
             m.postInit();
         }
@@ -127,11 +125,11 @@ public class BCCompat {
     // }
     // }
 
-//    public static boolean isLoaded(String module) {
-//        return moduleNames.contains(module);
-//    }
+    // public static boolean isLoaded(String module) {
+    // return moduleNames.contains(module);
+    // }
 
-//    public static boolean hasModule(final String module) {
-//        return BuildCraftCompat.moduleNames.contains(module);
-//    }
+    // public static boolean hasModule(final String module) {
+    // return BuildCraftCompat.moduleNames.contains(module);
+    // }
 }

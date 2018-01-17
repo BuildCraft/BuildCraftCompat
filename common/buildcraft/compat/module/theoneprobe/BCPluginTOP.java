@@ -41,12 +41,6 @@ import mcjty.theoneprobe.api.ProbeMode;
 public class BCPluginTOP implements Function<ITheOneProbe, Void>, IBlockDisplayOverride, IProbeInfoProvider {
     static final String TOP_MOD_ID = "theoneprobe";
 
-    public static void init() {
-        if (Loader.isModLoaded(TOP_MOD_ID)) {
-            FMLInterModComms.sendFunctionMessage(TOP_MOD_ID, "getTheOneProbe", "buildcraft.compat.module.theoneprobe.BCPluginTOP");
-        }
-    }
-
     @Override
     @Optional.Method(modid = TOP_MOD_ID)
     public Void apply(ITheOneProbe top) {

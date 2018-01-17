@@ -63,7 +63,6 @@ dependencies {
     // The One Probe Stuff
     compileOnly "mcjty.theoneprobe:TheOneProbe-1.12:${config.top_version}:api"
     runtime "mcjty.theoneprobe:TheOneProbe-1.12:${config.top_version}"
-
     // The One Probe depends on the RF api for some odd reason... we never intend to add support for RF ourselves though.
 
     // HWYLA
@@ -71,7 +70,7 @@ dependencies {
     runtime "mcp.mobius.waila:Hwyla:${config.hwyla_version}"
 
     // Forestry
-    runtime "net.sengir.forestry:forestry_${config.mc_version}:${config.forestry_version}"
+    deobfCompile "net.sengir.forestry:forestry_${config.mc_version}:${config.forestry_version}"
 }
 
 minecraft {
