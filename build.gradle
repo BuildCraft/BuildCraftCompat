@@ -86,12 +86,12 @@ minecraft {
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 
     // replacing stuff in the source
-    replace "\${version}", project.version
+    replace "\$version", project.version
     replace "\${mcversion}", version
     // Replace @Mod.acceptedMinecraftVersions specially as it has to be a valid version in a dev environment :/
    	replace "(gradle_replace_mcversion,)", "[" + version + "]"
    	replace "(gradle_replace_forgeversion,)", "[" + config.forge_version + ",)"
-    replace "(gradle_replace_bcversion,)", "[" + config.mod_version + ",)"
+    replace "\$bc_version", config.mod_version
 
     // Git versioning stuffs
     if (grgit != null) {

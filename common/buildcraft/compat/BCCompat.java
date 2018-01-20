@@ -30,7 +30,7 @@ import buildcraft.core.BCCoreConfig;
 public class BCCompat {
 
     static final String DEPENDENCIES = "required-after:forge@(gradle_replace_forgeversion,)"//
-        + ";required-after:buildcraftcore@(gradle_replace_bcversion,)"//
+        + ";required-after:buildcraftcore@[$bc_version,)"//
         + ";after:buildcrafttransport"//
         + ";after:buildcraftbuilders"//
         + ";after:buildcraftsilicon"//
@@ -39,7 +39,7 @@ public class BCCompat {
     ;
 
     public static final String MODID = "buildcraftcompat";
-    public static final String VERSION = "${version}";
+    public static final String VERSION = "$version";
     public static final String GIT_BRANCH = "${git_branch}";
     public static final String GIT_COMMIT_HASH = "${git_commit_hash}";
     public static final String GIT_COMMIT_MSG = "${git_commit_msg}";
