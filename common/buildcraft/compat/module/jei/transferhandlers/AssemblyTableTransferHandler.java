@@ -7,7 +7,7 @@ import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.recipe.transfer.IRecipeTransferError;
 import mezz.jei.api.recipe.transfer.IRecipeTransferHandler;
 
-public class AssemblyTableTranferHandler implements IRecipeTransferHandler<ContainerAssemblyTable> {
+public class AssemblyTableTransferHandler implements IRecipeTransferHandler<ContainerAssemblyTable> {
     @Override
     public Class<ContainerAssemblyTable> getContainerClass() {
         return ContainerAssemblyTable.class;

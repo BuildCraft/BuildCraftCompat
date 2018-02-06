@@ -8,7 +8,7 @@ import buildcraft.compat.module.jei.BCPluginJEI;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import mezz.jei.api.recipe.IRecipeWrapperFactory;
 
-public class HandlerCombusionEngine implements IRecipeWrapperFactory<IFuel> {
+public class HandlerCombustionEngine implements IRecipeWrapperFactory<IFuel> {
     @Override
     public IRecipeWrapper getRecipeWrapper(IFuel recipe) {
         if (recipe instanceof IDirtyFuel) {

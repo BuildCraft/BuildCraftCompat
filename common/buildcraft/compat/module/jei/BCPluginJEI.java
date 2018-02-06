@@ -17,7 +17,7 @@ import buildcraft.api.recipes.IRefineryRecipeManager;
 import buildcraft.lib.fluid.FuelRegistry;
 
 import buildcraft.compat.module.jei.energy.combustionengine.CategoryCombustionEngine;
-import buildcraft.compat.module.jei.energy.combustionengine.HandlerCombusionEngine;
+import buildcraft.compat.module.jei.energy.combustionengine.HandlerCombustionEngine;
 import buildcraft.compat.module.jei.factory.CategoryCoolable;
 import buildcraft.compat.module.jei.factory.CategoryDistiller;
 import buildcraft.compat.module.jei.factory.CategoryHeatable;
@@ -63,7 +63,7 @@ public class BCPluginJEI implements IModPlugin {
             registry.addRecipes(ImmutableList.copyOf(BuildcraftRecipeRegistry.refineryRecipes.getHeatableRegistry().getAllRecipes()), CategoryHeatable.UID);
         }
         if (energy) {
-            registry.handleRecipes(IFuel.class, new HandlerCombusionEngine(), CategoryCombustionEngine.UID);
+            registry.handleRecipes(IFuel.class, new HandlerCombustionEngine(), CategoryCombustionEngine.UID);
             registry.addRecipes(ImmutableList.copyOf(FuelRegistry.INSTANCE.getFuels()), CategoryCombustionEngine.UID);
         }
         if (silicon) {
@@ -76,7 +76,7 @@ public class BCPluginJEI implements IModPlugin {
 
         registry.getRecipeTransferRegistry().addRecipeTransferHandler(new AutoCraftItemsTransferHandler(), VanillaRecipeCategoryUid.CRAFTING);
         registry.getRecipeTransferRegistry().addRecipeTransferHandler(new AdvancedCraftingItemsTransferHandler(), VanillaRecipeCategoryUid.CRAFTING);
-        // registry.getRecipeTransferRegistry().addRecipeTransferHandler(new AssemblyTableTranferHandler(), CategoryAssemblyTable.UID);
+        // registry.getRecipeTransferRegistry().addRecipeTransferHandler(new AssemblyTableTransferHandler(), CategoryAssemblyTable.UID);
         registry.getRecipeTransferRegistry().addRecipeTransferHandler(ContainerAssemblyTable.class, CategoryAssemblyTable.UID,
                 36, 12, 0, 36);
     }
