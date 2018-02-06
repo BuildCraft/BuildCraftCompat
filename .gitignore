@@ -20,6 +20,7 @@ libs
 
 #runtime
 run
+classes
 
 #mac
 .DS_Store
