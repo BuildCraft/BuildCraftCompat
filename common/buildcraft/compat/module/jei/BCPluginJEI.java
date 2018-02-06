@@ -11,14 +11,10 @@ import net.minecraftforge.fml.common.Loader;
 import buildcraft.api.BCModules;
 import buildcraft.api.core.BCLog;
 import buildcraft.api.fuels.IFuel;
-import buildcraft.api.recipes.AssemblyRecipe;
 import buildcraft.api.recipes.BuildcraftRecipeRegistry;
 import buildcraft.api.recipes.IRefineryRecipeManager;
-import buildcraft.api.recipes.IntegrationRecipe;
 
 import buildcraft.lib.fluid.FuelRegistry;
-import buildcraft.lib.recipe.AssemblyRecipeRegistry;
-import buildcraft.lib.recipe.IntegrationRecipeRegistry;
 
 import buildcraft.compat.module.jei.energy.combustionengine.CategoryCombustionEngine;
 import buildcraft.compat.module.jei.energy.combustionengine.HandlerCombusionEngine;
@@ -30,9 +26,6 @@ import buildcraft.compat.module.jei.factory.HandlerDistiller;
 import buildcraft.compat.module.jei.factory.HandlerHeatable;
 import buildcraft.compat.module.jei.recipe.GuiHandlerBuildCraft;
 import buildcraft.compat.module.jei.silicon.CategoryAssemblyTable;
-import buildcraft.compat.module.jei.silicon.CategoryIntegrationTable;
-import buildcraft.compat.module.jei.silicon.HandlerAssemblyTable;
-import buildcraft.compat.module.jei.silicon.HandlerIntegrationTable;
 import buildcraft.compat.module.jei.transferhandlers.AdvancedCraftingItemsTransferHandler;
 import buildcraft.compat.module.jei.transferhandlers.AutoCraftItemsTransferHandler;
 import buildcraft.silicon.container.ContainerAssemblyTable;
@@ -54,11 +47,11 @@ public class BCPluginJEI implements IModPlugin {
     public void register(IModRegistry registry) {
         BCPluginJEI.registry = registry;
         registry.addAdvancedGuiHandlers(new GuiHandlerBuildCraft());
-//        boolean transport = Loader.isModLoaded(BCModules.TRANSPORT.getModId());
-        boolean factory = Loader.isModLoaded(BCModules.FACTORY.getModId());
-        boolean energy = Loader.isModLoaded(BCModules.ENERGY.getModId());
-        boolean silicon = Loader.isModLoaded(BCModules.SILICON.getModId());
-//        boolean robotics = Loader.isModLoaded(BCModules.ROBOTICS.getModId());
+//        boolean transport = BCModules.TRANSPORT.isLoaded();
+        boolean factory = BCModules.FACTORY.isLoaded();
+        boolean energy = BCModules.ENERGY.isLoaded();
+        boolean silicon = BCModules.SILICON.isLoaded();
+//        boolean robotics = BCModules.ROBOTICS.isLoaded();
 
         if (factory) {
             registry.handleRecipes(IRefineryRecipeManager.ICoolableRecipe.class, new HandlerCoolable(), CategoryCoolable.UID);
