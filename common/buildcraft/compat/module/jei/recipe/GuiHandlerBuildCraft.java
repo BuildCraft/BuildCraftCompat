@@ -27,7 +27,7 @@ public class GuiHandlerBuildCraft implements IAdvancedGuiHandler<GuiBC8> {
         GuiBC8<?> gui = guiDirty;
         // Get the rectangles of everything that is *outside* the main gui area
         List<Rectangle> list = new ArrayList<>();
-        for (IGuiElement element : gui.shownElements) {
+        for (IGuiElement element : gui.mainGui.shownElements) {
             // Ignore children: all ledger style elements are top level
             GuiRectangle rect = element.asImmutable();
 //            if (!gui.rootElement.contains(rect)) {
