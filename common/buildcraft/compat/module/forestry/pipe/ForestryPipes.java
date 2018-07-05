@@ -53,7 +53,7 @@ public class ForestryPipes {
     }
 
     @SubscribeEvent
-    public static void registerRecipes(RegistryEvent<IRecipe> event) {
+    public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
         Item propolis = ForgeRegistries.ITEMS.getValue(new ResourceLocation("forestry:propolis"));
         if (propolis != null && propolis != Items.AIR) {
             addPipeRecipe(pipeItemPropolis, propolis, Items.DIAMOND);
