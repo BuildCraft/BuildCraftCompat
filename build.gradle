@@ -137,6 +137,14 @@ compileJava {
     options.compilerArgs << "-Xdiags:verbose"
 }
 
+task setupSubProjects(dependsOn: "BuildCraft:sub_projects:expression:generateSources") {
+    // Just an inter-dependency task
+}
+
+eclipseClasspath.dependsOn setupSubProjects
+ideaModule.dependsOn setupSubProjects
+compileAPIJava.dependsOn setupSubProjects
+
 // configure the source folders
 sourceSets {
     api {
