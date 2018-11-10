@@ -8,7 +8,7 @@
   "url": "http://www.mod-buildcraft.com/",
   "updateUrl": "",
   "authorList": [ "BuildCraft Team" ],
-  "parent":"",
+  "parent":"buildcraftcore",
   "screenshots": [],
   "dependencies": [
      "mod_MinecraftForge"

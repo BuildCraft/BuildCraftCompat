@@ -1,0 +1,2 @@
+include 'BuildCraft'
+include 'BuildCraft:sub_projects:expression'

@@ -24,6 +24,7 @@ buildscript {
 
 apply plugin: "net.minecraftforge.gradle.forge" // adds the forge dependency
 apply plugin: "maven" // for uploading to a maven repo
+apply plugin: 'maven-publish' // for uploading to a maven repo
 apply plugin: "org.ajoberstar.grgit"
 
 ext.configFile = file "build.properties"
@@ -40,7 +41,12 @@ configFile.withReader {
 
 version = config.compat_version
 group = "com.mod-buildcraft-compat"
-archivesBaseName = "buildcraft-compat" // the name that all artifacts will use as a base. artifacts names follow this pattern: [baseName]-[appendix]-[version]-[classifier].[extension]
+archivesBaseName = "buildcraft" // the name that all artifacts will use as a base. artifacts names follow this pattern: [baseName]-[appendix]-[version]-[classifier].[extension]
+
+ext {
+    compatModInfo = new groovy.json.JsonSlurper().parse(file("resources/mcmod.info"))
+    mainModInfo = new groovy.json.JsonSlurper().parse(file("BuildCraft/buildcraft_resources/mcmod.info"))
+}
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -83,15 +89,17 @@ minecraft {
     // Use non-default mappings at your own risk. they may not allways work.
     // simply re-run your setup task after changing the mappings to update your workspace.
     mappings = config.mappings_version
-    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 
-    // replacing stuff in the source
-    replace "\$version", project.version
-    replace "\${mcversion}", version
-    // Replace @Mod.acceptedMinecraftVersions specially as it has to be a valid version in a dev environment :/
-   	replace "(gradle_replace_mcversion,)", "[" + version + "]"
-   	replace "(gradle_replace_forgeversion,)", "[" + config.forge_version + ",)"
-    replace "\$bc_version", config.mod_version
+    useDepAts = true
+
+    def separate = Boolean.getBoolean("build_compat_only")
+    if (separate) {
+        project.version = config.compat_version
+    } else {
+        project.version = config.mod_version;
+    }
+
+    def addVersionDetails = !Boolean.getBoolean("release")
 
     // Git versioning stuffs
     if (grgit != null) {
@@ -100,7 +108,24 @@ minecraft {
         replace "\${git_commit_msg}", repo.head().fullMessage.replace("\"", "\\\"").split("\n")[0]
         replace "\${git_commit_author}", repo.head().author.name
         replace "\${git_branch}", repo.branch.current().getName()
+        if (addVersionDetails) {
+            project.version += "-" + repo.head().id.toString().substring(0, 12)
+        }
+    } else {
+        if (addVersionDetails) {
+            project.version += "-SNAPSHOT"
+        }
     }
+
+    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
+
+    // replacing stuff in the source
+    replace "\$version", project.version
+    replace "\${mcversion}", version
+    // Replace @Mod.acceptedMinecraftVersions specially as it has to be a valid version in a dev environment :/
+    replace "(gradle_replace_mcversion,)", "[" + version + "]"
+    replace "(gradle_replace_forgeversion,)", "[" + config.forge_version + ",)"
+    replace "\$bc_version", config.mod_version
 
     useDepAts = true
 }
@@ -112,14 +137,14 @@ compileJava {
     options.compilerArgs << "-Xdiags:verbose"
 }
 
-// configure  the source folders
+// configure the source folders
 sourceSets {
     api {
         java {
-            srcDir "api"
             srcDir "BuildCraft/BuildCraftAPI/api"
             srcDir "BuildCraft/common"
-            srcDir "BuildCraft/src/autogen/java"
+            srcDir "BuildCraft/sub_projects/expression/src/main/java"
+            srcDir "BuildCraft/sub_projects/expression/src/autogen/java"
         }
         resources {
             srcDir "BuildCraft/buildcraft_resources"
@@ -155,23 +180,100 @@ processResources {
     }
 }
 
-def libsDir = new File(System.getenv("LIBS_DIR") ?: "build/libs/", version)
-sourceJar.destinationDir = libsDir
+def createAllModInfo() {
+    return new File("$projectDir/build/processing/compat-all/mcmod.info")
+}
 
-task allJar(type: Jar, dependsOn:reobfJar) {
-    destinationDir = libsDir
+task writeAllModInfo() {
+    outputs.upToDateWhen { false }
+    doLast {
+        File temp = createAllModInfo()
+        temp.parentFile.mkdirs()
+        if (temp.exists())
+            temp.delete()
+        temp.createNewFile()
+        def elements = [];
+        for (int i = 0; i < mainModInfo.size(); i++) {
+            elements += mainModInfo[i];
+        }
+        elements += compatModInfo[0];
+        String prettyPrinted = groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(elements))
+        prettyPrinted = prettyPrinted.replace("\$version", project.version)
+        prettyPrinted = prettyPrinted.replace("\${mcversion}", project.minecraft.version)
+        temp.write(prettyPrinted)
+        return temp
+    }
+}
+
+def unzippedSourceJar = new File("$projectDir/build/processing/tasks/unzipped_src_jar/unzip")
+def libsDir = new File(System.getenv("LIBS_DIR") ?: "build/libs/", project.version)
+def modulesDir = new File(libsDir, "modules")
+
+// forge (or gradle?) creates a special sourceJar which has been processed
+// This task unzips that created jar, so that partial source jars can be created.
+task unzipSourceJar(type: Copy, dependsOn: sourceJar) {
+    from (zipTree(sourceJar.archivePath)) {
+        include "**"
+    }
+    into unzippedSourceJar
+}
+
+task compatJar(type: Jar, dependsOn:reobfJar) {
+    destinationDir = modulesDir
+    appendix = "compat"
+    version = project.version
 
     from(project.ext.jarFile) {
         includes.addAll("**")
     }
 }
 
-// because the normal output has been made to be obfuscated
-task deobfJar(type: Jar) {
+task allJar(type: Jar, dependsOn: [reobfJar, writeAllModInfo]) {
     destinationDir = libsDir
-    from sourceSets.main.output
-    from sourceSets.api.output
-    classifier = 'dev'
+    appendix = "all"
+    version = project.version
+
+    from(createAllModInfo().parentFile)
+    from(project.ext.jarFile) {
+        includes.addAll("**")
+        exclude("mcmod.info")
+    }
 }
 
-build.dependsOn(allJar, deobfJar)
+task allSrcJar(type: Jar, dependsOn:[reobfJar, writeAllModInfo, unzipSourceJar]) {
+    destinationDir = libsDir
+    appendix = "all"
+    classifier = "sources"
+
+    from(createAllModInfo().parentFile)
+    from(unzippedSourceJar) {
+        includes.add("**")
+        exclude("mcmod.info")
+    }
+}
+
+build.dependsOn compatJar, allJar, allSrcJar
+
+publishing {
+    repositories {
+        maven {
+            url System.getenv("MAVEN_DIR") ?: "$projectDir/build/maven"
+        }
+    }
+    publications {
+        pub_allJar(MavenPublication) {
+            groupId "com.mod-buildcraft"
+            artifactId "buildcraft-all"
+            version project.version
+
+            artifact allJar
+        }
+        pub_apiSrcJar(MavenPublication) {
+            groupId "com.mod-buildcraft"
+            artifactId "buildcraft-all"
+            version project.version
+
+            artifact allSrcJar
+        }
+    }
+}
