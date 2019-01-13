@@ -156,7 +156,6 @@ sourceSets {
         }
         resources {
             srcDir "BuildCraft/buildcraft_resources"
-            exclude "**/mcmod.info"
         }
     }
     main {
