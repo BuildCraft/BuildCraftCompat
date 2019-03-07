@@ -6,15 +6,21 @@ import java.util.List;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
+import net.minecraft.item.ItemStack;
+
 import net.minecraftforge.fml.common.Loader;
 
+import buildcraft.api.BCBlocks;
 import buildcraft.api.BCModules;
 import buildcraft.api.core.BCLog;
+import buildcraft.api.enums.EnumEngineType;
 import buildcraft.api.fuels.IFuel;
+import buildcraft.api.recipes.AssemblyRecipeBasic;
 import buildcraft.api.recipes.BuildcraftRecipeRegistry;
 import buildcraft.api.recipes.IRefineryRecipeManager;
 
 import buildcraft.lib.fluid.FuelRegistry;
+import buildcraft.lib.recipe.AssemblyRecipeRegistry;
 
 import buildcraft.compat.module.jei.energy.combustionengine.CategoryCombustionEngine;
 import buildcraft.compat.module.jei.energy.combustionengine.HandlerCombustionEngine;
@@ -26,8 +32,10 @@ import buildcraft.compat.module.jei.factory.HandlerDistiller;
 import buildcraft.compat.module.jei.factory.HandlerHeatable;
 import buildcraft.compat.module.jei.recipe.GuiHandlerBuildCraft;
 import buildcraft.compat.module.jei.silicon.CategoryAssemblyTable;
+import buildcraft.compat.module.jei.silicon.WrapperAssemblyTable;
 import buildcraft.compat.module.jei.transferhandlers.AdvancedCraftingItemsTransferHandler;
 import buildcraft.compat.module.jei.transferhandlers.AutoCraftItemsTransferHandler;
+import buildcraft.core.BCCoreBlocks;
 import buildcraft.silicon.container.ContainerAssemblyTable;
 
 import mezz.jei.api.IGuiHelper;
@@ -41,7 +49,6 @@ import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 public class BCPluginJEI implements IModPlugin {
     //    public static boolean disableFacadeJEI;
     public static IModRegistry registry;
-//    public static IJeiRuntime runtime;
 
     @Override
     public void register(IModRegistry registry) {
@@ -61,17 +68,38 @@ public class BCPluginJEI implements IModPlugin {
             registry.addRecipes(ImmutableList.copyOf(BuildcraftRecipeRegistry.refineryRecipes.getCoolableRegistry().getAllRecipes()), CategoryCoolable.UID);
             registry.addRecipes(ImmutableList.copyOf(BuildcraftRecipeRegistry.refineryRecipes.getDistillationRegistry().getAllRecipes()), CategoryDistiller.UID);
             registry.addRecipes(ImmutableList.copyOf(BuildcraftRecipeRegistry.refineryRecipes.getHeatableRegistry().getAllRecipes()), CategoryHeatable.UID);
+            if (BCBlocks.Factory.DISTILLER != null) {
+                registry.addRecipeCatalyst(new ItemStack(BCBlocks.Factory.DISTILLER), CategoryDistiller.UID);
+            }
+            if (BCBlocks.Factory.HEAT_EXCHANGE != null) {
+                registry.addRecipeCatalyst(new ItemStack(BCBlocks.Factory.HEAT_EXCHANGE), CategoryCoolable.UID);
+                registry.addRecipeCatalyst(new ItemStack(BCBlocks.Factory.HEAT_EXCHANGE), CategoryHeatable.UID);
+            }
         }
         if (energy) {
             registry.handleRecipes(IFuel.class, new HandlerCombustionEngine(), CategoryCombustionEngine.UID);
             registry.addRecipes(ImmutableList.copyOf(FuelRegistry.INSTANCE.getFuels()), CategoryCombustionEngine.UID);
+            if (BCCoreBlocks.engine != null){
+                if (BCCoreBlocks.engine.isRegistered(EnumEngineType.STONE)) {
+                    registry.addRecipeCatalyst(BCCoreBlocks.engine.getStack(EnumEngineType.STONE), VanillaRecipeCategoryUid.FUEL);
+                }
+                if (BCCoreBlocks.engine.isRegistered(EnumEngineType.IRON)) {
+                    registry.addRecipeCatalyst(BCCoreBlocks.engine.getStack(EnumEngineType.IRON), CategoryCombustionEngine.UID);
+                }
+            }
         }
         if (silicon) {
-//            registry.handleRecipes(AssemblyRecipe.class, new HandlerAssemblyTable(), CategoryAssemblyTable.UID);
+            registry.handleRecipes(AssemblyRecipeBasic.class, WrapperAssemblyTable::new, CategoryAssemblyTable.UID);
 //            registry.handleRecipes(IntegrationRecipe.class, new HandlerIntegrationTable(), CategoryIntegrationTable.UID);
 
-//            registry.addRecipes(ImmutableList.copyOf(AssemblyRecipeRegistry.REGISTRY.values()), CategoryAssemblyTable.UID);
+            registry.addRecipes(ImmutableList.copyOf(AssemblyRecipeRegistry.REGISTRY.values()), CategoryAssemblyTable.UID);
 //            registry.addRecipes(ImmutableList.copyOf(IntegrationRecipeRegistry.INSTANCE.getAllRecipes()), CategoryIntegrationTable.UID);
+            if (BCBlocks.Silicon.ASSEMBLY_TABLE != null) {
+                registry.addRecipeCatalyst(new ItemStack(BCBlocks.Silicon.ASSEMBLY_TABLE), CategoryAssemblyTable.UID);
+            }
+            if (BCBlocks.Silicon.ADVANCED_CRAFTING_TABLE != null) {
+                registry.addRecipeCatalyst(new ItemStack(BCBlocks.Silicon.ADVANCED_CRAFTING_TABLE), VanillaRecipeCategoryUid.CRAFTING);
+            }
         }
 
         registry.getRecipeTransferRegistry().addRecipeTransferHandler(new AutoCraftItemsTransferHandler(), VanillaRecipeCategoryUid.CRAFTING);
@@ -109,7 +137,7 @@ public class BCPluginJEI implements IModPlugin {
         }
         if (silicon) {
             lst.add("silicon");
-//            registry.addRecipeCategories(new CategoryAssemblyTable(helper));
+            registry.addRecipeCategories(new CategoryAssemblyTable(helper));
 //            registry.addRecipeCategories(new CategoryIntegrationTable(helper));
         }
 
