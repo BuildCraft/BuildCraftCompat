@@ -58,6 +58,7 @@ repositories {
     // The One probe depends on the RF API -- we don't use it ourselves, nor will we ever add compat for it...
     maven { name="cofh"; url="http://maven.covers1624.net" }
     maven { name="forestry"; url = "http://maven.ic2.player.to/" }
+    maven { name "CraftTweaker"; url "http://maven.blamejared.com/" }
 }
 
 dependencies {
@@ -77,6 +78,10 @@ dependencies {
 
     // Forestry
     deobfCompile "net.sengir.forestry:forestry_${config.mc_version}:${config.forestry_version}"
+
+    // CraftTweaker
+    compileOnly "CraftTweaker2:CraftTweaker2-API:${config.crafttweaker_version}"
+    runtime "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-${config.crafttweaker_version}"
 }
 
 minecraft {

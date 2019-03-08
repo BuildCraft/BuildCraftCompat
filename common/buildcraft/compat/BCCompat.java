@@ -12,6 +12,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 import buildcraft.api.core.BCLog;
 
+import buildcraft.compat.module.crafttweaker.CompatModuleCraftTweaker;
 import buildcraft.compat.module.forestry.CompatModuleForestry;
 import buildcraft.compat.module.theoneprobe.CompatModuleTheOneProbe;
 import buildcraft.compat.network.CompatGui;
@@ -36,6 +37,7 @@ public class BCCompat {
         + ";after:buildcraftsilicon"//
         + ";after:theoneprobe"//
         + ";after:forestry"//
+        + ";after:crafttweaker"//
     ;
 
     public static final String MODID = "buildcraftcompat";
@@ -86,6 +88,7 @@ public class BCCompat {
         // List of all modules
         offerAndPreInitModule(new CompatModuleForestry());
         offerAndPreInitModule(new CompatModuleTheOneProbe());
+        offerAndPreInitModule(new CompatModuleCraftTweaker());
         // End of module list
     }
 
