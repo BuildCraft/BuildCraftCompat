@@ -80,8 +80,8 @@ dependencies {
     deobfCompile "net.sengir.forestry:forestry_${config.mc_version}:${config.forestry_version}"
 
     // CraftTweaker
-    compileOnly "CraftTweaker2:CraftTweaker2-API:${config.crafttweaker_version}"
-    runtime "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-${config.crafttweaker_version}"
+    deobfCompile "CraftTweaker2:CraftTweaker2-API:${config.crafttweaker_version}"
+    deobfCompile "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-${config.crafttweaker_version}"
 }
 
 minecraft {
