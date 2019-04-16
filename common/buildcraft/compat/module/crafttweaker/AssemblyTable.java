@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSet.Builder;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 
 import buildcraft.api.mj.MjAPI;
@@ -62,7 +63,9 @@ public class AssemblyTable {
 
             Builder<IngredientStack> stacks = ImmutableSet.builder();
             for (int i = 0; i < ingredients.length; i++) {
-                stacks.add(new IngredientStack(CraftTweakerMC.getIngredient(ingredients[i])));
+                IIngredient ctIng = ingredients[i];
+                Ingredient ingredient = CraftTweakerMC.getIngredient(ctIng);
+                stacks.add(new IngredientStack(ingredient, Math.max(1, ctIng.getAmount())));
             }
             requiredStacks = stacks.build();
 

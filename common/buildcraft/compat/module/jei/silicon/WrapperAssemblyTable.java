@@ -53,7 +53,7 @@ public class WrapperAssemblyTable implements IRecipeWrapper {
             new ResourceLocation("buildcraftsilicon", "textures/gui/assembly_table.png");
         IDrawableStatic progressDrawable = guiHelper.createDrawable(backgroundLocation, 176, 48, 4, 71, 10, 0, 0, 0);
         long mj = this.recipe.getRequiredMicroJoulesFor(ItemStack.EMPTY);
-        progressBar = guiHelper.createAnimatedDrawable(progressDrawable, (int) (mj / MjAPI.MJ / 50),
+        progressBar = guiHelper.createAnimatedDrawable(progressDrawable, (int) Math.max(10, mj / MjAPI.MJ / 50),
             IDrawableAnimated.StartDirection.BOTTOM, false);
     }
 
