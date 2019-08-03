@@ -161,6 +161,9 @@ sourceSets {
         }
         resources {
             srcDir "BuildCraft/buildcraft_resources"
+            srcDir "BuildCraft/BuildCraftGuide/guide_resources"
+            exclude "pack.png" // exclude from the guide repo
+            exclude "pack.mcmeta" // exclude from the guide repo
         }
     }
     main {
