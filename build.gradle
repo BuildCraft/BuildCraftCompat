@@ -108,7 +108,7 @@ minecraft {
 
     // Git versioning stuffs
     if (grgit != null) {
-        def repo = grgit.open()
+        def repo = grgit.open(dir: project.rootDir)
         replace "\${git_commit_hash}", repo.head().id
         replace "\${git_commit_msg}", repo.head().fullMessage.replace("\"", "\\\\\\\"").split("\n")[0]
         replace "\${git_commit_author}", repo.head().author.name
@@ -192,6 +192,8 @@ processResources {
     // copy everything else, that's not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
+        exclude 'pack.mcmeta'
+        exclude 'pack.png'
     }
 }
 
