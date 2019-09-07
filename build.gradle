@@ -140,6 +140,15 @@ compileJava {
     options.compilerArgs << "-Xmaxwarns" << "2"
     options.compilerArgs << "-Xlint:all"
     options.compilerArgs << "-Xdiags:verbose"
+    options.compilerArgs << "-encoding" << "UTF-8"
+}
+
+javadoc {
+    options.setUse(true)
+    options.addStringsOption("Xmaxerrs").setValue(["2000"])
+    options.addStringsOption("Xmaxwarns").setValue(["2000"])
+    options.addStringsOption("Xdoclint:all")
+    options.setEncoding("UTF-8")
 }
 
 task setupSubProjects(dependsOn: "BuildCraft:sub_projects:expression:generateSources") {
