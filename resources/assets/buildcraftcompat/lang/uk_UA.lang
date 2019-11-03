@@ -2,19 +2,19 @@
 # APIARIST'S PIPE
 ####################
 
-item.buildcraftPipe.pipeitemspropolis.name=Труба пчеловода
+item.buildcraftPipe.pipeitemspropolis.name=Труба бджоляра
 
-for.gui.pipe.filter.anything=Всё
-for.gui.pipe.filter.bee=Любые пчелы
-for.gui.pipe.filter.cave=Пещерные
-for.gui.pipe.filter.closed=Закрыт
-for.gui.pipe.filter.drone=Трутни
-for.gui.pipe.filter.flyer=Летуны
-for.gui.pipe.filter.item=Предметы
-for.gui.pipe.filter.nocturnal=Ночные
-for.gui.pipe.filter.princess=Принцессы
-for.gui.pipe.filter.pure_breed=Чистопородные
-for.gui.pipe.filter.pure_cave=Породистые пещерные
-for.gui.pipe.filter.pure_flyer=Породистые летуны
-for.gui.pipe.filter.pure_nocturnal=Породистые ночные
-for.gui.pipe.filter.queen=Королевы
+for.gui.pipe.filter.anything=Все
+for.gui.pipe.filter.bee=Будь-які бджоли
+for.gui.pipe.filter.cave=Печерні
+for.gui.pipe.filter.closed=Закритий
+for.gui.pipe.filter.drone=Трутні
+for.gui.pipe.filter.flyer=Летуни
+for.gui.pipe.filter.item=Предмети
+for.gui.pipe.filter.nocturnal=Нічні
+for.gui.pipe.filter.princess=Принцеси
+for.gui.pipe.filter.pure_breed=Чистопородні
+for.gui.pipe.filter.pure_cave=Породисті печерні
+for.gui.pipe.filter.pure_flyer=Породисті летуни
+for.gui.pipe.filter.pure_nocturnal=Породисті нічні
+for.gui.pipe.filter.queen=Королеви
