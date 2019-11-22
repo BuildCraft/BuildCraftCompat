@@ -13,5 +13,6 @@ public class CompatModuleCraftTweaker extends CompatModuleBase {
     @Override
     public void preInit() {
         CraftTweakerAPI.registerClass(AssemblyTable.class);
+        CraftTweakerAPI.registerClass(CombustionEngine.class);
     }
 }
