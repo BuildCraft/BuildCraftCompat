@@ -10,6 +10,8 @@ import buildcraft.lib.engine.TileEngineBase_BC8;
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.IAction;
 import crafttweaker.annotations.ModOnly;
+import crafttweaker.api.liquid.ILiquidStack;
+import crafttweaker.api.minecraft.CraftTweakerMC;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
@@ -21,8 +23,9 @@ public class CombustionEngine {
         = (TileEngineBase_BC8.MAX_HEAT - TileEngineBase_BC8.MIN_HEAT) / TileEngineBase_BC8.HEAT_PER_MJ;
 
     @ZenMethod
-    public static void addCleanFuel(FluidStack fluid, double powerPerTick, int timePerBucket) {
-        if (fluid.getFluid() == null) {
+    public static void addCleanFuel(ILiquidStack liquid, double powerPerTick, int timePerBucket) {
+        FluidStack fluid = CraftTweakerMC.getLiquidStack(liquid);
+        if (fluid == null) {
             throw new IllegalArgumentException("Fluid was null!");
         }
         if (BuildcraftFuelRegistry.fuel.getFuel(fluid) != null) {
@@ -48,7 +51,9 @@ public class CombustionEngine {
     }
 
     @ZenMethod
-    public static void addDirtyFuel(FluidStack fuel, double powerPerTick, int timePerBucket, FluidStack residue) {
+    public static void addDirtyFuel(ILiquidStack lFuel, double powerPerTick, int timePerBucket, ILiquidStack lResidue) {
+        FluidStack fuel = CraftTweakerMC.getLiquidStack(lFuel);
+        FluidStack residue = CraftTweakerMC.getLiquidStack(lResidue);
         if (fuel.getFluid() == null) {
             throw new IllegalArgumentException("Fuel fluid was null!");
         }
