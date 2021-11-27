@@ -1,6 +1,3 @@
-// DON'T TOUCH THE BUILDSCRIPT[] BLOCK
-// its special, and it is only there to make ForgeGradle work correctly.
-
 buildscript {
     repositories {
         mavenCentral()
@@ -9,40 +6,49 @@ buildscript {
             url = "http://files.minecraftforge.net/maven"
         }
         maven {
+            name = "a Russian forum post told me to use this to find the missing files"
+            url = "https://repo.spongepowered.org/repository/forge-proxy/"
+        }
+        maven {
             name = "sonatype"
             url = "https://oss.sonatype.org/content/repositories/snapshots/"
         }
+        maven {
+            url = "https://jitpack.io"
+        }
+        maven {
+            url = "https://plugins.gradle.org/m2/"
+        }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+        classpath 'com.github.CDAGaming:ForgeGradle:1c670759c5'
     }
 }
 
 repositories {
     maven {
-        name = "chickenbones"
+        name = "ChickenBones Maven"
         url = "http://chickenbones.net/maven/"
     }
     maven {
+        name = "tterrag Maven"
         url = "http://maven.tterrag.com"
     }
     maven {
+        name = "Forestry/IC2 Maven"
         url = "http://maven.ic2.player.to"
     }
     maven {
+        name = "ProfMobius Maven"
         url = "http://mobiusstrip.eu/maven"
-    }
-    maven {
-        name = "Qmunity"
-        url = "http://maven.quetzi.net/"
-    }
-    ivy {
-        name "MineTweaker3"
-        artifactPattern "http://minetweaker3.powerofbytes.com/download/[module]-[classifier]-[revision].[ext]"
     }
     ivy {
         name "BuildCraft"
         artifactPattern "http://www.mod-buildcraft.com/releases/BuildCraft/[revision]/[module]-[revision]-[classifier].[ext]"
+    }
+    ivy {
+        name 'asie dependency mirror'
+        artifactPattern "http://asie.pl/javadeps/[module]-[revision](-[classifier]).[ext]"
     }
 }
 
@@ -58,19 +64,18 @@ sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 dependencies {
-    compile "codechicken:CodeChickenLib:1.7.10-1.1.3.136:dev"
-    compile "codechicken:CodeChickenCore:1.7.10-1.0.6.43:dev"
-    compile "codechicken:NotEnoughItems:1.7.10-1.0.4.106:dev"
+    compile "codechicken:CodeChickenLib:1.7.10-1.1.3.140:dev"
+    compile "codechicken:CodeChickenCore:1.7.10-1.0.7.47:dev"
+    compile "codechicken:NotEnoughItems:1.7.10-1.0.5.120:dev"
     compile "codechicken:ForgeMultipart:1.7.10-1.2.0.345:dev"
-    compile "net.sengir.forestry:forestry_1.7.10:4.2.10.58:dev"
-    compile "qmunity:QmunityLib:0.1.109:deobf"
-    compile("com.enderio:EnderIO:1.7.10-2.2.6.324:dev") {
+    compile "net.sengir.forestry:forestry_1.7.10:4.2.16.64:dev"
+    compile name: "QmunityLib", version: "1.7.10-0.1.114-universal", classifier: "deobf"
+    compile("com.enderio:EnderIO:1.7.10-2.2.7.334:dev") {
         exclude module: "buildcraft"
     }
-    compile name: "MineTweaker3", version: "1.7.10-3.0.9C", classifier: "Dev"
-    compile ("appeng:appliedenergistics2:rv2-beta-8:dev") {
-        transitive = false
-    }
+    compile name: "MineTweaker3", version: "1.7.10-3.0.10B", classifier: "deobf"
+    compile name: "appliedenergistics2", version: "rv3-beta-6", classifier: "dev"
+    compile name: "Factorization", version: "1.7.10-0.8.109", classifier: "dev"
 }
 
 minecraft {
