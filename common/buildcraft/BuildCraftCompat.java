@@ -98,6 +98,7 @@ public class BuildCraftCompat extends BuildCraftMod {
 		this.offerModule(new CompatModuleRemainInMotion());
         this.offerModule(new CompatModuleMagicCrops());
         this.offerModule(new CompatModuleNatura());
+        this.offerModule(new CompatModuleForbiddenMagic());
         BuildCraftCompat.config.save();
 
         for (final CompatModuleBase m : BuildCraftCompat.modules) {
