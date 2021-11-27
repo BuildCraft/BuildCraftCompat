@@ -9,8 +9,8 @@ import buildcraft.compat.lib.SchematicTileDropsOnly;
 public class SchematicCBRotated extends SchematicTileDropsOnly {
 	protected static final int[] shiftMatrix = {0, 1, 5, 4, 2, 3, 6};
 
-	protected short fixMetadata(short _m) {
-		short m = _m;
+	protected int fixMetadata(int _m) {
+		int m = _m;
 		switch (m & 3) {
 			case 0: {
 				m &= ~3;
@@ -40,9 +40,9 @@ public class SchematicCBRotated extends SchematicTileDropsOnly {
 	public void rotateLeft(IBuilderContext context) {
 		if (tileNBT != null) {
 			// Fix metadata
-			short m = tileNBT.getShort("cbMetadata");
+			int m = tileNBT.getInteger("cbMetadata");
 			m = fixMetadata(m);
-			tileNBT.setShort("cbMetadata", m);
+			tileNBT.setInteger("cbMetadata", m);
 			// Fix attributes
 			NBTTagList attrs = tileNBT.getTagList("cbAttrList", 10);
 			for (int a = 0; a < attrs.tagCount(); a++) {
