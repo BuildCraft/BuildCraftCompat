@@ -44,8 +44,11 @@ public class Refinery {
 		
 		List<IFlexibleRecipe<FluidStack>> toRemove = new ArrayList<IFlexibleRecipe<FluidStack>>();
 		for (IFlexibleRecipe<FluidStack> recipe : BuildcraftRecipeRegistry.refinery.getRecipes()) {
-			if (recipe instanceof IFlexibleRecipeViewable && ((IFlexibleRecipeViewable) recipe).getOutput() == fluid) {
-				toRemove.add(recipe);
+			if (recipe instanceof IFlexibleRecipeViewable) {
+				Object recipeOutput = ((IFlexibleRecipeViewable) recipe).getOutput();
+				if (recipeOutput == fluid || (recipeOutput instanceof FluidStack && ((FluidStack) recipeOutput).getFluid() == fluid)) {
+					toRemove.add(recipe);
+				}
 			}
 		}
 		
