@@ -3,6 +3,7 @@ package buildcraft;
 import java.io.File;
 import java.util.HashSet;
 
+import buildcraft.api.core.BuildCraftAPI;
 import buildcraft.compat.*;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -13,6 +14,9 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
@@ -54,6 +58,16 @@ public class BuildCraftCompat extends BuildCraftMod {
         return moduleNames.contains(module);
     }
 
+    public static EntityPlayer getFakePlayerAbove(World world, int x, int y, int z) {
+        EntityPlayer player = BuildCraftAPI.proxy.getBuildCraftPlayer((WorldServer) world).get();
+        if (player != null) {
+            player.posX = x;
+            player.posY = y + 1.5f;
+            player.posZ = z;
+        }
+        return player;
+    }
+
     @Mod.EventHandler
     public void preInit(final FMLPreInitializationEvent evt) {
         (BuildCraftCompat.config = new Configuration(new File(new File(evt.getSuggestedConfigurationFile().getParentFile(), "buildcraft"), "compat.cfg"))).load();
@@ -83,6 +97,7 @@ public class BuildCraftCompat extends BuildCraftMod {
 		this.offerModule(new CompatModuleThermalExpansion());
 		this.offerModule(new CompatModuleRemainInMotion());
         this.offerModule(new CompatModuleMagicCrops());
+        this.offerModule(new CompatModuleNatura());
         BuildCraftCompat.config.save();
 
         for (final CompatModuleBase m : BuildCraftCompat.modules) {
