@@ -1,29 +1,22 @@
 package buildcraft.compat;
 
-import java.util.List;
-
+import buildcraft.api.core.CapabilitiesHelper;
+import buildcraft.compat.network.IGuiCreator;
+import buildcraft.lib.tile.item.ItemHandlerSimple;
 import com.google.common.collect.Lists;
-
 import net.minecraft.item.ItemStack;
-
 import net.minecraftforge.common.capabilities.Capability;
 
-import buildcraft.api.core.CapabilitiesHelper;
-
-import buildcraft.lib.tile.item.ItemHandlerSimple;
-
-import buildcraft.compat.network.IGuiCreator;
+import java.util.List;
 
 public class CompatUtils {
+    public static Capability<IGuiCreator> CAP_GUI_CREATOR;
 
-    public static final Capability<IGuiCreator> CAP_GUI_CREATOR =
-        CapabilitiesHelper.registerCapability(IGuiCreator.class);
-
-    private CompatUtils() {}
+    private CompatUtils() {
+    }
 
     public static List<ItemStack> compactInventory(ItemHandlerSimple inventory) {
         List<ItemStack> stacks = Lists.newArrayList();
-
         for (int slot = 0; slot < inventory.getSlots(); slot++) {
             ItemStack stack = inventory.getStackInSlot(slot);
             if (stack.isEmpty()) {
@@ -32,7 +25,7 @@ public class CompatUtils {
 
             boolean handled = false;
             for (ItemStack existing : stacks) {
-                if (existing.isItemEqual(stack)) {
+                if (existing.sameItem(stack)) {
                     existing.grow(stack.getCount());
                     handled = true;
                     break;
@@ -44,5 +37,9 @@ public class CompatUtils {
         }
 
         return stacks;
+    }
+
+    public static void regCaps() {
+        CAP_GUI_CREATOR = CapabilitiesHelper.registerCapability(IGuiCreator.class);
     }
 }

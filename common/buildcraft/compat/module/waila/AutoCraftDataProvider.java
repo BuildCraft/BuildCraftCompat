@@ -1,83 +1,75 @@
 package buildcraft.compat.module.waila;
 
-import static buildcraft.compat.module.waila.HWYLAPlugin.WAILA_MOD_ID;
+import buildcraft.compat.CompatUtils;
+import buildcraft.lib.tile.craft.IAutoCraft;
+import mcp.mobius.waila.api.IDataAccessor;
+import mcp.mobius.waila.api.IPluginConfig;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.Constants;
 
 import java.util.List;
 
-import javax.annotation.Nonnull;
+public class AutoCraftDataProvider {
 
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.World;
+    static class BodyProvider extends BaseWailaDataProvider.BodyProvider {
+        @Override
+        public void getWailaBody(List<ITextComponent> currentTip, IDataAccessor accessor, IPluginConfig config) {
+            TileEntity tile = accessor.getTileEntity();
+            if (tile instanceof IAutoCraft) {
+                CompoundNBT nbt = accessor.getServerData();
+                if (nbt.contains("recipe_result", Constants.NBT.TAG_COMPOUND)) {
+                    // Calen: add -> create new line / append -> append at the last line
+                    ItemStack result = ItemStack.of(nbt.getCompound("recipe_result"));
+                    currentTip.add(new TranslationTextComponent("buildcraft.waila.crafting"));
+                    currentTip.add(HWYLAPlugin.getItemStackString(result));
+                    // Calen: an empty line, because the item icon is 2 lines height
+                    // if ItemStackElement.of(result, 0.5F), the count text of the stack will not scale
+                    currentTip.add(new StringTextComponent(""));
+                    if (nbt.contains("recipe_inputs", Constants.NBT.TAG_LIST)) {
+                        ListNBT list = nbt.getList("recipe_inputs", Constants.NBT.TAG_COMPOUND);
+                        currentTip.add(new TranslationTextComponent("buildcraft.waila.crafting_from"));
 
-import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.fml.common.Optional;
-
-import buildcraft.lib.tile.craft.IAutoCraft;
-
-import buildcraft.compat.CompatUtils;
-
-import mcp.mobius.waila.api.IWailaConfigHandler;
-import mcp.mobius.waila.api.IWailaDataAccessor;
-import mcp.mobius.waila.api.SpecialChars;
-
-class AutoCraftDataProvider extends BaseWailaDataProvider {
-    @Nonnull
-    @Override
-    @Optional.Method(modid = WAILA_MOD_ID)
-    public List<String> getWailaBody(ItemStack itemStack, List<String> currentTip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
-        TileEntity tile = accessor.getTileEntity();
-        if (tile instanceof IAutoCraft) {
-            NBTTagCompound nbt = accessor.getNBTData();
-            if (nbt.hasKey("recipe_result", Constants.NBT.TAG_COMPOUND)) {
-                ItemStack result = new ItemStack(nbt.getCompoundTag("recipe_result"));
-                currentTip.add(TextFormatting.WHITE + "Making: " + SpecialChars.WailaSplitter + HWYLAPlugin.getItemStackString(result));
-
-                if (nbt.hasKey("recipe_inputs", Constants.NBT.TAG_LIST)) {
-                    NBTTagList list = nbt.getTagList("recipe_inputs", Constants.NBT.TAG_COMPOUND);
-                    StringBuilder inputs = new StringBuilder(TextFormatting.WHITE + "From: " + SpecialChars.WailaSplitter);
-                    for (int index = 0; index < list.tagCount(); index++) {
-                        NBTTagCompound compound = NBTTagCompound.class.cast(list.get(index));
-                        inputs.append(HWYLAPlugin.getItemStackString(new ItemStack(compound)));
+                        for (int index = 0; index < list.size(); ++index) {
+                            CompoundNBT compound = list.getCompound(index);
+                            currentTip.add(HWYLAPlugin.getItemStackString(ItemStack.of(compound)));
+                        }
                     }
-                    currentTip.add(inputs.toString());
+                } else {
+                    currentTip.add(new TranslationTextComponent("buildcraft.waila.no_recipe"));
                 }
-            } else {
-                currentTip.add(TextFormatting.GRAY + "No recipe");
             }
-        } else {
-            currentTip.add(TextFormatting.RED + "{wrong tile entity}");
+//            else {
+//                currentTip.add(new TextComponent(ChatFormatting.RED + "{wrong tile entity}"));
+//            }
         }
-        return currentTip;
     }
 
-    @Nonnull
-    @Override
-    @Optional.Method(modid = WAILA_MOD_ID)
-    public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
-        NBTTagCompound nbt = super.getNBTData(player, te, tag, world, pos);
+    static class NBTProvider extends BaseWailaDataProvider.NBTProvider {
+        @Override
+        public void getNBTData(CompoundNBT nbt, ServerPlayerEntity player, World world, TileEntity tile) {
+            if (tile instanceof IAutoCraft) {
+                IAutoCraft auto = (IAutoCraft) tile;
+                ItemStack output = auto.getCurrentRecipeOutput();
+                if (!output.isEmpty()) {
+                    nbt.put("recipe_result", output.serializeNBT());
+                    List<ItemStack> stacks = CompatUtils.compactInventory(auto.getInvBlueprint());
+                    ListNBT list = new ListNBT();
 
-        TileEntity tile = world.getTileEntity(pos);
-        if (tile instanceof IAutoCraft) {
-            IAutoCraft auto = IAutoCraft.class.cast(tile);
-            ItemStack output = auto.getCurrentRecipeOutput();
-            if (!output.isEmpty()) {
-                nbt.setTag("recipe_result", output.serializeNBT());
+                    for (int index = 0; index < stacks.size(); ++index) {
+                        list.add((stacks.get(index)).serializeNBT());
+                    }
 
-                List<ItemStack> stacks = CompatUtils.compactInventory(auto.getInvBlueprint());
-                NBTTagList list = new NBTTagList();
-                for (int index = 0; index < stacks.size(); index++) {
-                    list.appendTag(stacks.get(index).serializeNBT());
+                    nbt.put("recipe_inputs", list);
                 }
-                nbt.setTag("recipe_inputs", list);
             }
         }
-
-        return nbt;
     }
 }

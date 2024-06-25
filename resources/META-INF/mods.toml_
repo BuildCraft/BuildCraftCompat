@@ -1,0 +1,32 @@
+modLoader="javafml"
+loaderVersion="[32,)"
+license="Minecraft Mod Public License"
+issueTrackerURL=""
+[[mods]]
+modId="buildcraftlib"
+displayName="BuildCraft Lib"
+version="7.99.24.9"
+description="Library mod used by buildcraft."
+credits="Created by SpaceToad"
+logoFile="logo.png"
+displayURL="http://www.mod-buildcraft.com/"
+updateJSONURL=""
+authors="SpaceToad, BuildCraft Team"
+
+[[mods]]
+modId="buildcraftcompat"
+displayName="BuildCraft Compat"
+version="7.99.24.9"
+description="Compatibility add-on for BuildCraft"
+credits="Created by asie"
+logoFile="logo.png"
+displayURL="http://www.mod-buildcraft.com/"
+updateJSONURL=""
+authors="BuildCraft Team"
+
+[[dependencies.buildcraftcompat]]
+    modId="buildcraftcore"
+    mandatory=true
+    versionRange="[0.0.0,)"
+    ordering="AFTER"
+    side="BOTH"
