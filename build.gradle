@@ -17,11 +17,15 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+        classpath 'com.github.GTNewHorizons:ForgeGradle:1.2.11'
     }
 }
 
 repositories {
+    maven {
+        name 'Overmind Forge repo mirror'
+        url 'https://gregtech.overminddl1.com/'
+    }
     maven {
         name = "ChickenBones Maven"
         url = "http://chickenbones.net/maven/"
@@ -30,21 +34,19 @@ repositories {
         name = "tterrag Maven"
         url = "http://maven.tterrag.com"
     }
-    maven {
-        name = "Forestry/IC2 Maven"
-        url = "http://maven.ic2.player.to"
-    }
-    maven {
-        name = "ProfMobius Maven"
-        url = "http://mobiusstrip.eu/maven"
-    }
     ivy {
         name "BuildCraft"
         artifactPattern "http://www.mod-buildcraft.com/releases/BuildCraft/[revision]/[module]-[revision]-[classifier].[ext]"
+        metadataSources {
+            artifact()
+        }
     }
     ivy {
         name 'asie dependency mirror'
         artifactPattern "http://asie.pl/javadeps/[module]-[revision](-[classifier]).[ext]"
+        metadataSources {
+            artifact()
+        }
     }
 }
 
