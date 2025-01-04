@@ -2,6 +2,7 @@ package buildcraft.compat;
 
 import buildcraft.api.crops.CropManager;
 import buildcraft.compat.forestry.CropHandlerForestry;
+import buildcraft.compat.forestry.pipes.BptPipePropolis;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -96,6 +97,8 @@ public class CompatModuleForestry extends CompatModuleBase
         CompatUtils.registerSchematic("Forestry:factory", 0, 7, SchematicTileForestry.class);
         CompatUtils.registerSchematic("Forestry:ffarm", 0, 5, SchematicForestryFarmBlock.class);
         CompatUtils.registerSchematic("Forestry:stairs", SchematicTileStairsForestry.class);
+
+        new BptPipePropolis(pipeItemsPropolis);
     }
 
     public static void missingMapping(FMLMissingMappingsEvent event) {
