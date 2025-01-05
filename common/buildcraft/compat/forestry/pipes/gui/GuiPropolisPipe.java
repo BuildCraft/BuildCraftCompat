@@ -4,6 +4,8 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map.Entry;
 
+import codechicken.nei.ItemPanel;
+import codechicken.nei.LayoutManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -24,7 +26,6 @@ import buildcraft.core.lib.gui.GuiBuildCraft;
 import buildcraft.core.lib.gui.tooltips.ToolTip;
 import buildcraft.core.lib.gui.tooltips.ToolTipLine;
 import buildcraft.core.lib.gui.widgets.Widget;
-import codechicken.nei.ItemPanels;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import forestry.api.apiculture.BeeManager;
@@ -95,9 +96,12 @@ public class GuiPropolisPipe extends GuiBuildCraft {
     public boolean handleDragNDrop(int mousex, int mousey, ItemStack draggedStack, int button) {
         int relativeX = mousex - guiLeft;
         int relativeY = mousey - guiTop;
-        return getContainer().getWidgets().stream().filter(w -> w.isMouseOver(relativeX, relativeY))
-                .filter(w -> w instanceof SpeciesFilterSlot).findFirst()
-                .filter(value -> ((SpeciesFilterSlot) value).handleDragNDrop(draggedStack, button)).isPresent();
+        for (Widget w : getContainer().getWidgets()) {
+            if (w.isMouseOver(relativeX, relativeY) && w instanceof SpeciesFilterSlot) {
+                return ((SpeciesFilterSlot) w).handleDragNDrop(draggedStack, button);
+            }
+        }
+        return false;
     }
 
     class TypeFilterSlot extends Widget {
@@ -145,7 +149,7 @@ public class GuiPropolisPipe extends GuiBuildCraft {
             toolTip.clear();
             EnumFilterType type = logic.getTypeFilter(orientation);
             String filterName = StatCollector
-                    .translateToLocal("for.gui.pipe.filter." + type.toString().toLowerCase(Locale.ENGLISH));
+                    .translateToLocal("for.gui.pipe.filter." + type.toString().toLowerCase(Locale.ROOT));
             toolTip.add(new ToolTipLine(filterName));
         }
 
@@ -157,13 +161,18 @@ public class GuiPropolisPipe extends GuiBuildCraft {
 
         @Override
         public boolean handleMouseClick(int mouseX, int mouseY, int mouseButton) {
-            EnumFilterType change;
-            if (mouseButton == 1) {
+            EnumFilterType change = getType();
+            if (change == null || isShiftKeyDown()) {
                 change = EnumFilterType.CLOSED;
-            } else if (getType().ordinal() < EnumFilterType.values().length - 1) {
-                change = EnumFilterType.values()[getType().ordinal() + 1];
             } else {
-                change = EnumFilterType.CLOSED;
+                EnumFilterType[] values = EnumFilterType.values();
+                int newTypeOrdinal = change.ordinal() + (mouseButton == 0 ? 1 : -1);
+                if (newTypeOrdinal < 0) {
+                    newTypeOrdinal = values.length - 1;
+                } else if (newTypeOrdinal >= values.length) {
+                    newTypeOrdinal = 0;
+                }
+                change = values[newTypeOrdinal];
             }
             pipeLogic.setTypeFilter(orientation, change);
             return true;
@@ -251,72 +260,77 @@ public class GuiPropolisPipe extends GuiBuildCraft {
 
         @Override
         public boolean handleMouseClick(int mouseX, int mouseY, int mouseButton) {
-            if (isNEIDragInProgress()) {
+            if (BuildCraftCompat.isLoaded("NotEnoughItems") && isNEIDragInProgress()) {
                 return false;
             }
-            IAlleleSpecies change = null;
-            if (mouseButton == 1) {
+            IAlleleSpecies change = getSpecies();
+            if (isShiftKeyDown()) {
                 change = null;
-            } else if (getSpecies() == null) {
-
+            } else if (change == null) {
                 for (Entry<String, IAllele> entry : AlleleManager.alleleRegistry.getRegisteredAlleles().entrySet()) {
                     if (!(entry.getValue() instanceof IAlleleBeeSpecies)) {
                         continue;
                     }
 
                     change = (IAlleleBeeSpecies) entry.getValue();
-                    break;
+
+                    // pick first species on left button, last species on right button
+                    if (mouseButton == 0) {
+                        break;
+                    }
                 }
-
             } else {
+                change = null;
 
-                boolean isShiftKeyDown = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT);
                 Iterator<Entry<String, IAllele>> it = AlleleManager.alleleRegistry.getRegisteredAlleles().entrySet()
                         .iterator();
-                IAlleleBeeSpecies beforeChosen = null;
+                IAlleleBeeSpecies previous = null;
+                boolean found = false;
                 while (it.hasNext()) {
                     Entry<String, IAllele> entry = it.next();
                     if (!(entry.getValue() instanceof IAlleleBeeSpecies)) {
                         continue;
                     }
 
-                    IAlleleBeeSpecies species = (IAlleleBeeSpecies) entry.getValue();
-                    if (!species.getUID().equals(getSpecies().getUID())) {
-                        beforeChosen = species;
-                        continue;
+                    IAlleleBeeSpecies current = (IAlleleBeeSpecies) entry.getValue();
+                    if (found) {
+                        // left mouse button, use next
+                        change = current;
+                        break;
                     }
-                    // found previously chosen species
-                    if (isShiftKeyDown) {
-                        change = beforeChosen;
-                    } else {
-                        while (it.hasNext()) {
-                            Entry<String, IAllele> entry2 = it.next();
-                            if (!(entry2.getValue() instanceof IAlleleBeeSpecies)) {
-                                continue;
-                            }
 
-                            IAlleleBeeSpecies next = (IAlleleBeeSpecies) entry2.getValue();
-                            // if (next.isSecret() && !(tracker.isDiscovered(next))) {
-                            // continue;
-                            // }
-
-                            change = next;
+                    if (current.getUID().equals(getSpecies().getUID())) {
+                        found = true;
+                        if (mouseButton == 0) {
+                            continue;
+                        } else {
+                            // right mouse button, use previous
+                            change = previous;
                             break;
                         }
                     }
 
-                    break;
+                    previous = current;
                 }
             }
+
             pipeLogic.setSpeciesFilter(orientation, pattern, allele, change);
             return true;
         }
 
         private boolean isNEIDragInProgress() {
-            if (!BuildCraftCompat.isLoaded("NotEnoughItems")) return false;
-            ItemStack neiDraggedStack = ItemPanels.itemPanel.draggedStack;
+            ItemPanel itemPanel = null;
+            try {
+                itemPanel = (ItemPanel) Class.forName("codechicken.nei.ItemPanels").getField("itemPanel").get(null);
+            } catch (Exception e) {
+                try {
+                    itemPanel = (ItemPanel) Class.forName("codechicken.nei.LayoutManager").getField("itemPanel").get(null);
+                } catch (Exception ee) {
+                    // pass
+                }
+            }
             // drag is handled by #handleDragNDrop
-            return neiDraggedStack != null;
+            return itemPanel != null && itemPanel.draggedStack != null;
         }
 
         public boolean handleDragNDrop(ItemStack draggedStack, int button) {

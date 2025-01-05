@@ -31,6 +31,6 @@ public enum EnumFilterType {
 
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon() {
-		return TextureManager.getInstance().getIcon("propolisPipe/" + this.toString().toLowerCase(Locale.ENGLISH));
+		return TextureManager.getInstance().getIcon("propolisPipe/" + this.toString().toLowerCase(Locale.ROOT));
 	}
 }
