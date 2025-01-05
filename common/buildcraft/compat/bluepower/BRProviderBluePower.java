@@ -1,8 +1,5 @@
 package buildcraft.compat.bluepower;
 
-import java.util.Collection;
-import java.util.HashSet;
-
 import com.bluepowermod.api.misc.IFace;
 import com.bluepowermod.api.wire.redstone.IBundledDevice;
 import com.bluepowermod.api.wire.redstone.IBundledDeviceWrapper;
@@ -14,13 +11,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import buildcraft.api.statements.IActionExternal;
-import buildcraft.api.statements.IActionInternal;
-import buildcraft.api.statements.IActionProvider;
-import buildcraft.api.statements.IStatementContainer;
-import buildcraft.api.statements.ITriggerExternal;
-import buildcraft.api.statements.ITriggerInternal;
-import buildcraft.api.statements.ITriggerProvider;
 import buildcraft.compat.CompatModuleBundledRedstone;
 import buildcraft.transport.TileGenericPipeCompat;
 import uk.co.qmunity.lib.part.IPart;
@@ -30,16 +20,7 @@ import uk.co.qmunity.lib.part.compat.MultipartCompatibility;
 /**
  * Created by asie on 5/10/15.
  */
-public class BRProviderBluePower implements IRedstoneProvider, ITriggerProvider, IActionProvider {
-	private final HashSet<ITriggerExternal> triggers = new HashSet<ITriggerExternal>();
-	private final HashSet<IActionExternal> actions = new HashSet<IActionExternal>();
-
-	public BRProviderBluePower() {
-		triggers.add(CompatModuleBundledRedstone.triggerBundledInputOff);
-		triggers.add(CompatModuleBundledRedstone.triggerBundledInputOn);
-		actions.add(CompatModuleBundledRedstone.actionBundledOutput);
-	}
-
+public class BRProviderBluePower implements IRedstoneProvider, CompatModuleBundledRedstone.Detector {
 	public static boolean hasFreestandingBundledWire(TileEntity entity) {
 		if (entity == null) {
 			return false;
@@ -51,8 +32,8 @@ public class BRProviderBluePower implements IRedstoneProvider, ITriggerProvider,
 		ITilePartHolder holder = MultipartCompatibility.getPartHolder(world, x, y, z);
 		if (holder != null) {
 			for (IPart p : holder.getParts()) {
-				if (p instanceof IRedwire && !(p instanceof IFace) && (p instanceof IBundledDevice || p instanceof IBundledDeviceWrapper)) {
-					return true;
+				if (p instanceof IRedwire && (p instanceof IBundledDevice || p instanceof IBundledDeviceWrapper)) {
+					return CompatModuleBundledRedstone.ENABLE_NON_FREESTANDING_WIRES || !(p instanceof IFace);
 				}
 			}
 		}
@@ -73,7 +54,7 @@ public class BRProviderBluePower implements IRedstoneProvider, ITriggerProvider,
 		TileEntity te = world.getTileEntity(x, y, z);
 		if (te instanceof TileGenericPipeCompat) {
 			TileGenericPipeCompat tgpc = (TileGenericPipeCompat) te;
-			if (tgpc.hasBlockingPluggable(side)) {
+			if (tgpc.hasBlockingPluggable_bundledRedstoneCompat_internal(side)) {
 				return null;
 			}
 			if (tgpc.bluepowerWrapper == null) {
@@ -84,23 +65,15 @@ public class BRProviderBluePower implements IRedstoneProvider, ITriggerProvider,
 		return null;
 	}
 
+	// TODO: These could support direct (no-wire) connections as well.
+
 	@Override
-	public Collection<ITriggerExternal> getExternalTriggers(ForgeDirection side, TileEntity arg1) {
-		return hasFreestandingBundledWire(arg1) ? triggers : null;
+	public boolean hasBundledInput(TileEntity tile, ForgeDirection side) {
+		return hasFreestandingBundledWire(tile);
 	}
 
 	@Override
-	public Collection<ITriggerInternal> getInternalTriggers(IStatementContainer c) {
-		return null;
-	}
-
-	@Override
-	public Collection<IActionExternal> getExternalActions(ForgeDirection side, TileEntity arg1) {
-		return hasFreestandingBundledWire(arg1) ? actions : null;
-	}
-
-	@Override
-	public Collection<IActionInternal> getInternalActions(IStatementContainer c) {
-		return null;
+	public boolean hasBundledOutput(TileEntity tile, ForgeDirection side) {
+		return hasFreestandingBundledWire(tile);
 	}
 }

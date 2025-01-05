@@ -1,4 +1,4 @@
-package buildcraft.compat;
+package buildcraft.compat.bundledredstone;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.tileentity.TileEntity;

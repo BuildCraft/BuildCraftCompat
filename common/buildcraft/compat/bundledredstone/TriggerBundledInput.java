@@ -1,17 +1,16 @@
-package buildcraft.compat;
+package buildcraft.compat.bundledredstone;
 
+import buildcraft.api.statements.*;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.ForgeDirection;
-import buildcraft.api.statements.IStatementContainer;
-import buildcraft.api.statements.IStatementParameter;
-import buildcraft.api.statements.ITriggerExternal;
-import buildcraft.api.statements.StatementParameterItemStack;
 import buildcraft.core.lib.utils.ColorUtils;
 import buildcraft.core.statements.BCStatement;
 import buildcraft.transport.TileGenericPipeCompat;
 
-public class TriggerBundledInput extends BCStatement implements ITriggerExternal {
+/**
+ * FIXME: This cou
+ */
+public class TriggerBundledInput extends BCStatement implements ITriggerInternal {
 	private boolean active;
 	
 	public TriggerBundledInput(boolean active) {
@@ -25,7 +24,7 @@ public class TriggerBundledInput extends BCStatement implements ITriggerExternal
 	}
 
 	@Override
-	public boolean isTriggerActive(TileEntity tileEntity, ForgeDirection side, IStatementContainer container, IStatementParameter[] parameter) {
+	public boolean isTriggerActive(IStatementContainer container, IStatementParameter[] parameter) {
 		if (parameter == null || parameter.length < 1 || parameter[0] == null || parameter[0].getItemStack() == null) {
 			return false;
 		}
@@ -40,7 +39,7 @@ public class TriggerBundledInput extends BCStatement implements ITriggerExternal
 
 		if (cTile instanceof TileGenericPipeCompat) {
 			TileGenericPipeCompat tile = (TileGenericPipeCompat) cTile;
-			return tile.getBundledCable(side.ordinal(), color) ^ !active;
+			return tile.getBundledCable(-1, color) ^ !active;
 		} else {
 			return false;
 		}

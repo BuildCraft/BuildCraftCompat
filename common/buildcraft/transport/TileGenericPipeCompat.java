@@ -1,5 +1,8 @@
 package buildcraft.transport;
 
+import buildcraft.api.transport.pluggable.PipePluggable;
+import buildcraft.compat.CompatModuleBundledRedstone;
+import buildcraft.transport.gates.GatePluggable;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import cpw.mods.fml.common.Loader;
@@ -38,7 +41,20 @@ public class TileGenericPipeCompat extends TileGenericPipe
 	public byte[][] bundledCableSent = new byte[6][16];
 	public byte[][] bundledCableSentLast = new byte[6][16];
 	public Object bluepowerWrapper;
-	
+
+	public boolean hasBlockingPluggable_bundledRedstoneCompat_internal(ForgeDirection side) {
+		if (CompatModuleBundledRedstone.ENABLE_CONNECTING_GATES) {
+			PipePluggable pluggable = this.getPipePluggable(side);
+			if (pluggable instanceof GatePluggable) {
+				return false;
+			} else {
+				return hasBlockingPluggable(side);
+			}
+		} else {
+			return hasBlockingPluggable(side);
+		}
+	}
+
 	public void clearBundledCables() {
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 16; j++) {
@@ -167,12 +183,12 @@ public class TileGenericPipeCompat extends TileGenericPipe
 	@Optional.Method(modid = "RedLogic")
 	public boolean connects(IWire wire, int blockFace, int fromDirection) {
 		ForgeDirection side = ForgeDirection.getOrientation(fromDirection);
-		if (hasBlockingPluggable(side)) {
+		if (hasBlockingPluggable_bundledRedstoneCompat_internal(side)) {
 			return false;
 		}
 		
-		if (BuildCraftCompat.isLoaded("BundledRedstone") && wire instanceof IBundledWire) {
-			return (blockFace == -1);
+		if (wire instanceof IBundledWire && BuildCraftCompat.isLoaded("BundledRedstone")) {
+			return CompatModuleBundledRedstone.ENABLE_NON_FREESTANDING_WIRES || (blockFace == -1);
 		} else if (wire instanceof IBareRedstoneWire) {
 			return true;
 		} else {
@@ -199,19 +215,21 @@ public class TileGenericPipeCompat extends TileGenericPipe
 		for (int side = 0; side < 6; side++) {
 			TileEntity tile = this.getTile(ForgeDirection.getOrientation(side));
 			if (tile instanceof IBundledEmitter) {
-				if (tile instanceof IBundledWire
-						&& !((IBundledWire) tile).wireConnectsInDirection(-1, side ^ 1)) {
-					continue;
-				}
+				for (int face = -1; face < (CompatModuleBundledRedstone.ENABLE_NON_FREESTANDING_WIRES ? 6 : 0); face++) {
+					if (tile instanceof IBundledWire
+							&& !((IBundledWire) tile).wireConnectsInDirection(face, side ^ 1)) {
+						continue;
+					}
 
-				byte[] data = ((IBundledEmitter) tile).getBundledCableStrength(-1, side ^ 1);
-				if (data == null) {
-					continue;
-				}
-				
-				for (int position = 0; position < 16; position++) {
-					if ((((int) data[position]) & 0xFF) > (((int) bundledCableReceived[side][position]) & 0xFF))
-						bundledCableReceived[side][position] = data[position];
+					byte[] data = ((IBundledEmitter) tile).getBundledCableStrength(face, side ^ 1);
+					if (data == null) {
+						continue;
+					}
+
+					for (int position = 0; position < 16; position++) {
+						if ((((int) data[position]) & 0xFF) > (((int) bundledCableReceived[side][position]) & 0xFF))
+							bundledCableReceived[side][position] = data[position];
+					}
 				}
 			}
 		}
@@ -253,7 +271,7 @@ public class TileGenericPipeCompat extends TileGenericPipe
 	@Optional.Method(modid = "ProjRed|Core")
 	public boolean canConnectBundled(int fromDirection) {
 		ForgeDirection side = ForgeDirection.getOrientation(fromDirection);
-		if (hasBlockingPluggable(side)) {
+		if (hasBlockingPluggable_bundledRedstoneCompat_internal(side)) {
 			return false;
 		}
 

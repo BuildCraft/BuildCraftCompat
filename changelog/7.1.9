@@ -4,5 +4,19 @@ Additions:
 
 * [BuildCraft/#4709] Builder rotation support for the Apiarist's Pipe.
 * Apiarist's Pipe GUI improvements, by Thibaut Fagart:
-  * Support reverse-clicking through the list of bee species
-  * Support drag and drop from NEI to the pipe species filter
+  * Make clicking through the list of bee filters and species work like clicking through gate triggers/actions:
+    * Shift-clicking clears the selected filter.
+    * Left-clicking advances the selection forward.
+    * Right-clicking moves the selection backward.
+  * Added support for NEI drag-and-drop to the bee species filter.
+* Enabled the incomplete Project: Red bundled redstone support from ten years ago.
+  * Pipe Gates can now use triggers and actions to react to P:Red bundled cables.
+  * Project: Red does not have the restriction on only allowing connecting freestanding wires to pipes. It's unlikely the upstream mod is going to have the necessary APIs exposed cleanly at this point.
+  * ... Wait, it's been ten years?
+* Pipe Gates can now connect to bundled emitters/receivers directly, without a cable placed in between.
+* To match Project: Red support restrictions, added a config option to allow connecting non-freestanding wires to pipes in RedLogic and BluePower as well.
+* Added a config option to allow connecting wires to gates.
+
+Bugs fixed:
+
+* Fixed the "Bundled Redstone Inactive" trigger not working correctly.

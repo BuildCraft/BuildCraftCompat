@@ -5,6 +5,7 @@ import java.util.HashSet;
 
 import buildcraft.api.core.BuildCraftAPI;
 import buildcraft.compat.*;
+import buildcraft.compat.CompatModuleBundledRedstone;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLMissingMappingsEvent;

@@ -22,7 +22,7 @@ public class BundledDevicePipe implements IBundledDevice {
 
 	@Override
 	public boolean canConnect(ForgeDirection side, IBundledDevice dev, ConnectionType type) {
-		return type == ConnectionType.STRAIGHT && side != ForgeDirection.UNKNOWN && !tile.hasBlockingPluggable(side);
+		return type == ConnectionType.STRAIGHT && side != ForgeDirection.UNKNOWN && !tile.hasBlockingPluggable_bundledRedstoneCompat_internal(side);
 	}
 
 	@Override

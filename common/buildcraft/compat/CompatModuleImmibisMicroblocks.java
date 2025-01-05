@@ -70,7 +70,7 @@ public class CompatModuleImmibisMicroblocks extends CompatModuleBase {
             }
 
             String name = s.substring(0, s.lastIndexOf(":"));
-            int meta = new Integer(s.substring(s.lastIndexOf(":") + 1));
+            int meta = Integer.parseInt(s.substring(s.lastIndexOf(":") + 1));
             Block b = Block.getBlockFromName(name);
             if (b == null || meta < 0 || meta >= 16 || fcSet.contains(b.getClass().getName())) {
                 continue;
