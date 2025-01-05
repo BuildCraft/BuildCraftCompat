@@ -100,8 +100,13 @@ public class Refinery {
 
 		@Override
 		public void undo() {
-			String name = "MineTweaker:" + input1.getName() + ":"  + input2.getName() + ":" + output.getName();
-			BuildcraftRecipeRegistry.refinery.removeRecipe(name);
+			if (input2 == null) {
+				String name = "MineTweaker:" + input1.getName() + ":" + output.getName();
+				BuildcraftRecipeRegistry.refinery.removeRecipe(name);
+			} else {
+				String name = "MineTweaker:" + input1.getName() + ":" + input2.getName() + ":" + output.getName();
+				BuildcraftRecipeRegistry.refinery.removeRecipe(name);
+			}
 		}
 
 		@Override
@@ -128,7 +133,8 @@ public class Refinery {
 		}
 
 		@Override
-		public void apply() { BuildcraftRecipeRegistry.refinery.removeRecipe(recipe);
+		public void apply() {
+			BuildcraftRecipeRegistry.refinery.removeRecipe(recipe);
 		}
 
 		// TODO: Re-add undo support
