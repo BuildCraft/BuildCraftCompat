@@ -14,5 +14,6 @@ public class CompatModuleCraftTweaker extends CompatModuleBase {
     public void preInit() {
         CraftTweakerAPI.registerClass(AssemblyTable.class);
         CraftTweakerAPI.registerClass(CombustionEngine.class);
+        CraftTweakerAPI.registerClass(Refinery.class);
     }
 }
