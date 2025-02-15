@@ -109,8 +109,6 @@ public class BCCompat {
 
         // Calen
         BCCompatBlocks.fmlPreInit();
-
-        // Calen 1.20.1
         BCCompatProxy.getProxy().fmlPreInit();
     }
 

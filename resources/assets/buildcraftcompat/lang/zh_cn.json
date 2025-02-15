@@ -54,7 +54,7 @@
     "config.jade.plugin_buildcraftcore.mj_storage_server_data": "MJ存储",
 
     // Calen FE compat
-    "tile.power_convertor.name": "能源转换器",
+    "tile.engineFe.name": "FE引擎",
 
     "null": "=w="
 }

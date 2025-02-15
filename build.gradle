@@ -168,10 +168,12 @@ minecraft {
 
         data {
             // example of overriding the workingDirectory set in configureEach above
-            workingDirectory project.file('run-data')
+            workingDirectory project.file('run_data')
 
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            args '--mod', mod_id, '--all', '--output', file('BuildCraft/buildcraft_resources_generated/'), '--existing', file('BuildCraft/buildcraft_resources/')
+            args '--mod', mod_id, '--all', '--output', file('BuildCraft/buildcraft_resources_generated/'),
+                    '--existing', file('BuildCraft/buildcraft_resources/'),
+                    '--existing', file('resources/')
         }
     }
 }
@@ -519,3 +521,10 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 jar.enabled = true
+
+// enable Jar-in-Jar
+jarJar.enable()
+
+tasks.named('jarJar') {
+    // ...
+}
