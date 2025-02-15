@@ -1,56 +1,54 @@
 package buildcraft.compat.module.waila;
 
-import static buildcraft.compat.module.waila.HWYLAPlugin.WAILA_MOD_ID;
-
-import java.util.List;
-import javax.annotation.Nonnull;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.World;
-import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.fml.common.Optional;
 import buildcraft.api.mj.ILaserTarget;
 import buildcraft.api.mj.MjAPI;
+import buildcraft.silicon.BCSilicon;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import snownee.jade.api.BlockAccessor;
+import snownee.jade.api.ITooltip;
+import snownee.jade.api.config.IPluginConfig;
 
-import mcp.mobius.waila.api.IWailaConfigHandler;
-import mcp.mobius.waila.api.IWailaDataAccessor;
+abstract class LaserTargetDataProvider {
 
-class LaserTargetDataProvider extends BaseWailaDataProvider {
-    @Nonnull
-    @Override
-    @Optional.Method(modid = WAILA_MOD_ID)
-    public List<String> getWailaBody(ItemStack itemStack, List<String> currentTip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
-        TileEntity tile = accessor.getTileEntity();
-        if (tile instanceof ILaserTarget) {
-            NBTTagCompound nbt = accessor.getNBTData();
-            if (nbt.hasKey("required_power", Constants.NBT.TAG_LONG)) {
-                long power = nbt.getLong("required_power");
-                if (power > 0) {
-                    currentTip.add(TextFormatting.WHITE + "Waiting from laser: " + TextFormatting.AQUA + MjAPI.formatMj(power) + " MJ");
+    static class BodyProvider extends BaseWailaDataProvider.BodyProvider {
+        @Override
+        public void getWailaBody(ITooltip currentTip, BlockAccessor accessor, IPluginConfig iPluginConfig) {
+            BlockEntity tile = accessor.getBlockEntity();
+            if (tile instanceof ILaserTarget) {
+                CompoundTag nbt = accessor.getServerData();
+                if (nbt.contains("required_power", Tag.TAG_LONG)) {
+                    long power = nbt.getLong("required_power");
+                    if (power > 0L) {
+                        currentTip.add(Component.translatable("buildcraft.waila.waiting_for_laser", MjAPI.formatMj(power)));
+                    }
                 }
             }
-        } else {
-            currentTip.add(TextFormatting.RED + "{wrong tile entity}");
+//            else {
+//                currentTip.add(new TextComponent(ChatFormatting.RED + "{wrong tile entity}"));
+//            }
         }
-        return currentTip;
+
+        @Override
+        public ResourceLocation getUid() {
+            return ResourceLocation.tryBuild(BCSilicon.MODID, "laser_target_client_data");
+        }
     }
 
-    @Nonnull
-    @Override
-    @Optional.Method(modid = WAILA_MOD_ID)
-    public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
-        NBTTagCompound nbt = super.getNBTData(player, te, tag, world, pos);
-
-        TileEntity tile = world.getTileEntity(pos);
-        if (tile instanceof ILaserTarget) {
-            ILaserTarget target = ILaserTarget.class.cast(tile);
-            nbt.setLong("required_power", target.getRequiredLaserPower());
+    static class NBTProvider extends BaseWailaDataProvider.NBTProvider {
+        @Override
+        public void getNBTData(CompoundTag nbt, BlockAccessor accessor) {
+            if (accessor.getBlockEntity() instanceof ILaserTarget target) {
+                nbt.putLong("required_power", target.getRequiredLaserPower());
+            }
         }
 
-        return nbt;
+        @Override
+        public ResourceLocation getUid() {
+            return ResourceLocation.tryBuild(BCSilicon.MODID, "laser_target_server_data");
+        }
     }
 }
