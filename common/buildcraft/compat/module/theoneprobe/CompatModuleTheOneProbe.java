@@ -1,19 +1,18 @@
 package buildcraft.compat.module.theoneprobe;
 
-import net.minecraftforge.fml.common.event.FMLInterModComms;
-
 import buildcraft.compat.CompatModuleBase;
+import net.minecraftforge.fml.InterModComms;
 
 public class CompatModuleTheOneProbe extends CompatModuleBase {
+    public CompatModuleTheOneProbe() {
+    }
 
-    @Override
     public String compatModId() {
         return "theoneprobe";
     }
 
-    @Override
     public void preInit() {
-        FMLInterModComms.sendFunctionMessage(compatModId(), "getTheOneProbe",
-            "buildcraft.compat.module.theoneprobe.BCPluginTOP");
+//        FMLInterModComms.sendFunctionMessage(this.compatModId(), "getTheOneProbe", "buildcraft.compat.module.theoneprobe.BCPluginTOP");
+        InterModComms.sendTo(this.compatModId(), "getTheOneProbe", () -> BCPluginTOP.INSTANCE);
     }
 }

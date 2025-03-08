@@ -1,25 +1,22 @@
 package buildcraft.compat.network;
 
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
 import javax.annotation.Nullable;
 
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
-
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
-/** A creator that can */
-// TODO: Move this into bc lib and make it more useful!
 public interface IGuiCreator {
     Enum<?> getGuiType();
 
-    /** @param data The extra 24 bits that are unused by the byte ID. */
     @Nullable
-    @SideOnly(Side.CLIENT)
-    GuiContainer getClientGuiElement(int data, EntityPlayer player);
+    @OnlyIn(Dist.CLIENT)
+//    GuiContainer getClientGuiElement(int var1, EntityPlayer var2);
+    AbstractContainerScreen<?> getClientGuiElement(int var1, Player var2);
 
-    /** @param data The extra 24 bits that are unused by the byte ID. */
     @Nullable
-    Container getServerGuiElement(int data, EntityPlayer player);
+//    Container getServerGuiElement(int var1, EntityPlayer var2);
+    AbstractContainerMenu getServerGuiElement(int var1, Player var2);
 }
