@@ -1,0 +1,7 @@
+{
+    "textures": {
+        "#back":"buildcraftcompat:block/engine/fe/back",
+        "#side":"buildcraftcompat:block/engine/fe/side"
+    },
+    "parent":"buildcraftlib:models/tiles/engine_base"
+}
