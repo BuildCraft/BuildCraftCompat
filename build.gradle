@@ -54,11 +54,9 @@ targetCompatibility = 1.8
 repositories {
     maven { name="JEI"; url="http://dvs1.progwml6.com/files/maven" }
     maven { name="TOP"; url="http://maven.tterrag.com/" }
-    maven { name="hwyla"; url="http://tehnut.info/maven" }
-    // The One probe depends on the RF API -- we don't use it ourselves, nor will we ever add compat for it...
     maven { name="cofh"; url="http://maven.covers1624.net" }
-    maven { name="forestry"; url = "http://maven.ic2.player.to/" }
     maven { name "CraftTweaker"; url "http://maven.blamejared.com/" }
+    maven { name "personal_mirror_for_buildcraft"; url "https://alexiil.uk/mirrors/for_buildcraft_compat/maven" }
 }
 
 dependencies {
@@ -78,8 +76,6 @@ dependencies {
 
     // Forestry
     deobfCompile "net.sengir.forestry:forestry_${config.mc_version}:${config.forestry_version}"
-
-    deobfCompile "net.industrial-craft:industrialcraft-2:${config.ic2_version}"
 
     // CraftTweaker
     deobfCompile "CraftTweaker2:CraftTweaker2-API:${config.crafttweaker_version}"

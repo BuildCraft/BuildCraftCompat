@@ -7,6 +7,7 @@
 package buildcraft.compat;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import net.minecraftforge.common.config.Property;
@@ -58,7 +59,7 @@ public class BCCompat {
     @Mod.Instance(MODID)
     public static BCCompat instance;
 
-    private static final Map<String, CompatModuleBase> modules = new HashMap<>();
+    private static final Map<String, CompatModuleBase> modules = new LinkedHashMap<>();
 
     private static void offerAndPreInitModule(final CompatModuleBase module) {
         String cModId = module.compatModId();
