@@ -14,6 +14,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import buildcraft.api.fuels.IFuel;
 import buildcraft.api.fuels.IFuelManager.IDirtyFuel;
 import buildcraft.api.mj.MjAPI;
+
+import buildcraft.lib.misc.LocaleUtil;
+
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawableAnimated;
 import mezz.jei.api.gui.IDrawableStatic;
@@ -71,10 +74,10 @@ public class WrapperCombustionEngine implements IRecipeWrapper {
         GlStateManager.translate(24, 8, 0);
         // GlStateManager.scale(.7, .7, 1.0);
         minecraft.fontRenderer.drawString("Burns for " + (fuel.getTotalBurningTime() / 20) + "s", 0, 0, Color.darkGray.getRGB());
-        minecraft.fontRenderer.drawString(" at " + MjAPI.formatMj(fuel.getPowerPerCycle()) + " MJ/t", 0, minecraft.fontRenderer.FONT_HEIGHT, Color.darkGray.getRGB());
+        minecraft.fontRenderer.drawString(" at " + LocaleUtil.localizeMjFlow(fuel.getPowerPerCycle()), 0, minecraft.fontRenderer.FONT_HEIGHT, Color.darkGray.getRGB());
         GlStateManager.translate(0, minecraft.fontRenderer.FONT_HEIGHT * 2, 0);
         GlStateManager.scale(.7, .7, 1.0);
-        minecraft.fontRenderer.drawString(" total " + MjAPI.formatMj(fuel.getPowerPerCycle() * fuel.getTotalBurningTime()) + " MJ", 1, 2, Color.gray.getRGB());
+        minecraft.fontRenderer.drawString(" total " + LocaleUtil.localizeMj(fuel.getPowerPerCycle() * fuel.getTotalBurningTime()), 1, 2, Color.gray.getRGB());
         GlStateManager.popMatrix();
     }
 

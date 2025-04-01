@@ -3,7 +3,9 @@ package buildcraft.compat.module.waila;
 import static buildcraft.compat.module.waila.HWYLAPlugin.WAILA_MOD_ID;
 
 import java.util.List;
+
 import javax.annotation.Nonnull;
+
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -11,10 +13,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.common.Optional;
+
 import buildcraft.api.mj.ILaserTarget;
-import buildcraft.api.mj.MjAPI;
+
+import buildcraft.lib.misc.LocaleUtil;
 
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
@@ -30,7 +35,7 @@ class LaserTargetDataProvider extends BaseWailaDataProvider {
             if (nbt.hasKey("required_power", Constants.NBT.TAG_LONG)) {
                 long power = nbt.getLong("required_power");
                 if (power > 0) {
-                    currentTip.add(TextFormatting.WHITE + "Waiting from laser: " + TextFormatting.AQUA + MjAPI.formatMj(power) + " MJ");
+                    currentTip.add(TextFormatting.WHITE + "Waiting from laser: " + TextFormatting.AQUA + LocaleUtil.localizeMj(power));
                 }
             }
         } else {
