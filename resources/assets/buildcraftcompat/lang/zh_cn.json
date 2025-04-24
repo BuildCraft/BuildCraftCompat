@@ -36,8 +36,5 @@
     "buildcraft.waila.crafting_from": "§f使用: ",
     "buildcraft.waila.waiting_for_laser": "§f还需要能量: §b%s MJ",
 
-    // Calen FE compat
-    "tile.power_convertor.name": "能源转换器",
-
     "null": "=w="
 }

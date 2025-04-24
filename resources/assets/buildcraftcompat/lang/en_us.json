@@ -41,8 +41,5 @@
     "buildcraft.waila.crafting_from": "§fFrom: ",
     "buildcraft.waila.waiting_for_laser": "§fWaiting from laser: §b%s MJ",
 
-    // Calen FE compat
-    "tile.power_convertor.name": "Power Convertor",
-
     "null": "=w="
 }

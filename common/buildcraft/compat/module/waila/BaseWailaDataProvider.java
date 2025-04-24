@@ -1,12 +1,10 @@
 package buildcraft.compat.module.waila;
 
-import mcp.mobius.waila.api.BlockAccessor;
-import mcp.mobius.waila.api.IComponentProvider;
-import mcp.mobius.waila.api.IServerDataProvider;
-import mcp.mobius.waila.api.ITooltip;
+import mcp.mobius.waila.api.*;
 import mcp.mobius.waila.api.config.IPluginConfig;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
@@ -29,5 +27,23 @@ public interface BaseWailaDataProvider {
         }
 
         abstract void getNBTData(CompoundTag tag, ServerPlayer player, Level blockAccessor, BlockEntity blockEntity, boolean showDetails);
+    }
+
+    static abstract class BodyProviderEntity implements IEntityComponentProvider {
+        @Override
+        public void appendTooltip(ITooltip iTooltip, EntityAccessor blockAccessor, IPluginConfig iPluginConfig) {
+            getWailaBody(iTooltip, blockAccessor, iPluginConfig);
+        }
+
+        abstract void getWailaBody(ITooltip iTooltip, EntityAccessor accessor, IPluginConfig iPluginConfig);
+    }
+
+    static abstract class NBTProviderEntity implements IServerDataProvider<Entity> {
+        @Override
+        public void appendServerData(CompoundTag tag, ServerPlayer player, Level world, Entity entity, boolean showDetails) {
+            getNBTData(tag, player, world, entity, showDetails);
+        }
+
+        abstract void getNBTData(CompoundTag tag, ServerPlayer player, Level world, Entity entity, boolean showDetails);
     }
 }

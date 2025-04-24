@@ -160,8 +160,7 @@ minecraft {
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
 //            args '--mod', 'buildcraftcore', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
             args '--mod', 'buildcraftcore', '--all', '--output', file('BuildCraft/buildcraft_resources_generated/'),
-                    '--existing', file('BuildCraft/buildcraft_resources/'),
-                    '--existing', file('resources/')
+                    '--existing', file('BuildCraft/buildcraft_resources/')
 
             mods {
                 buildcraftcore {

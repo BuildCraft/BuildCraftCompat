@@ -4,7 +4,9 @@ import buildcraft.api.BCModules;
 import buildcraft.api.core.BCLog;
 import buildcraft.api.enums.EnumEngineType;
 import buildcraft.api.fuels.IFuel;
+import buildcraft.api.recipes.IProgrammingRecipe;
 import buildcraft.api.recipes.IRefineryRecipeManager;
+import buildcraft.api.recipes.IntegrationRecipe;
 import buildcraft.compat.BCCompatConfig;
 import buildcraft.compat.module.jei.energy.combustionengine.CategoryCombustionEngine;
 import buildcraft.compat.module.jei.factory.CategoryCoolable;
@@ -12,6 +14,8 @@ import buildcraft.compat.module.jei.factory.CategoryDistiller;
 import buildcraft.compat.module.jei.factory.CategoryHeatable;
 import buildcraft.compat.module.jei.gui.GuiHandlerBuildCraft;
 import buildcraft.compat.module.jei.silicon.CategoryAssemblyTable;
+import buildcraft.compat.module.jei.silicon.CategoryIntegrationTable;
+import buildcraft.compat.module.jei.silicon.CategoryProgrammingTable;
 import buildcraft.compat.module.jei.transferhandlers.AdvancedCraftingItemsTransferHandler;
 import buildcraft.compat.module.jei.transferhandlers.AutoCraftItemsTransferHandler;
 import buildcraft.core.BCCoreBlocks;
@@ -20,9 +24,12 @@ import buildcraft.lib.gui.GuiBC8;
 import buildcraft.lib.recipe.assembly.AssemblyRecipe;
 import buildcraft.lib.recipe.assembly.AssemblyRecipeRegistry;
 import buildcraft.lib.recipe.fuel.FuelRegistry;
+import buildcraft.lib.recipe.programming.ProgrammingRecipeManager;
 import buildcraft.silicon.BCSiliconBlocks;
 import buildcraft.silicon.BCSiliconItems;
 import buildcraft.silicon.container.ContainerAssemblyTable;
+import buildcraft.silicon.container.ContainerIntegrationTable;
+import buildcraft.silicon.container.ContainerProgrammingTable_Neptune;
 import buildcraft.transport.pipe.PipeRegistry;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -98,6 +105,8 @@ public class BCPluginJEI implements IModPlugin {
 //            registry.handleRecipes(AssemblyRecipeBasic.class, WrapperAssemblyTable::new, "buildcraft-compat:silicon.assembly");
 //            registry.addRecipes(ImmutableList.copyOf(AssemblyRecipeRegistry.REGISTRY.values()), new ResourceLocation("buildcraft-compat:silicon.assembly"));
             registry.addRecipes(CategoryAssemblyTable.RECIPE_TYPE, ImmutableList.copyOf(Minecraft.getInstance().level.getRecipeManager().getAllRecipesFor(AssemblyRecipe.TYPE)));
+            registry.addRecipes(CategoryIntegrationTable.RECIPE_TYPE, ImmutableList.copyOf(Minecraft.getInstance().level.getRecipeManager().getAllRecipesFor(IntegrationRecipe.TYPE)));
+            registry.addRecipes(CategoryProgrammingTable.RECIPE_TYPE, ImmutableList.copyOf(Minecraft.getInstance().level.getRecipeManager().getAllRecipesFor(IProgrammingRecipe.TYPE)));
         }
     }
 
@@ -111,6 +120,8 @@ public class BCPluginJEI implements IModPlugin {
         registry.addRecipeTransferHandler(new AdvancedCraftingItemsTransferHandler(), RecipeTypes.CRAFTING);
 //        registry.addRecipeTransferHandler(ContainerAssemblyTable.class, "buildcraft-compat:silicon.assembly", 36, 12, 0, 36);
         registry.addRecipeTransferHandler(ContainerAssemblyTable.class, CategoryAssemblyTable.RECIPE_TYPE, 36, 12, 0, 36);
+        registry.addRecipeTransferHandler(ContainerIntegrationTable.class, CategoryIntegrationTable.RECIPE_TYPE, 36, 11, 0, 36);
+        registry.addRecipeTransferHandler(ContainerProgrammingTable_Neptune.class, CategoryProgrammingTable.RECIPE_TYPE, 36, 26, 0, 36);
     }
 
     @Override
@@ -140,6 +151,8 @@ public class BCPluginJEI implements IModPlugin {
             lst.add("silicon");
 //            registry.addRecipeCategories(new IRecipeCategory[]{new CategoryAssemblyTable(helper)});
             registry.addRecipeCategories(new IRecipeCategory[] { new CategoryAssemblyTable(helper, AssemblyRecipeRegistry.getAll(Minecraft.getInstance().level)) });
+            registry.addRecipeCategories(new IRecipeCategory[] { new CategoryIntegrationTable(helper) });
+            registry.addRecipeCategories(new IRecipeCategory[] { new CategoryProgrammingTable(helper, ProgrammingRecipeManager.INSTANCE.getRecipes(Minecraft.getInstance().level)) });
         }
 
         BCLog.logger.info("Loaded JEI mods: " + Arrays.toString(lst.toArray()));
@@ -192,6 +205,8 @@ public class BCPluginJEI implements IModPlugin {
             if (BCSiliconBlocks.assemblyTable != null) {
 //                registry.addRecipeCatalyst(new ItemStack(BCSiliconBlocks.assemblyTable.get()), new String[]{"buildcraft-compat:silicon.assembly"});
                 registry.addRecipeCatalyst(new ItemStack(BCSiliconBlocks.assemblyTable.get()), CategoryAssemblyTable.RECIPE_TYPE);
+                registry.addRecipeCatalyst(new ItemStack(BCSiliconBlocks.integrationTable.get()), CategoryIntegrationTable.RECIPE_TYPE);
+                registry.addRecipeCatalyst(new ItemStack(BCSiliconBlocks.programmingTable.get()), CategoryProgrammingTable.RECIPE_TYPE);
             }
 
             if (BCSiliconBlocks.advancedCraftingTable != null) {

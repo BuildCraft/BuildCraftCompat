@@ -2,10 +2,9 @@ package buildcraft.compat.module.jei.silicon;
 
 import buildcraft.api.BCModules;
 import buildcraft.api.mj.MjAPI;
+import buildcraft.api.recipes.IngredientStack;
 import buildcraft.api.recipes.IntegrationRecipe;
 import buildcraft.silicon.BCSiliconBlocks;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 import com.mojang.blaze3d.vertex.PoseStack;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
@@ -25,14 +24,13 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.awt.*;
 import java.util.List;
 
-//public class CategoryIntegrationTable implements IRecipeCategory<WrapperIntegrationTable>
+// public class CategoryIntegrationTable implements IRecipeCategory<WrapperIntegrationTable>
 public class CategoryIntegrationTable implements IRecipeCategory<IntegrationRecipe> {
     // Calen
     public static final RecipeType<IntegrationRecipe> RECIPE_TYPE =
@@ -44,28 +42,19 @@ public class CategoryIntegrationTable implements IRecipeCategory<IntegrationReci
 
     private final IDrawable icon;
 
-    private final IntegrationRecipe recipe;
     private final IDrawableAnimated progressBar;
-    private final List<ItemStack> inputs;
-    private final List<ItemStack> outputs;
 
     @OnlyIn(Dist.CLIENT)
     private Font font = Minecraft.getInstance().font;
 
-    public CategoryIntegrationTable(IGuiHelper guiHelper, IntegrationRecipe recipe) {
+    public CategoryIntegrationTable(IGuiHelper guiHelper) {
 //        this.background = guiHelper.createDrawable(this.backgroundLocation, 17, 22, 153, 71, 0, 0, 9, 0);
-        this.background = guiHelper.drawableBuilder(this.backgroundLocation, 17, 22, 153, 71).addPadding(0, 0, 9, 0).build();
+        this.background = guiHelper.drawableBuilder(this.backgroundLocation, 17, 21, 153, 72).addPadding(0, 0, 9, 0).build();
 
         this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(BCSiliconBlocks.integrationTable.get()));
 
-        this.recipe = recipe;
-        // Calen: not impl in 1.12.2
-        List<ItemStack> inputs = Lists.newArrayList();
-        this.inputs = ImmutableList.copyOf(inputs);
-        this.outputs = ImmutableList.of(new ItemStack(Blocks.COBBLESTONE));
-        ResourceLocation backgroundLocation = new ResourceLocation("buildcraftsilicon", "textures/gui/integration_table.png");
 //        IDrawableStatic progressDrawable = guiHelper.createDrawable(backgroundLocation, 176, 17, 4, 69, 0, 0, 0, 0);
-        IDrawableStatic progressDrawable = guiHelper.drawableBuilder(this.backgroundLocation, 176, 17, 4, 69).addPadding(0, 0, 0, 0).build();
+        IDrawableStatic progressDrawable = guiHelper.drawableBuilder(this.backgroundLocation, 176, 0, 4, 70).addPadding(0, 0, 0, 0).build();
         this.progressBar = guiHelper.createAnimatedDrawable(progressDrawable, 720, IDrawableAnimated.StartDirection.BOTTOM, false);
     }
 
@@ -97,13 +86,11 @@ public class CategoryIntegrationTable implements IRecipeCategory<IntegrationReci
         return this.icon;
     }
 
-
     @OnlyIn(Dist.CLIENT)
     @Override
     public void draw(IntegrationRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
-        this.progressBar.draw(stack, 156, 1);
-        this.font.draw(stack, MjAPI.formatMj(0L) + " MJ", 80, 52, Color.gray.getRGB());
-
+        progressBar.draw(stack, 156, 1);
+        this.font.draw(stack, MjAPI.formatMj(recipe.getRequiredMicroJoules()) + " MJ", 80, 52, Color.gray.getRGB());
     }
 
     @Override
@@ -113,16 +100,25 @@ public class CategoryIntegrationTable implements IRecipeCategory<IntegrationReci
 //        List<List<ItemStack>> inputs = ingredients.getInputs(ItemStack.class);
 //        int inventoryIndex = 0;
 
+        List<IngredientStack> surroundings = recipe.getRequirements();
+        int surroundingsIndexCounter = 0;
         for (int y = 0; y < 3; ++y) {
             for (int x = 0; x < 3; ++x) {
-                int slotIndex = x == 1 && y == 1 ? 0 : x + y * 3 + 1;
-                if (inputs.size() > slotIndex) {
-//                    guiItemStacks.init(inventoryIndex, true, 19 + x * 25, 24 + y * 25);
-//                    guiItemStacks.set(inventoryIndex, (List) inputs.get(slotIndex));
+//                int slotIndex = x == 1 && y == 1 ? 0 : x + y * 3 + 1;
+//                if (inputs.size() > slotIndex) {
+//                    guiItemStacks.init(inventoryIndex, true, 11 + x * 25, 3 + y * 25);
+//                    guiItemStacks.set(inventoryIndex, inputs.get(slotIndex));
+//                    inventoryIndex++;
+//                }
+                if (x == 1 && y == 1) {
                     builder
-                            .addSlot(RecipeIngredientRole.INPUT, 19 + x * 25, 24 + y * 25)
-                            .addIngredient(VanillaTypes.ITEM_STACK, this.inputs.get(slotIndex));
-//                    ++inventoryIndex;
+                            .addSlot(RecipeIngredientRole.INPUT, 11 + x * 25, 3 + y * 25)
+                            .addIngredients(recipe.getCenterStack().ingredient);
+                } else if (surroundingsIndexCounter < surroundings.size()) {
+                    builder
+                            .addSlot(RecipeIngredientRole.INPUT, 11 + x * 25, 3 + y * 25)
+                            .addIngredients(surroundings.get(surroundingsIndexCounter).ingredient);
+                    surroundingsIndexCounter++;
                 }
             }
         }
@@ -130,8 +126,7 @@ public class CategoryIntegrationTable implements IRecipeCategory<IntegrationReci
 //        guiItemStacks.init(inventoryIndex, false, 129, 26);
 //        guiItemStacks.set(inventoryIndex, (List) ingredients.getOutputs(ItemStack.class).get(0));
         builder
-                .addSlot(RecipeIngredientRole.INPUT, 129, 26)
-                .addIngredients(Ingredient.of(this.outputs.stream()));
-//        ++inventoryIndex;
+                .addSlot(RecipeIngredientRole.OUTPUT, 130, 28)
+                .addIngredients(Ingredient.of(recipe.getExampleOutput()));
     }
 }
