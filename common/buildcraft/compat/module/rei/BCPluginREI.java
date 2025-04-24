@@ -4,15 +4,16 @@ import buildcraft.api.BCModules;
 import buildcraft.api.core.BCLog;
 import buildcraft.api.fuels.IFuel;
 import buildcraft.api.recipes.IAssemblyRecipe;
+import buildcraft.api.recipes.IProgrammingRecipe;
 import buildcraft.api.recipes.IRefineryRecipeManager;
+import buildcraft.api.recipes.IntegrationRecipe;
 import buildcraft.compat.BCCompatConfig;
 import buildcraft.compat.module.rei.energy.combustionengine.CategoryCombustionEngine;
 import buildcraft.compat.module.rei.energy.combustionengine.DisplayCombustionEngine;
 import buildcraft.compat.module.rei.factory.*;
 import buildcraft.compat.module.rei.gui.GuiGhostIngredientHandlerBuildCraft;
 import buildcraft.compat.module.rei.gui.GuiHandlerBuildCraft;
-import buildcraft.compat.module.rei.silicon.CategoryAssemblyTable;
-import buildcraft.compat.module.rei.silicon.DisplayAssembly;
+import buildcraft.compat.module.rei.silicon.*;
 import buildcraft.core.BCCoreItems;
 import buildcraft.factory.BCFactoryBlocks;
 import buildcraft.lib.gui.GuiBC8;
@@ -30,7 +31,6 @@ import me.shedaniel.rei.api.common.entry.type.VanillaEntryTypes;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import me.shedaniel.rei.forge.REIPluginClient;
 import me.shedaniel.rei.plugin.common.BuiltinPlugin;
-import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fml.ModList;
@@ -67,7 +67,11 @@ public class BCPluginREI implements REIClientPlugin {
         if (silicon) {
             lst.add("silicon");
             registry.add(CategoryAssemblyTable.INSTANCE);
+            registry.add(CategoryIntegrationTable.INSTANCE);
+            registry.add(CategoryProgrammingTable.INSTANCE);
             registry.addWorkstations(CategoryAssemblyTable.ID, CategoryAssemblyTable.ICON);
+            registry.addWorkstations(CategoryIntegrationTable.ID, CategoryIntegrationTable.ICON);
+            registry.addWorkstations(CategoryProgrammingTable.ID, CategoryProgrammingTable.ICON);
 
             registry.addWorkstations(BuiltinPlugin.CRAFTING, EntryStacks.of(new ItemStack(BCSiliconBlocks.advancedCraftingTable.get())));
         }
@@ -82,6 +86,8 @@ public class BCPluginREI implements REIClientPlugin {
         registry.registerRecipeFiller(IRefineryRecipeManager.ICoolableRecipe.class, IRefineryRecipeManager.ICoolableRecipe.TYPE, DisplayCoolable::new);
         registry.registerRecipeFiller(IFuel.class, IFuel.TYPE, DisplayCombustionEngine::new);
         registry.registerRecipeFiller(IAssemblyRecipe.class, IAssemblyRecipe.TYPE, DisplayAssembly::new);
+        registry.registerRecipeFiller(IntegrationRecipe.class, IntegrationRecipe.TYPE, DisplayIntegration::new);
+        registry.registerRecipeFiller(IProgrammingRecipe.class, IProgrammingRecipe.TYPE, DisplayProgramming::new);
     }
 
     @Override
@@ -99,7 +105,7 @@ public class BCPluginREI implements REIClientPlugin {
                     return true;
                 } else if (item instanceof ItemPipeHolder pipe) {
                     if (!BCCompatConfig.coloredPipesVisible) {
-                        if (pipe.getColour() != DyeColor.WHITE) {
+                        if (pipe.getColour() != null) {
                             return true;
                         }
                     }

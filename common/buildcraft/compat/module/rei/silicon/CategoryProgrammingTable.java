@@ -13,7 +13,6 @@ import me.shedaniel.rei.api.client.gui.widgets.Widget;
 import me.shedaniel.rei.api.client.gui.widgets.Widgets;
 import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
-import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.client.Minecraft;
@@ -25,21 +24,21 @@ import net.minecraft.world.item.ItemStack;
 import java.awt.*;
 import java.util.List;
 
-public enum CategoryIntegrationTable implements DisplayCategory<DisplayIntegration> {
+public enum CategoryProgrammingTable implements DisplayCategory<DisplayProgramming> {
     INSTANCE;
 
-    public static final CategoryIdentifier<DisplayIntegration> ID = CategoryIdentifier.of(new ResourceLocation(BCModules.SILICON.getModId(), "category_integration"));
-    public static final EntryStack<ItemStack> ICON = EntryStacks.of(new ItemStack(BCSiliconBlocks.integrationTable.get()));
-    public static final ResourceLocation BACKGROUND = new ResourceLocation(BCModules.SILICON.getModId(), "textures/gui/integration_table.png");
+    public static final CategoryIdentifier<DisplayProgramming> ID = CategoryIdentifier.of(new ResourceLocation(BCModules.SILICON.getModId(), "category_programming"));
+    public static final EntryStack<ItemStack> ICON = EntryStacks.of(new ItemStack(BCSiliconBlocks.programmingTable.get()));
+    public static final ResourceLocation BACKGROUND = new ResourceLocation(BCModules.SILICON.getModId(), "textures/gui/programming_table.png");
 
     @Override
-    public CategoryIdentifier<? extends DisplayIntegration> getCategoryIdentifier() {
+    public CategoryIdentifier<? extends DisplayProgramming> getCategoryIdentifier() {
         return ID;
     }
 
     @Override
     public Component getTitle() {
-        return Component.translatable("tile.integrationTableBlock.name");
+        return Component.translatable("tile.programmingTableBlock.name");
     }
 
     @Override
@@ -53,28 +52,37 @@ public enum CategoryIntegrationTable implements DisplayCategory<DisplayIntegrati
     }
 
     @Override
-    public int getDisplayWidth(DisplayIntegration display) {
-        return 153 + 2 + ReiUtils.PADDING * 2;
+    public int getDisplayWidth(DisplayProgramming display) {
+        return 72 + 2 + ReiUtils.PADDING * 2;
     }
 
     @Override
-    public List<Widget> setupDisplay(DisplayIntegration display, Rectangle bounds) {
+    public List<Widget> setupDisplay(DisplayProgramming display, Rectangle bounds) {
         List<Widget> ret = Lists.newArrayList();
 
         ret.add(Widgets.createRecipeBase(bounds));
 
         Point lu = new Point(bounds.getX() + ReiUtils.PADDING, bounds.getY() + ReiUtils.PADDING);
 
-        // background
-        ret.add(Widgets.createTexturedWidget(BACKGROUND, lu.getX(), lu.getY(), 17, 21, 153, 72));
+        // input slot
+        ret.add(Widgets.createTexturedWidget(BACKGROUND, lu.getX() + 2, lu.getY() + 27, 7, 35, 18, 18));
+
+        // arrow
+        ret.add(Widgets.createTexturedWidget(BACKGROUND, lu.getX() + 2 + 18 + 5, lu.getY() + 27 + 5, 28, 40, 11, 8));
+
+        // output slot
+        ret.add(Widgets.createTexturedWidget(BACKGROUND, lu.getX() + 2 + 18 + 5 + 11 + 5, lu.getY() + 27, 7, 89, 18, 18));
+
+        // animation background
+        ret.add(Widgets.createTexturedWidget(BACKGROUND, lu.getX() + 66, lu.getY() + 0, 163, 35, 6, 72));
 
         // animation
         ret.add(Widgets.createDrawableWidget((guiGraphics, mouseX, mouseY, delta) ->
                 ReiUtils.drawAnimation(
                         guiGraphics, lu, BACKGROUND,
-                        720,
-                        147,  1,
-                        176, 0,
+                        (int) Math.max(10L, display.requiredMicroJoules / MjAPI.MJ / 50L),
+                        67, 1,
+                        176, 18,
                         4, 70,
                         ReiUtils.StartPosition.BOTTOM
                 )
@@ -88,27 +96,14 @@ public enum CategoryIntegrationTable implements DisplayCategory<DisplayIntegrati
             poseStack.translate(lu.getX(), lu.getY(), 0);
             Font font = Minecraft.getInstance().font;
             long mj = display.requiredMicroJoules;
-            guiGraphics.drawString(font, MjAPI.formatMj(mj) + " MJ", 71, 52, Color.gray.getRGB(), false);
+            guiGraphics.drawString(font, MjAPI.formatMj(mj) + " MJ", 10, 30 + 5 + 8 + 10, Color.gray.getRGB(), false);
             poseStack.popPose();
         }));
 
         // slot content
-        List<EntryIngredient> inputs = display.getInputEntries();
-        EntryIngredient center = inputs.get(0);
-        List<EntryIngredient> surroundings = inputs.subList(1, inputs.size());
-        int surroundingsIndexCounter = 0;
-        for (int y = 0; y < 3; ++y) {
-            for (int x = 0; x < 3; ++x) {
-                if (x == 1 && y == 1) {
-                    ret.add(Widgets.createSlot(new Point(lu.getX() + 2 + x * 25, lu.getY() + 3 + y * 25)).markInput().entries(center).disableBackground());
-                } else if (surroundingsIndexCounter < surroundings.size()) {
-                    ret.add(Widgets.createSlot(new Point(lu.getX() + 2 + x * 25, lu.getY() + 3 + y * 25)).markInput().entries(surroundings.get(surroundingsIndexCounter)).disableBackground());
-                    surroundingsIndexCounter++;
-                }
-            }
-        }
+        ret.add(Widgets.createSlot(new Point(lu.getX() + 2 + 1, lu.getY() + 27 + 1)).markInput().entries(display.getInputEntries().get(0)).disableBackground());
+        ret.add(Widgets.createSlot(new Point(lu.getX() + 2 + 18 + 5 + 11 + 5 + 1, lu.getY() + 27 + 1)).markOutput().entries(display.getOutputEntries().get(0)).disableBackground());
 
-        ret.add(Widgets.createSlot(new Point(lu.getX() + 121, lu.getY() + 28)).markOutput().entries(display.getOutputEntries().get(0)).disableBackground());
         return ret;
     }
 }

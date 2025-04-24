@@ -31,6 +31,7 @@ public enum BCPluginTOP implements Function<ITheOneProbe, Void>, IBlockDisplayOv
     INSTANCE;
     static final String TOP_MOD_ID = "theoneprobe";
 
+    @Override
     // @Method(modid = "theoneprobe")
     public Void apply(ITheOneProbe top) {
         top.registerBlockDisplayOverride(this);
@@ -38,12 +39,14 @@ public enum BCPluginTOP implements Function<ITheOneProbe, Void>, IBlockDisplayOv
         return null;
     }
 
+    @Override
     // @Method(modid = "theoneprobe")
     // public boolean overrideStandardInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data)
     public boolean overrideStandardInfo(ProbeMode mode, IProbeInfo probeInfo, Player player, Level world, BlockState blockState, IProbeHitData data) {
         return false;
     }
 
+    @Override
     // @Method(modid = "theoneprobe")
     // public String getID()
     public ResourceLocation getID() {
@@ -51,6 +54,7 @@ public enum BCPluginTOP implements Function<ITheOneProbe, Void>, IBlockDisplayOv
         return new ResourceLocation("buildcraftcompat.top");
     }
 
+    @Override
     // @Method(modid = "theoneprobe")
 //    public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data)
     public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, Player player, Level world, BlockState blockState, IProbeHitData data) {
@@ -69,7 +73,6 @@ public enum BCPluginTOP implements Function<ITheOneProbe, Void>, IBlockDisplayOv
                 this.addAssemblyInfo(probeInfo, (IAssemblyCraft) entity);
             }
         }
-
     }
 
     // @Method(modid = "theoneprobe")
@@ -89,7 +92,6 @@ public enum BCPluginTOP implements Function<ITheOneProbe, Void>, IBlockDisplayOv
             IProbeInfo mainInfo = probeInfo.vertical();
             mainInfo.horizontal(mainInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER)).text(Component.translatable("buildcraft.waila.no_recipe"));
         }
-
     }
 
     // @Method(modid = "theoneprobe")

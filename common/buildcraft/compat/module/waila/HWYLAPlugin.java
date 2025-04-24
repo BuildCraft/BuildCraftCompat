@@ -1,5 +1,6 @@
 package buildcraft.compat.module.waila;
 
+import buildcraft.api.robots.EntityRobotBase;
 import buildcraft.lib.block.BlockBCTile_Neptune;
 import buildcraft.lib.tile.TileBC_Neptune;
 import snownee.jade.api.*;
@@ -14,11 +15,13 @@ public class HWYLAPlugin implements IWailaPlugin {
         IServerDataProvider<BlockAccessor> laserTargetNbtProvider = new LaserTargetDataProvider.NBTProvider();
         IServerDataProvider<BlockAccessor> assemblyCraftNbtProvider = new AssemblyCraftDataProvider.NBTProvider();
         IServerDataProvider<BlockAccessor> mjStorageNbtProvider = new MjStorageDataProvider.NBTProvider();
+        IServerDataProvider<EntityAccessor> robotPowerNbtProvider = new RobotPowerDataProvider.NBTProvider();
 
         registrar.registerBlockDataProvider(autoCraftNbtProvider, TileBC_Neptune.class);
         registrar.registerBlockDataProvider(laserTargetNbtProvider, TileBC_Neptune.class);
         registrar.registerBlockDataProvider(assemblyCraftNbtProvider, TileBC_Neptune.class);
         registrar.registerBlockDataProvider(mjStorageNbtProvider, TileBC_Neptune.class);
+        registrar.registerEntityDataProvider(robotPowerNbtProvider, EntityRobotBase.class);
     }
 
     @Override
@@ -30,6 +33,7 @@ public class HWYLAPlugin implements IWailaPlugin {
         IBlockComponentProvider laserTargetBodyProvider = new LaserTargetDataProvider.BodyProvider();
         IBlockComponentProvider assemblyCraftBodyProvider = new AssemblyCraftDataProvider.BodyProvider();
         IBlockComponentProvider mjStorageBodyProvider = new MjStorageDataProvider.BodyProvider();
+        IEntityComponentProvider robotPowerNbtProvider = new RobotPowerDataProvider.BodyProvider();
 
 //        registrar.registerComponentProvider(autoCraftBodyProvider, TooltipPosition.BODY, BlockBCTile_Neptune.class);
 //        registrar.registerComponentProvider(laserTargetBodyProvider, TooltipPosition.BODY, BlockBCTile_Neptune.class);
@@ -38,5 +42,6 @@ public class HWYLAPlugin implements IWailaPlugin {
         registrar.registerBlockComponent(laserTargetBodyProvider, BlockBCTile_Neptune.class);
         registrar.registerBlockComponent(assemblyCraftBodyProvider, BlockBCTile_Neptune.class);
         registrar.registerBlockComponent(mjStorageBodyProvider, BlockBCTile_Neptune.class);
+        registrar.registerEntityComponent(robotPowerNbtProvider, EntityRobotBase.class);
     }
 }

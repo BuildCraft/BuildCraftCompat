@@ -24,6 +24,7 @@ libs
 #runtime
 run
 run_server
+run_data
 classes
 
 #mac

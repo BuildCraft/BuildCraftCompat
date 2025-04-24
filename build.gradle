@@ -172,8 +172,7 @@ minecraft {
 
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
             args '--mod', mod_id, '--all', '--output', file('BuildCraft/buildcraft_resources_generated/'),
-                    '--existing', file('BuildCraft/buildcraft_resources/'),
-                    '--existing', file('resources/')
+                    '--existing', file('BuildCraft/buildcraft_resources/')
         }
     }
 }
@@ -334,7 +333,7 @@ dependencies {
     implementation fg.deobf("curse.maven:jade-324717:" + config.jade_id)
 
     // CraftTweaker
-    implementation(fg.deobf('com.blamejared.crafttweaker:CraftTweaker-forge-1.20.1:14.0.44'))
+    implementation fg.deobf('com.blamejared.crafttweaker:CraftTweaker-forge-1.20.1:14.0.44')
 
     // The One Probe
     implementation fg.deobf("curse.maven:the-one-probe-245211:" + config.top_id)

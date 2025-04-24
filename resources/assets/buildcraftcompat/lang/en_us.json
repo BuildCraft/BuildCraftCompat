@@ -57,9 +57,8 @@
     "config.jade.plugin_buildcraftsilicon.assembly_server_data": "Assembly",
     "config.jade.plugin_buildcraftcore.mj_storage_client_data": "MJ Storage",
     "config.jade.plugin_buildcraftcore.mj_storage_server_data": "MJ Storage",
-
-    // Calen FE compat
-    "tile.engineFe.name": "FE Engine",
+    "config.jade.plugin_buildcraftrobotics.robot_power_client_data": "Robot Power",
+    "config.jade.plugin_buildcraftrobotics.robot_power_server_data": "Robot Power",
 
     "null": "=w="
 }

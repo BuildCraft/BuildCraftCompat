@@ -36,7 +36,6 @@ public abstract class BCCompatProxy {
         @Override
         public void fmlPreInit() {
             super.fmlPreInit();
-            BCCompatModels.fmlPreInit();
         }
     }
 }

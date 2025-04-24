@@ -1,23 +1,22 @@
 package buildcraft.compat.module.rei.silicon;
 
-import buildcraft.api.recipes.IntegrationRecipe;
+import buildcraft.api.recipes.IProgrammingRecipe;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.Display;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 
 import java.util.List;
-import java.util.stream.Stream;
 
-public class DisplayIntegration implements Display {
+public class DisplayProgramming implements Display {
     private final List<EntryIngredient> in;
     private final EntryIngredient out;
     public final long requiredMicroJoules;
 
-    public DisplayIntegration(IntegrationRecipe recipe) {
-        in = EntryIngredients.ofIngredients(Stream.concat(List.of(recipe.getCenterStack()).stream(), recipe.getRequirements().stream()).map(ingredientStack -> ingredientStack.ingredient).toList());
-        out = EntryIngredients.of(recipe.getExampleOutput());
-        requiredMicroJoules = recipe.getRequiredMicroJoules();
+    public DisplayProgramming(IProgrammingRecipe recipe) {
+        in = EntryIngredients.ofIngredients(List.of(recipe.getInput().ingredient));
+        out = EntryIngredients.of(recipe.getOutput());
+        requiredMicroJoules = recipe.getEnergyCost();
     }
 
     @Override
@@ -32,6 +31,6 @@ public class DisplayIntegration implements Display {
 
     @Override
     public CategoryIdentifier<?> getCategoryIdentifier() {
-        return CategoryIntegrationTable.ID;
+        return CategoryProgrammingTable.ID;
     }
 }

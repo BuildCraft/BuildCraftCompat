@@ -108,7 +108,6 @@ public class BCCompat {
         // End of module list
 
         // Calen
-        BCCompatBlocks.fmlPreInit();
         BCCompatProxy.getProxy().fmlPreInit();
     }
 
@@ -150,10 +149,6 @@ public class BCCompat {
 
     static {
         startBatch();
-
-        registerTag("item.block.engine.bc.fe").reg("engine_fe").locale("engineFe");
-        registerTag("block.engine.bc.fe").reg("engine_fe").locale("engineFe");
-        registerTag("tile.engine.fe").reg("engine_fe");
 
         endBatch(TagManager.prependTags("buildcraftcompat:", TagManager.EnumTagType.REGISTRY_NAME)
                 .andThen(TagManager.setTab("buildcraft.main"))
