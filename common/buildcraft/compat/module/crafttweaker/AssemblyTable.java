@@ -75,6 +75,7 @@ public enum AssemblyTable implements IRecipeManager, IRecipeHandler<IAssemblyRec
 
     // @ZenMethod
     @ZenCodeType.Method
+    @Override
     // public static void removeByName(String name)
     public void removeByName(String name) {
 //        CraftTweakerAPI.apply(new RemoveRecipeByNameAction(new ResourceLocation(name)));

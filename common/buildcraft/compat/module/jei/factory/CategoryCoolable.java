@@ -50,6 +50,7 @@ public class CategoryCoolable implements IRecipeCategory<IRefineryRecipeManager.
         this.animatedHeating = guiHelper.createAnimatedDrawable(overComplete, 40, IDrawableAnimated.StartDirection.RIGHT, false);
     }
 
+    @Override
     public ResourceLocation getUid() {
         return UID;
     }
