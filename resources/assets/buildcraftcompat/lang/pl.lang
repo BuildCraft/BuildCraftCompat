@@ -1,1 +1,16 @@
-
+item.buildcraftPipe.pipeitemspropolis.name=Rura pszczelarza
+for.gui.pipe.filter.anything=Cokolwiek
+for.gui.pipe.filter.bee=Dowolne pszczoły
+for.gui.pipe.filter.closed=Zamknięty
+for.gui.pipe.filter.cave=Podziemne
+for.gui.pipe.filter.drone=Pracownice
+for.gui.pipe.filter.princess=Księżniczki
+for.gui.pipe.filter.queen=Królowe
+for.gui.pipe.filter.pure_nocturnal=Rasowe nocne pszczoły
+for.gui.pipe.filter.pure_flyer=Rasowe lotniki
+for.gui.pipe.filter.pure_cave=Rasowe podziemne
+for.gui.pipe.filter.pure_breed=Rasowe pszczoły
+for.gui.pipe.filter.nocturnal=Nocne pszczoły
+for.gui.pipe.filter.natural=Naturalnego pochodzenia
+for.gui.pipe.filter.item=Przedmioty
+for.gui.pipe.filter.flyer=Silne lotniki
