@@ -1,1 +1,19 @@
-
+for.gui.pipe.filter.anything=Cokoliv
+for.gui.pipe.filter.bee=Včely
+for.gui.pipe.filter.cave=Jeskynní včely
+for.gui.pipe.filter.closed=Uzavřeno
+for.gui.pipe.filter.drone=Trubci
+for.gui.pipe.filter.flyer=Silní letci
+for.gui.pipe.filter.item=Předměty
+for.gui.pipe.filter.natural=Přírodní původ
+for.gui.pipe.filter.nocturnal=Noční včely
+for.gui.pipe.filter.princess=Princezny
+for.gui.pipe.filter.pure_breed=Čistokrevné včely
+for.gui.pipe.filter.pure_cave=Čistokrevné jeskynní včely
+for.gui.pipe.filter.pure_flyer=Čistokrevní letci
+for.gui.pipe.filter.pure_nocturnal=Čistokrevné noční včely
+for.gui.pipe.filter.queen=Královny
+gate.trigger.mfr.backstuffed=Má kapky
+gate.trigger.mfr.conreversed=Pás puštěn pozpátku
+gate.trigger.mfr.conrunning=Pás běží
+item.buildcraftPipe.pipeitemspropolis.name=Včelařova trubka
