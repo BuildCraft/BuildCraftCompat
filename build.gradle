@@ -276,7 +276,16 @@ task allSrcJar(type: Jar, dependsOn:[reobfJar, writeAllModInfo, unzipSourceJar])
     }
 }
 
-build.dependsOn compatJar, allJar, allSrcJar
+task allDeobfJar(type: Jar, dependsOn:[writeAllModInfo]) {
+    destinationDir = libsDir
+    appendix = "all"
+    classifier = 'dev'
+    from(createAllModInfo().parentFile)
+    from sourceSets.main.output
+    from sourceSets.api.output
+}
+
+build.dependsOn compatJar, allJar, allSrcJar, allDeobfJar
 
 publishing {
     repositories {
